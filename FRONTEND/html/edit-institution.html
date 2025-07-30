@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="edit_institution_title">Editar Institución - GESTOR DE MANTENIMIENTO PREVENTIVO</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/edit-institution.css">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="main-header" role="banner">
+        <nav class="navbar" role="navigation" aria-label="Navegación principal">
+            <div class="nav-container">
+                <!-- Logo -->
+                <div class="nav-logo">
+                    <a href="dashboard.html" class="logo-link" aria-label="Ir al inicio">
+                        <span class="logo-text">GMPI</span>
+                        <span class="logo-subtitle" data-translate="school_maintenance">Mantenimiento Escolar</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu -->
+                <ul class="nav-menu" role="menubar">
+                    <li class="nav-item dropdown" role="none">
+                        <a href="#" class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false" tabindex="0">
+                            <span class="icon">📊</span>
+                            <span data-translate="management">Gestión</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-content" role="menu" aria-label="Opciones de Gestión">
+                            <a href="dashboard.html" role="menuitem" tabindex="-1">
+                                <span class="icon">🏠</span>
+                                <span data-translate="dashboard">Dashboard</span>
+                            </a>
+                            <a href="infraestructuras.html" role="menuitem" tabindex="-1">
+                                <span class="icon">🏫</span>
+                                <span data-translate="infrastructures">Infraestructuras</span>
+                            </a>
+                            <a href="#" role="menuitem" tabindex="-1">
+                                <span class="icon">🔧</span>
+                                <span data-translate="maintenance">Mantenimientos</span>
+                            </a>
+                            <a href="#" role="menuitem" tabindex="-1">
+                                <span class="icon">📈</span>
+                                <span data-translate="reports">Reportes</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown" role="none">
+                        <a href="#" class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false" tabindex="0">
+                            <span class="icon">📋</span>
+                            <span data-translate="planning">Planificación</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-content" role="menu" aria-label="Opciones de Planificación">
+                            <a href="#" role="menuitem" tabindex="-1">
+                                <span class="icon">📅</span>
+                                <span data-translate="calendar">Calendario</span>
+                            </a>
+                            <a href="#" role="menuitem" tabindex="-1">
+                                <span class="icon">🛡️</span>
+                                <span data-translate="preventive">Preventivo</span>
+                            </a>
+                            <a href="#" role="menuitem" tabindex="-1">
+                                <span class="icon">🚨</span>
+                                <span data-translate="emergencies">Emergencias</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown" role="none">
+                        <a href="#" class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false" tabindex="0">
+                            <span class="icon">⚙️</span>
+                            <span data-translate="configuration">Configuración</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-content" role="menu" aria-label="Opciones de Configuración">
+                            <a href="#" role="menuitem" tabindex="-1" id="languageSwitch">
+                                <span class="icon">🌐</span>
+                                <span data-translate="language">Idioma</span>
+                                <span class="setting-value" id="currentLanguage">ES</span>
+                            </a>
+                            <a href="#" role="menuitem" tabindex="-1" id="themeSwitch">
+                                <span class="icon">🌓</span>
+                                <span data-translate="theme">Tema</span>
+                                <span class="setting-value" id="currentTheme">☀️</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown" role="none">
+                        <a href="#" class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false" tabindex="0">
+                            <span class="icon">❓</span>
+                            <span data-translate="help">Ayuda</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-content" role="menu" aria-label="Opciones de Ayuda">
+                            <a href="#" role="menuitem" tabindex="-1" id="keyboardShortcuts">
+                                <span class="icon">⌨️</span>
+                                <span data-translate="shortcuts">Atajos de Teclado</span>
+                            </a>
+                            <a href="contact.html" role="menuitem" tabindex="-1">
+                                <span class="icon">📧</span>
+                                <span data-translate="contact">Contacto</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Action Buttons -->
+                <div class="nav-actions">
+                    <span class="user-welcome" data-translate="welcome">Bienvenido, Administrador</span>
+                    <a href="index.html" class="btn btn-secondary" data-translate="logout">Cerrar Sesión</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" role="main">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="breadcrumb" aria-label="Navegación de ubicación">
+                        <a href="dashboard.html" data-translate="home">Inicio</a>
+                        <span>›</span>
+                        <a href="infraestructuras.html" data-translate="infrastructures">Infraestructuras</a>
+                        <span>›</span>
+                        <span class="current" data-translate="edit_institution">Editar Institución</span>
+                    </div>
+                    <h1 class="page-title" data-translate="edit_institution_title">Editar Institución</h1>
+                    <p class="page-subtitle" data-translate="edit_institution_subtitle">Modifica los datos de la institución educativa</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Edit Form Section -->
+        <section class="form-section">
+            <div class="container">
+                <!-- Change Status Indicator -->
+                <div class="change-status" id="changeStatus" style="display: none;">
+                    <div class="status-indicator warning">
+                        <span class="status-icon">⚠️</span>
+                        <span class="status-text" data-translate="changes_detected">Cambios detectados - Los campos modificados están resaltados</span>
+                    </div>
+                </div>
+
+                <!-- No Changes Indicator -->
+                <div class="change-status" id="noChangesStatus" style="display: none;">
+                    <div class="status-indicator info">
+                        <span class="status-icon">ℹ️</span>
+                        <span class="status-text" data-translate="no_changes_detected">No se han detectado cambios</span>
+                    </div>
+                </div>
+
+                <!-- Edit Form -->
+                <form class="edit-form" id="editInstitutionForm" novalidate>
+                    <input type="hidden" id="institutionId" name="institutionId" value="1">
+                    
+                    <!-- Basic Information Group -->
+                    <div class="form-group">
+                        <h3 class="group-title" data-translate="basic_information">Información Básica</h3>
+                        
+                        <!-- Institution Name -->
+                        <div class="input-group">
+                            <label for="institutionName" class="input-label" data-translate="institution_name">
+                                Nombre de la Institución
+                                <span class="required">*</span>
+                            </label>
+                            <input type="text" 
+                                   id="institutionName" 
+                                   name="institutionName" 
+                                   class="form-input" 
+                                   required
+                                   aria-describedby="institutionNameHelp institutionNameError"
+                                   data-original-value="Universidad Laica Eloy Alfaro de Manabí">
+                            <div class="field-help" id="institutionNameHelp" data-translate="institution_name_help">
+                                Ingresa el nombre completo de la institución educativa
+                            </div>
+                            <div class="field-error" id="institutionNameError" role="alert"></div>
+                        </div>
+
+                        <!-- Institution Code (Non-editable) -->
+                        <div class="input-group">
+                            <label for="institutionCode" class="input-label" data-translate="institution_code">
+                                Código de Institución
+                            </label>
+                            <input type="text" 
+                                   id="institutionCode" 
+                                   name="institutionCode" 
+                                   class="form-input" 
+                                   value="INST-001"
+                                   readonly
+                                   aria-describedby="institutionCodeHelp">
+                            <div class="field-help" id="institutionCodeHelp" data-translate="institution_code_help">
+                                Código único de la institución (no editable)
+                            </div>
+                        </div>
+
+                        <!-- Institution Type -->
+                        <div class="input-group">
+                            <label for="institutionType" class="input-label" data-translate="institution_type">
+                                Tipo de Institución
+                                <span class="required">*</span>
+                            </label>
+                            <select id="institutionType" 
+                                    name="institutionType" 
+                                    class="form-select" 
+                                    required
+                                    aria-describedby="institutionTypeHelp institutionTypeError"
+                                    data-original-value="university">
+                                <option value="" data-translate="select_option">Seleccione una opción</option>
+                                <option value="university" data-translate="university">Universidad</option>
+                                <option value="school" data-translate="school">Colegio</option>
+                                <option value="primary" data-translate="primary_school">Escuela Primaria</option>
+                                <option value="technical" data-translate="technical_institute">Instituto Técnico</option>
+                            </select>
+                            <div class="field-help" id="institutionTypeHelp" data-translate="institution_type_help">
+                                Selecciona el tipo de institución educativa
+                            </div>
+                            <div class="field-error" id="institutionTypeError" role="alert"></div>
+                        </div>
+                    </div>
+
+                    <!-- Location Information Group -->
+                    <div class="form-group">
+                        <h3 class="group-title" data-translate="location_information">Información de Ubicación</h3>
+                        
+                        <!-- Address -->
+                        <div class="input-group">
+                            <label for="address" class="input-label" data-translate="address">
+                                Dirección
+                                <span class="required">*</span>
+                            </label>
+                            <textarea id="address" 
+                                      name="address" 
+                                      class="form-textarea" 
+                                      rows="3"
+                                      required
+                                      aria-describedby="addressHelp addressError"
+                                      data-original-value="Av. Circunvalación, Vía San Mateo, Manta, Ecuador"></textarea>
+                            <div class="field-help" id="addressHelp" data-translate="address_help">
+                                Dirección completa de la institución
+                            </div>
+                            <div class="field-error" id="addressError" role="alert"></div>
+                        </div>
+
+                        <!-- City -->
+                        <div class="input-group">
+                            <label for="city" class="input-label" data-translate="city">
+                                Ciudad
+                                <span class="required">*</span>
+                            </label>
+                            <input type="text" 
+                                   id="city" 
+                                   name="city" 
+                                   class="form-input" 
+                                   required
+                                   aria-describedby="cityHelp cityError"
+                                   data-original-value="Manta">
+                            <div class="field-help" id="cityHelp" data-translate="city_help">
+                                Ciudad donde se encuentra la institución
+                            </div>
+                            <div class="field-error" id="cityError" role="alert"></div>
+                        </div>
+
+                        <!-- Province -->
+                        <div class="input-group">
+                            <label for="province" class="input-label" data-translate="province">
+                                Provincia
+                                <span class="required">*</span>
+                            </label>
+                            <select id="province" 
+                                    name="province" 
+                                    class="form-select" 
+                                    required
+                                    aria-describedby="provinceHelp provinceError"
+                                    data-original-value="manabi">
+                                <option value="" data-translate="select_option">Seleccione una opción</option>
+                                <option value="manabi" data-translate="manabi">Manabí</option>
+                                <option value="pichincha" data-translate="pichincha">Pichincha</option>
+                                <option value="guayas" data-translate="guayas">Guayas</option>
+                                <option value="azuay" data-translate="azuay">Azuay</option>
+                            </select>
+                            <div class="field-help" id="provinceHelp" data-translate="province_help">
+                                Provincia donde se encuentra la institución
+                            </div>
+                            <div class="field-error" id="provinceError" role="alert"></div>
+                        </div>
+                    </div>
+
+                    <!-- Infrastructure Details Group -->
+                    <div class="form-group">
+                        <h3 class="group-title" data-translate="infrastructure_details">Detalles de Infraestructura</h3>
+                        
+                        <!-- Buildings -->
+                        <div class="input-group">
+                            <label for="buildings" class="input-label" data-translate="buildings_count">
+                                Cantidad de Edificios
+                                <span class="required">*</span>
+                            </label>
+                            <input type="number" 
+                                   id="buildings" 
+                                   name="buildings" 
+                                   class="form-input" 
+                                   min="1"
+                                   required
+                                   aria-describedby="buildingsHelp buildingsError"
+                                   data-original-value="8">
+                            <div class="field-help" id="buildingsHelp" data-translate="buildings_help">
+                                Número total de edificios en la institución
+                            </div>
+                            <div class="field-error" id="buildingsError" role="alert"></div>
+                        </div>
+
+                        <!-- Classrooms -->
+                        <div class="input-group">
+                            <label for="classrooms" class="input-label" data-translate="classrooms_count">
+                                Cantidad de Aulas
+                                <span class="required">*</span>
+                            </label>
+                            <input type="number" 
+                                   id="classrooms" 
+                                   name="classrooms" 
+                                   class="form-input" 
+                                   min="1"
+                                   required
+                                   aria-describedby="classroomsHelp classroomsError"
+                                   data-original-value="45">
+                            <div class="field-help" id="classroomsHelp" data-translate="classrooms_help">
+                                Número total de aulas disponibles
+                            </div>
+                            <div class="field-error" id="classroomsError" role="alert"></div>
+                        </div>
+
+                        <!-- Laboratories -->
+                        <div class="input-group">
+                            <label for="laboratories" class="input-label" data-translate="laboratories_count">
+                                Cantidad de Laboratorios
+                            </label>
+                            <input type="number" 
+                                   id="laboratories" 
+                                   name="laboratories" 
+                                   class="form-input" 
+                                   min="0"
+                                   aria-describedby="laboratoriesHelp"
+                                   data-original-value="12">
+                            <div class="field-help" id="laboratoriesHelp" data-translate="laboratories_help">
+                                Número total de laboratorios (opcional)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information Group -->
+                    <div class="form-group">
+                        <h3 class="group-title" data-translate="contact_information">Información de Contacto</h3>
+                        
+                        <!-- Email -->
+                        <div class="input-group">
+                            <label for="email" class="input-label" data-translate="email">
+                                Correo Electrónico
+                                <span class="required">*</span>
+                            </label>
+                            <input type="email" 
+                                   id="email" 
+                                   name="email" 
+                                   class="form-input critical-field" 
+                                   required
+                                   aria-describedby="emailHelp emailError"
+                                   data-original-value="info@ulaem.edu.ec">
+                            <div class="field-help" id="emailHelp" data-translate="email_help">
+                                Correo electrónico institucional principal
+                            </div>
+                            <div class="field-error" id="emailError" role="alert"></div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="input-group">
+                            <label for="phone" class="input-label" data-translate="phone">
+                                Teléfono
+                                <span class="required">*</span>
+                            </label>
+                            <input type="tel" 
+                                   id="phone" 
+                                   name="phone" 
+                                   class="form-input" 
+                                   required
+                                   aria-describedby="phoneHelp phoneError"
+                                   data-original-value="(05) 262-3740">
+                            <div class="field-help" id="phoneHelp" data-translate="phone_help">
+                                Número de teléfono principal de la institución
+                            </div>
+                            <div class="field-error" id="phoneError" role="alert"></div>
+                        </div>
+
+                        <!-- Website -->
+                        <div class="input-group">
+                            <label for="website" class="input-label" data-translate="website">
+                                Sitio Web
+                            </label>
+                            <input type="url" 
+                                   id="website" 
+                                   name="website" 
+                                   class="form-input" 
+                                   aria-describedby="websiteHelp"
+                                   data-original-value="https://www.ulaem.edu.ec">
+                            <div class="field-help" id="websiteHelp" data-translate="website_help">
+                                URL del sitio web oficial (opcional)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <div class="action-buttons">
+                            <button type="button" class="btn btn-secondary" id="cancelButton" data-translate="cancel">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="updateButton" data-translate="update_institution">
+                                Actualizar Institución
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-translate="confirm_changes">Confirmar Cambios</h3>
+                <button class="modal-close" id="modalClose">×</button>
+            </div>
+            <div class="modal-body">
+                <p data-translate="confirm_changes_message">¿Está seguro de que desea guardar los cambios realizados?</p>
+                <div class="changes-summary" id="changesSummary"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modalCancel" data-translate="cancel">Cancelar</button>
+                <button class="btn btn-primary" id="modalConfirm" data-translate="save_changes">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Critical Field Confirmation Modal -->
+    <div class="modal" id="criticalModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header warning">
+                <h3 data-translate="critical_field_warning">Advertencia: Campo Crítico</h3>
+                <button class="modal-close" id="criticalModalClose">×</button>
+            </div>
+            <div class="modal-body">
+                <p data-translate="critical_field_message">Está modificando un campo crítico (correo electrónico). Este cambio puede afectar las comunicaciones con la institución.</p>
+                <p data-translate="critical_field_confirm">¿Está seguro de que desea continuar?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="criticalModalCancel" data-translate="cancel">Cancelar</button>
+                <button class="btn btn-danger" id="criticalModalConfirm" data-translate="continue_changes">Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header success">
+                <h3 data-translate="changes_saved">Cambios Guardados</h3>
+                <button class="modal-close" id="successModalClose">×</button>
+            </div>
+            <div class="modal-body">
+                <p data-translate="changes_saved_message">Los cambios se han guardado exitosamente.</p>
+                <div class="success-actions">
+                    <button class="btn btn-outline" id="continueEditing" data-translate="continue_editing">Continuar Editando</button>
+                    <button class="btn btn-primary" id="backToList" data-translate="back_to_list">Volver a la Lista</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../javascript/navigation.js"></script>
+    <script src="../javascript/settings.js"></script>
+    <script src="../js/edit-institution.js"></script>
+    <script>
+        // Initialize settings on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof SettingsManager !== 'undefined') {
+                const settingsManager = new SettingsManager();
+                
+                const languageToggle = document.getElementById('languageSwitch');
+                const themeToggle = document.getElementById('themeSwitch');
+                const keyboardShortcuts = document.getElementById('keyboardShortcuts');
+                
+                if (languageToggle) {
+                    languageToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        settingsManager.toggleLanguage();
+                    });
+                }
+                
+                if (themeToggle) {
+                    themeToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        settingsManager.toggleTheme();
+                    });
+                }
+                
+                if (keyboardShortcuts) {
+                    keyboardShortcuts.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        settingsManager.showShortcuts();
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

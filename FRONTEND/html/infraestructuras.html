@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="infrastructures_title">Infraestructuras - GESTOR DE MANTENIMIENTO PREVENTIVO</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/infraestructuras.css">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="main-header" role="banner">
+        <nav class="navbar" role="navigation" aria-label="Navegación principal">
+            <div class="nav-container">
+                <!-- Logo -->
+                <div class="nav-logo">
+                    <a href="dashboard.html" class="logo-link" aria-label="Ir al inicio">
+                        <span class="logo-text">GMPI</span>
+                        <span class="logo-subtitle" data-translate="school_maintenance">Mantenimiento Escolar</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu -->
+                <ul class="nav-menu" role="menubar">
+                    <li class="nav-item dropdown" role="none">
+                        <a href="#" class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false" tabindex="0">
+                            <span class="icon">📊</span>
+                            <span data-translate="management">Gestión</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-content" role="menu" aria-label="Opciones de Gestión">
+                            <a href="dashboard.html" role="menuitem" tabindex="-1">
+                                <span class="icon">🏠</span>
+                                <span data-translate="dashboard">Dashboard</span>
+                            </a>
+                            <a href="infraestructuras.html" role="menuitem" tabindex="-1">
+                                <span class="icon">🏫</span>
+                                <span data-translate="infrastructures">Infraestructuras</span>
+                            </a>
+                            <a href="#" role="menuitem" tabindex="-1">
+                                <span class="icon">🔧</span>
+                                <span data-translate="maintenance">Mantenimientos</span>
+                            </a>
+                            <a href="#" role="menuitem" tabindex="-1">
+                                <span class="icon">📈</span>
+                                <span data-translate="reports">Reportes</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown" role="none">
+                        <a href="#" class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false" tabindex="0">
+                            <span class="icon">📋</span>
+                            <span data-translate="planning">Planificación</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-content" role="menu" aria-label="Opciones de Planificación">
+                            <a href="#" role="menuitem" tabindex="-1">
+                                <span class="icon">📅</span>
+                                <span data-translate="calendar">Calendario</span>
+                            </a>
+                            <a href="#" role="menuitem" tabindex="-1">
+                                <span class="icon">🛡️</span>
+                                <span data-translate="preventive">Preventivo</span>
+                            </a>
+                            <a href="#" role="menuitem" tabindex="-1">
+                                <span class="icon">🚨</span>
+                                <span data-translate="emergencies">Emergencias</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown" role="none">
+                        <a href="#" class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false" tabindex="0">
+                            <span class="icon">⚙️</span>
+                            <span data-translate="configuration">Configuración</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-content" role="menu" aria-label="Opciones de Configuración">
+                            <a href="#" role="menuitem" tabindex="-1" id="languageToggle">
+                                <span class="icon">🌐</span>
+                                <span data-translate="language">Idioma</span>
+                                <span class="setting-value" id="currentLanguage">ES</span>
+                            </a>
+                            <a href="#" role="menuitem" tabindex="-1" id="themeToggle">
+                                <span class="icon">🌓</span>
+                                <span data-translate="theme">Tema</span>
+                                <span class="setting-value" id="currentTheme">☀️</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown" role="none">
+                        <a href="#" class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false" tabindex="0">
+                            <span class="icon">❓</span>
+                            <span data-translate="help">Ayuda</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-content" role="menu" aria-label="Opciones de Ayuda">
+                            <a href="contact.html" role="menuitem" tabindex="-1">
+                                <span class="icon">📧</span>
+                                <span data-translate="contact">Contacto</span>
+                            </a>
+                            <a href="#" role="menuitem" tabindex="-1" id="keyboardShortcuts">
+                                <span class="icon">⌨️</span>
+                                <span data-translate="shortcuts">Atajos de Teclado</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Action Buttons -->
+                <div class="nav-actions">
+                    <span class="user-welcome" data-translate="welcome">Bienvenido, Administrador</span>
+                    <a href="index.html" class="btn btn-secondary" data-translate="logout">Cerrar Sesión</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" role="main">
+        <!-- Page Header -->
+        <section class="page-header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="page-title" data-translate="registered_infrastructures">Infraestructuras Registradas</h1>
+                <p class="page-subtitle" data-translate="infrastructure_subtitle">Gestiona y supervisa todas las instituciones educativas del sistema</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Barra de Búsqueda Rápida -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" 
+                           id="searchInfrastructures" 
+                           class="search-input" 
+                           placeholder="Buscar infraestructuras..." 
+                           aria-label="Buscar infraestructuras">
+                    <button class="search-btn" id="searchBtn" aria-label="Buscar">
+                        <span class="search-icon">🔍</span>
+                    </button>
+                    <button class="clear-btn" id="clearSearch" aria-label="Limpiar búsqueda" style="display: none;">
+                        <span class="clear-icon">✕</span>
+                    </button>
+                </div>
+                <div class="search-results-count" id="searchResultsCount"></div>
+            </div>
+        </div>
+    </section>
+
+            <!-- Institutions Grid -->
+            <div class="institutions-section">
+                <div class="section-header">
+                    <h2 data-translate="educational_institutions">Instituciones Educativas</h2>
+                    <button class="btn btn-primary add-institution-btn">
+                        <span data-translate="add_institution">+ Agregar Institución</span>
+                    </button>
+                </div>
+
+                <div class="institutions-grid">
+                    <!-- ULAEM Institution -->
+                    <div class="institution-card">
+                        <div class="institution-header">
+                            <div class="institution-logo">
+                                <span class="logo-text">ULAEM</span>
+                            </div>
+                        </div>
+                        
+                        <div class="institution-info">
+                            <h3 class="institution-name">Universidad Laica Eloy Alfaro de Manabí</h3>
+                            <p class="institution-location" data-translate="manta_manabi">📍 Manta, Manabí, Ecuador</p>
+                            <p class="institution-type" data-translate="public_university">🎓 Universidad Pública</p>
+                        </div>
+
+                        <div class="institution-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">8</span>
+                                <span class="stat-name" data-translate="buildings">Edificios</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">45</span>
+                                <span class="stat-name" data-translate="classrooms">Aulas</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">12</span>
+                                <span class="stat-name" data-translate="laboratories">Laboratorios</span>
+                            </div>
+                        </div>
+
+                        <div class="institution-maintenance">
+                            <div class="maintenance-item">
+                                <span class="maintenance-label" data-translate="last_maintenance">Último Mantenimiento:</span>
+                                <span class="maintenance-date">15 Dic 2024</span>
+                            </div>
+                            <div class="maintenance-item">
+                                <span class="maintenance-label" data-translate="next_maintenance">Próximo Mantenimiento:</span>
+                                <span class="maintenance-date upcoming">20 Feb 2025</span>
+                            </div>
+                        </div>
+
+                        <div class="institution-actions">
+                            <button class="btn btn-outline btn-small" data-translate="view_details">Ver Detalles</button>
+                            <button class="btn btn-secondary btn-small edit-btn" data-translate="edit">✏️ Editar</button>
+                            <button class="btn btn-primary btn-small" data-translate="manage">Gestionar</button>
+                        </div>
+                    </div>
+
+                    <!-- Colegio Amazonas Institution -->
+                    <div class="institution-card">
+                        <div class="institution-header">
+                            <div class="institution-logo secondary">
+                                <span class="logo-text">CAQ</span>
+                            </div>
+
+                        </div>
+                        
+                        <div class="institution-info">
+                            <h3 class="institution-name">Colegio Amazonas de Quito</h3>
+                            <p class="institution-location" data-translate="quito_pichincha">📍 Quito, Pichincha, Ecuador</p>
+                            <p class="institution-type" data-translate="public_school">🏫 Colegio público</p>
+                        </div>
+
+                        <div class="institution-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">3</span>
+                                <span class="stat-name" data-translate="buildings">Edificios</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">24</span>
+                                <span class="stat-name" data-translate="classrooms">Aulas</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">6</span>
+                                <span class="stat-name" data-translate="laboratories">Laboratorios</span>
+                            </div>
+                        </div>
+
+                        <div class="institution-maintenance">
+                            <div class="maintenance-item">
+                                <span class="maintenance-label" data-translate="last_maintenance">Último Mantenimiento:</span>
+                                <span class="maintenance-date">28 Nov 2024</span>
+                            </div>
+                            <div class="maintenance-item">
+                                <span class="maintenance-label" data-translate="next_maintenance">Próximo Mantenimiento:</span>
+                                <span class="maintenance-date pending">05 Ene 2025</span>
+                            </div>
+                        </div>
+
+                        <div class="institution-actions">
+                            <button class="btn btn-outline btn-small" data-translate="view_details">Ver Detalles</button>
+                            <button class="btn btn-secondary btn-small edit-btn" data-translate="edit">✏️ Editar</button>
+                            <button class="btn btn-primary btn-small" data-translate="manage">Gestionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // Simple interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to institution cards
+            const cards = document.querySelectorAll('.institution-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add click functionality to buttons
+            const detailButtons = document.querySelectorAll('.btn-outline');
+            detailButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    alert('Funcionalidad "Ver Detalles" - Próximamente disponible');
+                });
+            });
+
+            // Edit buttons - redirect to edit form
+            const editButtons = document.querySelectorAll('.edit-btn');
+            editButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Redirigir al formulario de edición
+                    window.location.href = 'edit-institution.html';
+                });
+            });
+
+            const manageButtons = document.querySelectorAll('.btn-primary.btn-small');
+            manageButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Redirigir al formulario de edición
+                    window.location.href = 'edit-institution.html';
+                });
+            });
+
+            const addButton = document.querySelector('.add-institution-btn');
+            addButton.addEventListener('click', function() {
+                // Redirigir al formulario de agregar institución
+                window.location.href = 'add-institution.html';
+            });
+        });
+    </script>
+    <script src="../javascript/navigation.js"></script>
+    <script src="../javascript/settings.js"></script>
+    
+    <!-- Script de Búsqueda de Infraestructuras -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInfrastructures');
+            const clearBtn = document.getElementById('clearSearch');
+            const searchResultsCount = document.getElementById('searchResultsCount');
+            const institutionCards = document.querySelectorAll('.institution-card');
+            
+            let totalCards = institutionCards.length;
+            
+            // Función de búsqueda
+            function performSearch(query) {
+                let visibleCount = 0;
+                query = query.toLowerCase().trim();
+                
+                institutionCards.forEach(card => {
+                    const institutionName = card.querySelector('.institution-name')?.textContent.toLowerCase() || '';
+                    const institutionLocation = card.querySelector('.institution-location')?.textContent.toLowerCase() || '';
+                    const institutionType = card.querySelector('.institution-type')?.textContent.toLowerCase() || '';
+                    
+                    // Buscar en nombre, ubicación y tipo
+                    const matches = institutionName.includes(query) || 
+                                  institutionLocation.includes(query) || 
+                                  institutionType.includes(query);
+                    
+                    if (query === '' || matches) {
+                        card.classList.remove('hidden');
+                        card.classList.add('search-match');
+                        visibleCount++;
+                        
+                        // Remover animación después de un tiempo
+                        setTimeout(() => {
+                            card.classList.remove('search-match');
+                        }, 300);
+                    } else {
+                        card.classList.add('hidden');
+                        card.classList.remove('search-match');
+                    }
+                });
+                
+                // Actualizar contador de resultados
+                updateSearchResults(query, visibleCount);
+                
+                // Mostrar/ocultar botón de limpiar
+                clearBtn.style.display = query ? 'flex' : 'none';
+            }
+            
+            // Actualizar contador de resultados
+            function updateSearchResults(query, count) {
+                if (query === '') {
+                    searchResultsCount.textContent = `Mostrando ${totalCards} infraestructuras`;
+                } else {
+                    const plural = count === 1 ? 'infraestructura' : 'infraestructuras';
+                    searchResultsCount.textContent = `${count} ${plural} encontradas para "${query}"`;
+                }
+            }
+            
+            // Event listeners
+            searchInput.addEventListener('input', function() {
+                performSearch(this.value);
+            });
+            
+            // Búsqueda en tiempo real con debounce
+            let searchTimeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    performSearch(this.value);
+                }, 300);
+            });
+            
+            // Limpiar búsqueda
+            clearBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                performSearch('');
+                searchInput.focus();
+            });
+            
+            // Buscar con Enter
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch(this.value);
+                }
+            });
+            
+            // Atajo de teclado Ctrl+K para enfocar la búsqueda
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'k') {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+            });
+            
+            // Inicializar contador
+            updateSearchResults('', totalCards);
+        });
+    </script>
+    
+    <script>
+        // Initialize settings on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof SettingsManager !== 'undefined') {
+                const settingsManager = new SettingsManager();
+                
+                // Los IDs correctos según el header.html
+                const languageToggle = document.getElementById('languageSwitch');
+                const themeToggle = document.getElementById('themeSwitch');
+                const keyboardShortcuts = document.getElementById('keyboardShortcuts');
+                
+                if (languageToggle) {
+                    languageToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        settingsManager.toggleLanguage();
+                    });
+                }
+                
+                if (themeToggle) {
+                    themeToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        settingsManager.toggleTheme();
+                    });
+                }
+                
+                if (keyboardShortcuts) {
+                    keyboardShortcuts.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        settingsManager.showShortcuts();
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
