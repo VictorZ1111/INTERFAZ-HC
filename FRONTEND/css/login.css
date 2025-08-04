@@ -8,8 +8,9 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background: #f8fffe;
-    min-height: 100vh;
-    overflow-x: hidden;
+    height: 100vh;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 /* Quick Settings */
@@ -64,7 +65,8 @@ body {
 .login-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
 }
 
 /* Login Form Section */
@@ -73,7 +75,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px;
+    padding: 20px;
     position: relative;
 }
 
@@ -85,12 +87,12 @@ body {
 /* Logo Section */
 .login-logo {
     text-align: center;
-    margin-bottom: 48px;
+    margin-bottom: 32px;
 }
 
 .logo-icon {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     background: linear-gradient(135deg, #e67e22, #f39c12);
     border-radius: 20px;
     display: flex;
@@ -101,17 +103,17 @@ body {
 }
 
 .logo-text {
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 700;
     color: #ffffff;
     letter-spacing: -1px;
 }
 
 .system-title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     color: #202223;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     line-height: 1.2;
 }
 
@@ -124,14 +126,14 @@ body {
 /* Form Header */
 .form-header {
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
 }
 
 .form-header h2 {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 600;
     color: #202223;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .form-header p {
@@ -145,7 +147,7 @@ body {
 }
 
 .input-group {
-    margin-bottom: 24px;
+    margin-bottom: 18px;
 }
 
 .input-label {
@@ -162,7 +164,7 @@ body {
 
 .form-input {
     width: 100%;
-    padding: 16px 48px 16px 16px;
+    padding: 14px 48px 14px 14px;
     border: 2px solid #e1e1e1;
     border-radius: 8px;
     font-size: 16px;
@@ -183,7 +185,7 @@ body {
 
 .input-icon {
     position: absolute;
-    right: 16px;
+    right: 14px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
@@ -192,7 +194,7 @@ body {
 
 .toggle-password {
     position: absolute;
-    right: 48px;
+    right: 44px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
@@ -270,18 +272,18 @@ body {
 /* Login Button */
 .login-btn {
     width: 100%;
-    padding: 16px;
+    padding: 12px;
     background: linear-gradient(135deg, #e67e22, #f39c12);
     color: #ffffff;
     border: none;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
 }
 
 .login-btn:hover {
@@ -319,7 +321,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px;
+    padding: 24px;
     overflow: hidden;
 }
 
@@ -332,41 +334,41 @@ body {
 }
 
 .visual-header h2 {
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     line-height: 1.2;
 }
 
 .visual-header p {
-    font-size: 18px;
+    font-size: 16px;
     opacity: 0.9;
-    margin-bottom: 48px;
+    margin-bottom: 32px;
     line-height: 1.5;
 }
 
 /* Features Preview */
 .features-preview {
-    margin-bottom: 48px;
+    margin-bottom: 32px;
 }
 
 .feature-item {
     display: flex;
     align-items: center;
     text-align: left;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     background: rgba(255, 255, 255, 0.1);
-    padding: 16px;
+    padding: 12px;
     border-radius: 12px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .feature-icon {
-    font-size: 24px;
-    margin-right: 16px;
-    width: 48px;
-    height: 48px;
+    font-size: 20px;
+    margin-right: 12px;
+    width: 40px;
+    height: 40px;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     display: flex;
@@ -396,7 +398,7 @@ body {
 
 .stat-card {
     background: rgba(255, 255, 255, 0.15);
-    padding: 24px 16px;
+    padding: 16px 12px;
     border-radius: 12px;
     text-align: center;
     backdrop-filter: blur(10px);
@@ -404,7 +406,7 @@ body {
 }
 
 .stat-number {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     display: block;
     margin-bottom: 4px;
@@ -880,7 +882,7 @@ body {
 
 .btn-icon {
     margin-right: 8px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .btn-loader {
@@ -997,7 +999,7 @@ body {
 
 /* Botón de registro alternativo */
 .register-button-section {
-    margin-top: 16px;
+    margin-top: 12px;
     text-align: center;
 }
 
@@ -1006,16 +1008,16 @@ body {
     color: white;
     border: none;
     border-radius: 12px;
-    padding: 12px 24px;
-    font-size: 16px;
+    padding: 8px 16px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-    min-width: 200px;
+    min-width: 150px;
     justify-content: center;
 }
 

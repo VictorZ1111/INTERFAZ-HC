@@ -10,12 +10,237 @@ class AuthenticationSystem {
                 password: 'admin123',
                 role: 'administrator',
                 name: 'Administrador del Sistema',
-                permissions: ['read', 'write', 'delete', 'manage_users', 'manage_maintenance']
+                permissions: ['read', 'write', 'delete', 'manage_users', 'manage_maintenance', 'manage_calendar']
+            },
+            {
+                id: 2,
+                email: 'vic@colegio.edu',
+                password: 'Vic1234567!',
+                role: 'autoridad',
+                name: 'Autoridad Educativa',
+                permissions: ['read', 'write', 'manage_maintenance', 'manage_calendar']
             }
         ];
         
         this.sessions = new Map();
         this.sessionTimeout = 30 * 60 * 1000; // 30 minutos
+        this.loadUsersFromStorage();
+    }
+
+    // Cargar usuarios del localStorage
+    loadUsersFromStorage() {
+        try {
+            const storedUsers = localStorage.getItem('gmpi_users');
+            if (storedUsers) {
+                const users = JSON.parse(storedUsers);
+                // Mantener los usuarios por defecto y agregar los almacenados
+                this.users = [
+                    ...this.users,
+                    ...users.filter(user => user.email !== 'admin@colegio.edu' && user.email !== 'vic@colegio.edu')
+                ];
+            }
+        } catch (error) {
+            console.error('Error loading users from storage:', error);
+        }
+    }
+
+    // Guardar usuarios en localStorage
+    saveUsersToStorage() {
+        try {
+            // Guardar solo los usuarios que no sean los usuarios por defecto
+            const usersToStore = this.users.filter(user => user.email !== 'admin@colegio.edu' && user.email !== 'vic@colegio.edu');
+            localStorage.setItem('gmpi_users', JSON.stringify(usersToStore));
+        } catch (error) {
+            console.error('Error saving users to storage:', error);
+        }
+    }
+
+    // Registrar nuevo usuario
+    registerUser(userData) {
+        try {
+            // Validar que el email no exista
+            if (this.users.find(u => u.email === userData.email)) {
+                return {
+                    success: false,
+                    message: 'El email ya está registrado en el sistema'
+                };
+            }
+
+            // Validar campos requeridos
+            if (!userData.email || !userData.password || !userData.name || !userData.role) {
+                return {
+                    success: false,
+                    message: 'Todos los campos son requeridos'
+                };
+            }
+
+            // Validar formato de email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(userData.email)) {
+                return {
+                    success: false,
+                    message: 'Formato de email inválido'
+                };
+            }
+
+            // Validar longitud de contraseña
+            if (userData.password.length < 6) {
+                return {
+                    success: false,
+                    message: 'La contraseña debe tener al menos 6 caracteres'
+                };
+            }
+
+            // Definir permisos según el rol
+            let permissions = ['read'];
+            if (userData.role === 'administrator') {
+                permissions = ['read', 'write', 'delete', 'manage_users', 'manage_maintenance', 'manage_calendar'];
+            } else if (userData.role === 'authority') {
+                permissions = ['read', 'write', 'manage_maintenance'];
+            }
+
+            // Crear nuevo usuario
+            const newUser = {
+                id: Date.now(), // ID temporal basado en timestamp
+                email: userData.email,
+                password: userData.password, // En producción esto debería estar hasheado
+                role: userData.role,
+                name: userData.name,
+                permissions: permissions,
+                registrationDate: new Date().toISOString(),
+                active: true
+            };
+
+            // Agregar el usuario al array
+            this.users.push(newUser);
+            
+            // Guardar en localStorage
+            this.saveUsersToStorage();
+
+            return {
+                success: true,
+                message: 'Usuario registrado exitosamente',
+                user: {
+                    id: newUser.id,
+                    email: newUser.email,
+                    name: newUser.name,
+                    role: newUser.role,
+                    registrationDate: newUser.registrationDate
+                }
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: 'Error interno del servidor durante el registro'
+            };
+        }
+    }
+
+    // Obtener lista de usuarios (solo para administradores)
+    getAllUsers(sessionId) {
+        const session = this.validateSession(sessionId);
+        if (!session || !session.user.permissions.includes('manage_users')) {
+            return {
+                success: false,
+                message: 'Sin permisos para ver la lista de usuarios'
+            };
+        }
+
+        const userList = this.users.map(user => ({
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            registrationDate: user.registrationDate || 'Usuario por defecto',
+            active: user.active !== false
+        }));
+
+        return {
+            success: true,
+            users: userList
+        };
+    }
+
+    // Actualizar usuario (solo para administradores)
+    updateUser(sessionId, userId, updateData) {
+        const session = this.validateSession(sessionId);
+        if (!session || !session.user.permissions.includes('manage_users')) {
+            return {
+                success: false,
+                message: 'Sin permisos para modificar usuarios'
+            };
+        }
+
+        const userIndex = this.users.findIndex(u => u.id === userId);
+        if (userIndex === -1) {
+            return {
+                success: false,
+                message: 'Usuario no encontrado'
+            };
+        }
+
+        // No permitir modificar el usuario admin principal
+        if (this.users[userIndex].email === 'admin@colegio.edu') {
+            return {
+                success: false,
+                message: 'No se puede modificar el usuario administrador principal'
+            };
+        }
+
+        // Actualizar solo los campos permitidos
+        if (updateData.name) this.users[userIndex].name = updateData.name;
+        if (updateData.role) {
+            this.users[userIndex].role = updateData.role;
+            // Actualizar permisos según el nuevo rol
+            if (updateData.role === 'administrator') {
+                this.users[userIndex].permissions = ['read', 'write', 'delete', 'manage_users', 'manage_maintenance', 'manage_calendar'];
+            } else if (updateData.role === 'authority') {
+                this.users[userIndex].permissions = ['read', 'write', 'manage_maintenance'];
+            }
+        }
+        if (updateData.active !== undefined) this.users[userIndex].active = updateData.active;
+
+        this.saveUsersToStorage();
+
+        return {
+            success: true,
+            message: 'Usuario actualizado exitosamente'
+        };
+    }
+
+    // Eliminar usuario (solo para administradores)
+    deleteUser(sessionId, userId) {
+        const session = this.validateSession(sessionId);
+        if (!session || !session.user.permissions.includes('manage_users')) {
+            return {
+                success: false,
+                message: 'Sin permisos para eliminar usuarios'
+            };
+        }
+
+        const userIndex = this.users.findIndex(u => u.id === userId);
+        if (userIndex === -1) {
+            return {
+                success: false,
+                message: 'Usuario no encontrado'
+            };
+        }
+
+        // No permitir eliminar el usuario admin principal
+        if (this.users[userIndex].email === 'admin@colegio.edu') {
+            return {
+                success: false,
+                message: 'No se puede eliminar el usuario administrador principal'
+            };
+        }
+
+        this.users.splice(userIndex, 1);
+        this.saveUsersToStorage();
+
+        return {
+            success: true,
+            message: 'Usuario eliminado exitosamente'
+        };
     }
 
     // Validar credenciales de usuario
@@ -100,6 +325,7 @@ class AuthenticationSystem {
 class MaintenanceManagementSystem {
     constructor() {
         this.auth = new AuthenticationSystem();
+        this.calendar = new CalendarManagementSystem();
         this.maintenanceRecords = [];
         this.facilities = [];
         this.personnel = [];
@@ -207,6 +433,14 @@ class MaintenanceManagementSystem {
                 };
             }
 
+            // Verificar si el usuario está activo
+            if (user.active === false) {
+                return {
+                    success: false,
+                    message: 'Usuario desactivado. Contacte al administrador.'
+                };
+            }
+
             const session = this.auth.createSession(user);
             
             return {
@@ -224,6 +458,58 @@ class MaintenanceManagementSystem {
                 message: 'Error interno del servidor'
             };
         }
+    }
+
+    // Registrar nuevo usuario
+    register(userData) {
+        return this.auth.registerUser(userData);
+    }
+
+    // Obtener usuarios (solo administradores)
+    getUsers(sessionId) {
+        return this.auth.getAllUsers(sessionId);
+    }
+
+    // Actualizar usuario (solo administradores)
+    updateUser(sessionId, userId, updateData) {
+        return this.auth.updateUser(sessionId, userId, updateData);
+    }
+
+    // Eliminar usuario (solo administradores)
+    deleteUser(sessionId, userId) {
+        return this.auth.deleteUser(sessionId, userId);
+    }
+
+    // ===== MÉTODOS DE CALENDARIO =====
+    
+    // Crear evento en el calendario
+    createCalendarEvent(sessionId, eventData) {
+        return this.calendar.createEvent(sessionId, eventData);
+    }
+
+    // Obtener eventos del calendario
+    getCalendarEvents(sessionId, filters = {}) {
+        return this.calendar.getEvents(sessionId, filters);
+    }
+
+    // Actualizar evento del calendario
+    updateCalendarEvent(sessionId, eventId, updateData) {
+        return this.calendar.updateEvent(sessionId, eventId, updateData);
+    }
+
+    // Eliminar evento del calendario
+    deleteCalendarEvent(sessionId, eventId) {
+        return this.calendar.deleteEvent(sessionId, eventId);
+    }
+
+    // Completar evento del calendario
+    completeCalendarEvent(sessionId, eventId) {
+        return this.calendar.completeEvent(sessionId, eventId);
+    }
+
+    // Obtener eventos próximos
+    getUpcomingCalendarEvents(sessionId, days = 7) {
+        return this.calendar.getUpcomingEvents(sessionId, days);
     }
 
     // Logout de usuario
@@ -298,11 +584,222 @@ class MaintenanceManagementSystem {
     }
 }
 
+// Sistema de Gestión de Calendario para Mantenimiento
+class CalendarManagementSystem {
+    constructor() {
+        this.events = [];
+        this.loadEventsFromStorage();
+    }
+
+    // Cargar eventos del localStorage
+    loadEventsFromStorage() {
+        try {
+            const storedEvents = localStorage.getItem('gmpi_calendar_events');
+            if (storedEvents) {
+                this.events = JSON.parse(storedEvents);
+            }
+        } catch (error) {
+            console.error('Error loading calendar events from storage:', error);
+        }
+    }
+
+    // Guardar eventos en localStorage
+    saveEventsToStorage() {
+        try {
+            localStorage.setItem('gmpi_calendar_events', JSON.stringify(this.events));
+        } catch (error) {
+            console.error('Error saving calendar events to storage:', error);
+        }
+    }
+
+    // Crear nuevo evento de mantenimiento
+    createEvent(sessionId, eventData) {
+        // Validar permisos (solo administradores)
+        if (!sessionId || !this.validateAdminPermission(sessionId)) {
+            return {
+                success: false,
+                message: 'Sin permisos para crear eventos en el calendario'
+            };
+        }
+
+        // Validar campos requeridos
+        if (!eventData.title || !eventData.date || !eventData.facility) {
+            return {
+                success: false,
+                message: 'Título, fecha y instalación son campos requeridos'
+            };
+        }
+
+        const newEvent = {
+            id: Date.now(),
+            title: eventData.title,
+            description: eventData.description || '',
+            date: eventData.date,
+            time: eventData.time || '09:00',
+            facility: eventData.facility,
+            type: eventData.type || 'maintenance',
+            status: 'scheduled',
+            assignedTo: eventData.assignedTo || '',
+            priority: eventData.priority || 'medium',
+            createdAt: new Date().toISOString(),
+            createdBy: sessionId
+        };
+
+        this.events.push(newEvent);
+        this.saveEventsToStorage();
+
+        return {
+            success: true,
+            message: 'Evento creado exitosamente',
+            event: newEvent
+        };
+    }
+
+    // Obtener eventos del calendario
+    getEvents(sessionId, filters = {}) {
+        // Validar permisos
+        if (!sessionId || !this.validateAdminPermission(sessionId)) {
+            return {
+                success: false,
+                message: 'Sin permisos para ver el calendario'
+            };
+        }
+
+        let filteredEvents = [...this.events];
+
+        // Aplicar filtros
+        if (filters.month && filters.year) {
+            filteredEvents = filteredEvents.filter(event => {
+                const eventDate = new Date(event.date);
+                return eventDate.getMonth() === parseInt(filters.month) - 1 && 
+                       eventDate.getFullYear() === parseInt(filters.year);
+            });
+        }
+
+        if (filters.facility) {
+            filteredEvents = filteredEvents.filter(event => 
+                event.facility.toLowerCase().includes(filters.facility.toLowerCase())
+            );
+        }
+
+        if (filters.status) {
+            filteredEvents = filteredEvents.filter(event => event.status === filters.status);
+        }
+
+        return {
+            success: true,
+            events: filteredEvents.sort((a, b) => new Date(a.date) - new Date(b.date))
+        };
+    }
+
+    // Actualizar evento
+    updateEvent(sessionId, eventId, updateData) {
+        // Validar permisos
+        if (!sessionId || !this.validateAdminPermission(sessionId)) {
+            return {
+                success: false,
+                message: 'Sin permisos para modificar eventos'
+            };
+        }
+
+        const eventIndex = this.events.findIndex(e => e.id === eventId);
+        if (eventIndex === -1) {
+            return {
+                success: false,
+                message: 'Evento no encontrado'
+            };
+        }
+
+        // Actualizar campos permitidos
+        const allowedFields = ['title', 'description', 'date', 'time', 'facility', 'assignedTo', 'priority', 'status'];
+        allowedFields.forEach(field => {
+            if (updateData[field] !== undefined) {
+                this.events[eventIndex][field] = updateData[field];
+            }
+        });
+
+        this.events[eventIndex].updatedAt = new Date().toISOString();
+        this.saveEventsToStorage();
+
+        return {
+            success: true,
+            message: 'Evento actualizado exitosamente',
+            event: this.events[eventIndex]
+        };
+    }
+
+    // Eliminar evento
+    deleteEvent(sessionId, eventId) {
+        // Validar permisos
+        if (!sessionId || !this.validateAdminPermission(sessionId)) {
+            return {
+                success: false,
+                message: 'Sin permisos para eliminar eventos'
+            };
+        }
+
+        const eventIndex = this.events.findIndex(e => e.id === eventId);
+        if (eventIndex === -1) {
+            return {
+                success: false,
+                message: 'Evento no encontrado'
+            };
+        }
+
+        this.events.splice(eventIndex, 1);
+        this.saveEventsToStorage();
+
+        return {
+            success: true,
+            message: 'Evento eliminado exitosamente'
+        };
+    }
+
+    // Marcar evento como completado
+    completeEvent(sessionId, eventId) {
+        return this.updateEvent(sessionId, eventId, { 
+            status: 'completed',
+            completedAt: new Date().toISOString()
+        });
+    }
+
+    // Validar permisos de administrador
+    validateAdminPermission(sessionId) {
+        // Esta función debería verificar con el sistema de autenticación
+        // Por ahora es una implementación simplificada
+        return true; // En la implementación real, verificar permisos de administrador
+    }
+
+    // Obtener eventos próximos (para dashboard)
+    getUpcomingEvents(sessionId, days = 7) {
+        if (!sessionId || !this.validateAdminPermission(sessionId)) {
+            return {
+                success: false,
+                message: 'Sin permisos para ver eventos'
+            };
+        }
+
+        const now = new Date();
+        const futureDate = new Date();
+        futureDate.setDate(futureDate.getDate() + days);
+
+        const upcomingEvents = this.events.filter(event => {
+            const eventDate = new Date(event.date);
+            return eventDate >= now && eventDate <= futureDate && event.status === 'scheduled';
+        });
+
+        return {
+            success: true,
+            events: upcomingEvents.sort((a, b) => new Date(a.date) - new Date(b.date))
+        };
+    }
+}
+
 // Exportar para uso en diferentes entornos
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { AuthenticationSystem, MaintenanceManagementSystem };
+    module.exports = { AuthenticationSystem, CalendarManagementSystem, MaintenanceManagementSystem };
 } else if (typeof window !== 'undefined') {
-    window.GMPI = { AuthenticationSystem, MaintenanceManagementSystem };
+    window.GMPI = { AuthenticationSystem, CalendarManagementSystem, MaintenanceManagementSystem };
 }
 
 // Inicializar sistema (para demo)

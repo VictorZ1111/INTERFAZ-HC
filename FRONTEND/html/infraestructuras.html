@@ -35,18 +35,6 @@
                                 <span class="icon">🏠</span>
                                 <span data-translate="dashboard">Dashboard</span>
                             </a>
-                            <a href="infraestructuras.html" role="menuitem" tabindex="-1">
-                                <span class="icon">🏫</span>
-                                <span data-translate="infrastructures">Infraestructuras</span>
-                            </a>
-                            <a href="#" role="menuitem" tabindex="-1">
-                                <span class="icon">🔧</span>
-                                <span data-translate="maintenance">Mantenimientos</span>
-                            </a>
-                            <a href="#" role="menuitem" tabindex="-1">
-                                <span class="icon">📈</span>
-                                <span data-translate="reports">Reportes</span>
-                            </a>
                         </div>
                     </li>
                     <li class="nav-item dropdown" role="none">
@@ -56,17 +44,9 @@
                             <span class="dropdown-arrow">▼</span>
                         </a>
                         <div class="dropdown-content" role="menu" aria-label="Opciones de Planificación">
-                            <a href="#" role="menuitem" tabindex="-1">
+                            <a href="#" id="calendarLink" role="menuitem" tabindex="-1">
                                 <span class="icon">📅</span>
                                 <span data-translate="calendar">Calendario</span>
-                            </a>
-                            <a href="#" role="menuitem" tabindex="-1">
-                                <span class="icon">🛡️</span>
-                                <span data-translate="preventive">Preventivo</span>
-                            </a>
-                            <a href="#" role="menuitem" tabindex="-1">
-                                <span class="icon">🚨</span>
-                                <span data-translate="emergencies">Emergencias</span>
                             </a>
                         </div>
                     </li>
@@ -154,6 +134,17 @@
                     </button>
                 </div>
                 <div class="search-results-count" id="searchResultsCount"></div>
+                
+                <!-- Filtros de búsqueda -->
+                <div class="search-filters">
+                    <label for="typeFilter">Filtrar por tipo:</label>
+                    <select id="typeFilter" class="filter-select">
+                        <option value="">Todos los tipos</option>
+                        <option value="escuela">Escuela</option>
+                        <option value="colegio">Colegio</option>
+                        <option value="universidad">Universidad</option>
+                    </select>
+                </div>
             </div>
         </div>
     </section>
@@ -179,7 +170,7 @@
                         <div class="institution-info">
                             <h3 class="institution-name">Universidad Laica Eloy Alfaro de Manabí</h3>
                             <p class="institution-location" data-translate="manta_manabi">📍 Manta, Manabí, Ecuador</p>
-                            <p class="institution-type" data-translate="public_university">🎓 Universidad Pública</p>
+                            <p class="institution-type" data-translate="public_university">🎓 Universidad</p>
                         </div>
 
                         <div class="institution-stats">
@@ -209,9 +200,9 @@
                         </div>
 
                         <div class="institution-actions">
-                            <button class="btn btn-outline btn-small" data-translate="view_details">Ver Detalles</button>
-                            <button class="btn btn-secondary btn-small edit-btn" data-translate="edit">✏️ Editar</button>
-                            <button class="btn btn-primary btn-small" data-translate="manage">Gestionar</button>
+                            <button class="btn btn-outline btn-small view-details-btn" data-translate="view_details">Ver Detalles</button>
+                            <button class="btn btn-secondary btn-small edit-btn" data-translate="edit">✏️ Modificar</button>
+                            <button class="btn btn-danger btn-small delete-btn" data-translate="delete">🗑️ Eliminar</button>
                         </div>
                     </div>
 
@@ -227,7 +218,7 @@
                         <div class="institution-info">
                             <h3 class="institution-name">Colegio Amazonas de Quito</h3>
                             <p class="institution-location" data-translate="quito_pichincha">📍 Quito, Pichincha, Ecuador</p>
-                            <p class="institution-type" data-translate="public_school">🏫 Colegio público</p>
+                            <p class="institution-type" data-translate="public_school">🏫 Colegio</p>
                         </div>
 
                         <div class="institution-stats">
@@ -257,9 +248,56 @@
                         </div>
 
                         <div class="institution-actions">
-                            <button class="btn btn-outline btn-small" data-translate="view_details">Ver Detalles</button>
-                            <button class="btn btn-secondary btn-small edit-btn" data-translate="edit">✏️ Editar</button>
-                            <button class="btn btn-primary btn-small" data-translate="manage">Gestionar</button>
+                            <button class="btn btn-outline btn-small view-details-btn" data-translate="view_details">Ver Detalles</button>
+                            <button class="btn btn-secondary btn-small edit-btn" data-translate="edit">✏️ Modificar</button>
+                            <button class="btn btn-danger btn-small delete-btn" data-translate="delete">🗑️ Eliminar</button>
+                        </div>
+                    </div>
+
+                    <!-- Escuela Primaria Example -->
+                    <div class="institution-card">
+                        <div class="institution-header">
+                            <div class="institution-logo tertiary">
+                                <span class="logo-text">EPB</span>
+                            </div>
+                        </div>
+                        
+                        <div class="institution-info">
+                            <h3 class="institution-name">Escuela Primaria Benito Juárez</h3>
+                            <p class="institution-location" data-translate="guayaquil_guayas">📍 Guayaquil, Guayas, Ecuador</p>
+                            <p class="institution-type" data-translate="public_school">🏠 Escuela</p>
+                        </div>
+
+                        <div class="institution-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">2</span>
+                                <span class="stat-name" data-translate="buildings">Edificios</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">12</span>
+                                <span class="stat-name" data-translate="classrooms">Aulas</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">1</span>
+                                <span class="stat-name" data-translate="laboratories">Laboratorio</span>
+                            </div>
+                        </div>
+
+                        <div class="institution-maintenance">
+                            <div class="maintenance-item">
+                                <span class="maintenance-label" data-translate="last_maintenance">Último Mantenimiento:</span>
+                                <span class="maintenance-date">10 Dic 2024</span>
+                            </div>
+                            <div class="maintenance-item">
+                                <span class="maintenance-label" data-translate="next_maintenance">Próximo Mantenimiento:</span>
+                                <span class="maintenance-date upcoming">15 Mar 2025</span>
+                            </div>
+                        </div>
+
+                        <div class="institution-actions">
+                            <button class="btn btn-outline btn-small view-details-btn" data-translate="view_details">Ver Detalles</button>
+                            <button class="btn btn-secondary btn-small edit-btn" data-translate="edit">✏️ Modificar </button>
+                            <button class="btn btn-danger btn-small delete-btn" data-translate="delete">🗑️ Eliminar</button>
                         </div>
                     </div>
                 </div>
@@ -271,49 +309,515 @@
     <script>
         // Simple interactivity
         document.addEventListener('DOMContentLoaded', function() {
+            // Cargar instituciones dinámicas
+            loadDynamicInstitutions();
+            
+            // Verificar y aplicar cambios de edición
+            checkForEditChanges();
+            
             // Add hover effects to institution cards
             const cards = document.querySelectorAll('.institution-card');
             cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-4px)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
+                addCardEventListeners(card);
             });
 
-            // Add click functionality to buttons
-            const detailButtons = document.querySelectorAll('.btn-outline');
-            detailButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    alert('Funcionalidad "Ver Detalles" - Próximamente disponible');
+            // Configurar eventos para botones de instituciones existentes
+            setupButtonEvents();
+
+            const addButton = document.querySelector('.add-institution-btn');
+            addButton.addEventListener('click', function() {
+                window.location.href = 'add-institution.html';
+            });
+        });
+        
+        // Función para verificar cambios de edición
+        function checkForEditChanges() {
+            const changes = localStorage.getItem('institutionChanges');
+            if (changes) {
+                const changeData = JSON.parse(changes);
+                applyInstitutionChanges(changeData.institutionId, changeData.changes);
+                localStorage.removeItem('institutionChanges'); // Limpiar después de aplicar
+            }
+        }
+        
+        // Función para aplicar cambios a una institución específica
+        function applyInstitutionChanges(institutionId, changes) {
+            const institutionMapping = {
+                'ulaem': 'Universidad Laica Eloy Alfaro de Manabí',
+                'colegio_amazonas': 'Colegio Amazonas de Quito',
+                'escuela_benito': 'Escuela Primaria Benito Juárez'
+            };
+            
+            const institutionName = institutionMapping[institutionId];
+            if (!institutionName) return;
+            
+            // Buscar la tarjeta de la institución en el DOM
+            const cards = document.querySelectorAll('.institution-card');
+            cards.forEach(card => {
+                const nameElement = card.querySelector('.institution-name');
+                if (nameElement && nameElement.textContent.trim() === institutionName) {
+                    // Actualizar la información en la tarjeta
+                    nameElement.textContent = changes.name;
+                    
+                    const locationElement = card.querySelector('.institution-location');
+                    if (locationElement) {
+                        locationElement.innerHTML = `📍 ${changes.location}`;
+                    }
+                    
+                    const typeElement = card.querySelector('.institution-type');
+                    if (typeElement) {
+                        const typeEmoji = {
+                            'universidad': '🎓',
+                            'colegio': '🏫',
+                            'escuela': '🏠',
+                            'instituto': '🏢'
+                        };
+                        typeElement.innerHTML = `${typeEmoji[changes.type]} ${changes.type.charAt(0).toUpperCase() + changes.type.slice(1)}`;
+                    }
+                    
+                    // Actualizar estadísticas
+                    const statValues = card.querySelectorAll('.stat-value');
+                    if (statValues.length >= 3) {
+                        statValues[0].textContent = changes.buildings;
+                        statValues[1].textContent = changes.classrooms;
+                        statValues[2].textContent = changes.laboratories;
+                    }
+                    
+                    // Actualizar fechas de mantenimiento
+                    const maintenanceDates = card.querySelectorAll('.maintenance-date');
+                    if (maintenanceDates.length >= 2) {
+                        maintenanceDates[0].textContent = changes.lastMaintenance || 'Sin registro';
+                        maintenanceDates[1].textContent = changes.nextMaintenance || 'Por programar';
+                    }
+                    
+                    // Actualizar siglas en el logo
+                    const logoElement = card.querySelector('.logo-text');
+                    if (logoElement) {
+                        logoElement.textContent = changes.acronym;
+                    }
+                    
+                    // Efecto visual para mostrar que se actualizó
+                    card.style.border = '3px solid #28a745';
+                    card.style.boxShadow = '0 4px 20px rgba(40, 167, 69, 0.3)';
+                    
+                    setTimeout(() => {
+                        card.style.border = '';
+                        card.style.boxShadow = '';
+                    }, 3000);
+                }
+            });
+        }
+        
+        // Función para cargar instituciones dinámicas desde localStorage
+        function loadDynamicInstitutions() {
+            const institutionsGrid = document.querySelector('.institutions-grid');
+            const savedInstitutions = JSON.parse(localStorage.getItem('institutions') || '[]');
+            
+            savedInstitutions.forEach(institution => {
+                const institutionCard = createInstitutionCard(institution);
+                institutionsGrid.appendChild(institutionCard);
+            });
+        }
+        
+        // Función para crear una tarjeta de institución
+        function createInstitutionCard(institution) {
+            const card = document.createElement('div');
+            card.className = 'institution-card';
+            
+            const typeEmoji = {
+                'universidad': '🎓',
+                'colegio': '🏫',
+                'escuela': '🏠',
+                'instituto': '🏢'
+            };
+            
+            card.innerHTML = `
+                <div class="institution-header">
+                    <div class="institution-logo ${institution.type}">
+                        <span class="logo-text">${institution.acronym}</span>
+                    </div>
+                </div>
+                
+                <div class="institution-info">
+                    <h3 class="institution-name">${institution.name}</h3>
+                    <p class="institution-location">📍 ${institution.location}</p>
+                    <p class="institution-type">${typeEmoji[institution.type]} ${institution.type.charAt(0).toUpperCase() + institution.type.slice(1)}</p>
+                </div>
+
+                <div class="institution-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">${institution.buildings}</span>
+                        <span class="stat-name">Edificios</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">${institution.classrooms}</span>
+                        <span class="stat-name">Aulas</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">${institution.laboratories}</span>
+                        <span class="stat-name">Laboratorios</span>
+                    </div>
+                </div>
+
+                <div class="institution-maintenance">
+                    <div class="maintenance-item">
+                        <span class="maintenance-label">Último Mantenimiento:</span>
+                        <span class="maintenance-date">${institution.lastMaintenance}</span>
+                    </div>
+                    <div class="maintenance-item">
+                        <span class="maintenance-label">Próximo Mantenimiento:</span>
+                        <span class="maintenance-date upcoming">${institution.nextMaintenance}</span>
+                    </div>
+                </div>
+
+                <div class="institution-actions">
+                    <button class="btn btn-outline btn-small view-details-btn">Ver Detalles</button>
+                    <button class="btn btn-secondary btn-small edit-btn">✏️ Modificar</button>
+                    <button class="btn btn-danger btn-small delete-btn">🗑️ Eliminar</button>
+                </div>
+            `;
+            
+            // Agregar eventos a la nueva tarjeta
+            addCardEventListeners(card);
+            
+            return card;
+        }
+        
+        // Función para agregar eventos a una tarjeta
+        function addCardEventListeners(card) {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+            
+            // Eventos para botones
+            const detailBtn = card.querySelector('.view-details-btn');
+            const editBtn = card.querySelector('.edit-btn');
+            const deleteBtn = card.querySelector('.delete-btn');
+            
+            if (detailBtn) {
+                detailBtn.addEventListener('click', function() {
+                    const institutionName = card.querySelector('.institution-name').textContent;
+                    const institutionLocation = card.querySelector('.institution-location').textContent;
+                    const institutionType = card.querySelector('.institution-type').textContent;
+                    const buildings = card.querySelectorAll('.stat-value')[0].textContent;
+                    const classrooms = card.querySelectorAll('.stat-value')[1].textContent;
+                    const laboratories = card.querySelectorAll('.stat-value')[2].textContent;
+                    const lastMaintenance = card.querySelectorAll('.maintenance-date')[0].textContent;
+                    const nextMaintenance = card.querySelectorAll('.maintenance-date')[1].textContent;
+                    
+                    showInstitutionDetails({
+                        name: institutionName,
+                        location: institutionLocation,
+                        type: institutionType,
+                        buildings: buildings,
+                        classrooms: classrooms,
+                        laboratories: laboratories,
+                        lastMaintenance: lastMaintenance,
+                        nextMaintenance: nextMaintenance
+                    });
                 });
+            }
+            
+            if (editBtn) {
+                editBtn.addEventListener('click', function() {
+                    const institutionName = card.querySelector('.institution-name').textContent;
+                    window.location.href = `edit-institution.html?name=${encodeURIComponent(institutionName)}`;
+                });
+            }
+            
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function() {
+                    const institutionName = card.querySelector('.institution-name').textContent;
+                    
+                    if (confirm(`❌ ¿Está seguro de que desea eliminar "${institutionName}"?\n\nEsta acción no se puede deshacer.`)) {
+                        // Efecto de eliminación
+                        card.style.transform = 'scale(0.8)';
+                        card.style.opacity = '0.3';
+                        
+                        setTimeout(() => {
+                            // Remover de localStorage si es una institución dinámica
+                            const savedInstitutions = JSON.parse(localStorage.getItem('institutions') || '[]');
+                            const updatedInstitutions = savedInstitutions.filter(inst => inst.name !== institutionName);
+                            localStorage.setItem('institutions', JSON.stringify(updatedInstitutions));
+                            
+                            card.remove();
+                            alert('✅ Institución eliminada exitosamente');
+                        }, 500);
+                    }
+                });
+            }
+        }
+        
+        // Configurar eventos para instituciones existentes
+        function setupButtonEvents() {
+            // Add click functionality to buttons
+            const detailButtons = document.querySelectorAll('.view-details-btn');
+            detailButtons.forEach(btn => {
+                if (!btn.hasAttribute('data-event-added')) {
+                    btn.setAttribute('data-event-added', 'true');
+                    btn.addEventListener('click', function() {
+                        const card = this.closest('.institution-card');
+                        const institutionName = card.querySelector('.institution-name').textContent;
+                        const institutionLocation = card.querySelector('.institution-location').textContent;
+                        const institutionType = card.querySelector('.institution-type').textContent;
+                        const buildings = card.querySelectorAll('.stat-value')[0].textContent;
+                        const classrooms = card.querySelectorAll('.stat-value')[1].textContent;
+                        const laboratories = card.querySelectorAll('.stat-value')[2].textContent;
+                        const lastMaintenance = card.querySelectorAll('.maintenance-date')[0].textContent;
+                        const nextMaintenance = card.querySelectorAll('.maintenance-date')[1].textContent;
+                        
+                        showInstitutionDetails({
+                            name: institutionName,
+                            location: institutionLocation,
+                            type: institutionType,
+                            buildings: buildings,
+                            classrooms: classrooms,
+                            laboratories: laboratories,
+                            lastMaintenance: lastMaintenance,
+                            nextMaintenance: nextMaintenance
+                        });
+                    });
+                }
+            });
+
+            // Delete buttons
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            deleteButtons.forEach(btn => {
+                if (!btn.hasAttribute('data-event-added')) {
+                    btn.setAttribute('data-event-added', 'true');
+                    btn.addEventListener('click', function() {
+                        const card = this.closest('.institution-card');
+                        const institutionName = card.querySelector('.institution-name').textContent;
+                        
+                        if (confirm(`❌ ¿Está seguro de que desea eliminar "${institutionName}"?\n\nEsta acción no se puede deshacer.`)) {
+                            // Efecto de eliminación
+                            card.style.transform = 'scale(0.8)';
+                            card.style.opacity = '0.3';
+                            
+                            setTimeout(() => {
+                                card.remove();
+                                alert('✅ Institución eliminada exitosamente');
+                            }, 500);
+                        }
+                    });
+                }
             });
 
             // Edit buttons - redirect to edit form
             const editButtons = document.querySelectorAll('.edit-btn');
             editButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Redirigir al formulario de edición
-                    window.location.href = 'edit-institution.html';
-                });
+                if (!btn.hasAttribute('data-event-added')) {
+                    btn.setAttribute('data-event-added', 'true');
+                    btn.addEventListener('click', function() {
+                        const card = this.closest('.institution-card');
+                        const institutionName = card.querySelector('.institution-name').textContent;
+                        window.location.href = `edit-institution.html?name=${encodeURIComponent(institutionName)}`;
+                    });
+                }
             });
-
-            const manageButtons = document.querySelectorAll('.btn-primary.btn-small');
-            manageButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Redirigir al formulario de edición
-                    window.location.href = 'edit-institution.html';
-                });
+        }
+        
+        // Función para mostrar detalles de institución
+        function showInstitutionDetails(institution) {
+            const modal = document.createElement('div');
+            modal.className = 'details-modal';
+            modal.innerHTML = `
+                <div class="details-modal-content">
+                    <div class="details-header">
+                        <h2>📋 Detalles de la Institución</h2>
+                        <button class="close-details">&times;</button>
+                    </div>
+                    <div class="details-body">
+                        <div class="detail-section">
+                            <h3>📚 Información General</h3>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <span class="detail-label">Nombre:</span>
+                                    <span class="detail-value">${institution.name}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Tipo:</span>
+                                    <span class="detail-value">${institution.type}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Ubicación:</span>
+                                    <span class="detail-value">${institution.location}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h3>🏢 Infraestructura</h3>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <span class="detail-label">Edificios:</span>
+                                    <span class="detail-value">${institution.buildings}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Aulas:</span>
+                                    <span class="detail-value">${institution.classrooms}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Laboratorios:</span>
+                                    <span class="detail-value">${institution.laboratories}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h3>🔧 Mantenimiento</h3>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <span class="detail-label">Último Mantenimiento:</span>
+                                    <span class="detail-value">${institution.lastMaintenance}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Próximo Mantenimiento:</span>
+                                    <span class="detail-value">${institution.nextMaintenance}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="details-actions">
+                            <button class="btn-close-details">✅ Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Agregar estilos del modal
+            const style = document.createElement('style');
+            style.textContent = `
+                .details-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.7);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10000;
+                }
+                .details-modal-content {
+                    background: white;
+                    border-radius: 12px;
+                    padding: 0;
+                    max-width: 700px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                }
+                .details-header {
+                    background: linear-gradient(135deg, #2ecc71, #27ae60);
+                    color: white;
+                    padding: 1.5rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .close-details {
+                    background: none;
+                    border: none;
+                    font-size: 24px;
+                    cursor: pointer;
+                    color: white;
+                    padding: 5px;
+                    border-radius: 50%;
+                    width: 35px;
+                    height: 35px;
+                }
+                .close-details:hover {
+                    background: rgba(255,255,255,0.2);
+                }
+                .details-body {
+                    padding: 2rem;
+                }
+                .detail-section {
+                    margin-bottom: 2rem;
+                }
+                .detail-section h3 {
+                    color: #2c3e50;
+                    margin-bottom: 1rem;
+                    font-size: 1.2rem;
+                }
+                .detail-grid {
+                    display: grid;
+                    gap: 1rem;
+                }
+                .detail-item {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0.75rem;
+                    background: #f8f9fa;
+                    border-radius: 8px;
+                    border-left: 4px solid #e67e22;
+                }
+                .detail-label {
+                    font-weight: 600;
+                    color: #555;
+                }
+                .detail-value {
+                    color: #333;
+                }
+                .details-actions {
+                    display: flex;
+                    gap: 1rem;
+                    justify-content: center;
+                    margin-top: 2rem;
+                    padding-top: 2rem;
+                    border-top: 2px solid #f0f0f0;
+                }
+                .btn-edit-from-details, .btn-close-details {
+                    padding: 0.75rem 1.5rem;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    transition: background 0.3s;
+                }
+                .btn-edit-from-details {
+                    background: #3498db;
+                    color: white;
+                }
+                .btn-edit-from-details:hover {
+                    background: #2980b9;
+                }
+                .btn-close-details {
+                    background: #95a5a6;
+                    color: white;
+                }
+                .btn-close-details:hover {
+                    background: #7f8c8d;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(modal);
+            
+            // Event listeners
+            modal.querySelector('.close-details').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                document.head.removeChild(style);
             });
-
-            const addButton = document.querySelector('.add-institution-btn');
-            addButton.addEventListener('click', function() {
-                // Redirigir al formulario de agregar institución
-                window.location.href = 'add-institution.html';
+            
+            modal.querySelector('.btn-close-details').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                document.head.removeChild(style);
             });
-        });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                    document.head.removeChild(style);
+                }
+            });
+        }
     </script>
     <script src="../javascript/navigation.js"></script>
     <script src="../javascript/settings.js"></script>
@@ -322,16 +826,20 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('searchInfrastructures');
+            const typeFilter = document.getElementById('typeFilter');
             const clearBtn = document.getElementById('clearSearch');
             const searchResultsCount = document.getElementById('searchResultsCount');
             const institutionCards = document.querySelectorAll('.institution-card');
             
             let totalCards = institutionCards.length;
+            let currentSearchTerm = '';
+            let currentFilter = '';
             
-            // Función de búsqueda
-            function performSearch(query) {
+            // Función de búsqueda y filtrado
+            function performSearch() {
                 let visibleCount = 0;
-                query = query.toLowerCase().trim();
+                const query = currentSearchTerm.toLowerCase().trim();
+                const typeFilterValue = currentFilter.toLowerCase();
                 
                 institutionCards.forEach(card => {
                     const institutionName = card.querySelector('.institution-name')?.textContent.toLowerCase() || '';
@@ -339,11 +847,15 @@
                     const institutionType = card.querySelector('.institution-type')?.textContent.toLowerCase() || '';
                     
                     // Buscar en nombre, ubicación y tipo
-                    const matches = institutionName.includes(query) || 
-                                  institutionLocation.includes(query) || 
-                                  institutionType.includes(query);
+                    const matchesSearch = query === '' || 
+                                        institutionName.includes(query) || 
+                                        institutionLocation.includes(query) || 
+                                        institutionType.includes(query);
                     
-                    if (query === '' || matches) {
+                    // Filtrar por tipo
+                    const matchesFilter = typeFilterValue === '' || institutionType.includes(typeFilterValue);
+                    
+                    if (matchesSearch && matchesFilter) {
                         card.classList.remove('hidden');
                         card.classList.add('search-match');
                         visibleCount++;
@@ -362,45 +874,67 @@
                 updateSearchResults(query, visibleCount);
                 
                 // Mostrar/ocultar botón de limpiar
-                clearBtn.style.display = query ? 'flex' : 'none';
+                clearBtn.style.display = (query || typeFilterValue) ? 'flex' : 'none';
             }
             
             // Actualizar contador de resultados
             function updateSearchResults(query, count) {
-                if (query === '') {
-                    searchResultsCount.textContent = `Mostrando ${totalCards} infraestructuras`;
+                let message = '';
+                if (query === '' && currentFilter === '') {
+                    message = `Mostrando ${totalCards} infraestructuras`;
                 } else {
                     const plural = count === 1 ? 'infraestructura' : 'infraestructuras';
-                    searchResultsCount.textContent = `${count} ${plural} encontradas para "${query}"`;
+                    let searchInfo = '';
+                    if (query) searchInfo += `"${query}"`;
+                    if (currentFilter) {
+                        if (searchInfo) searchInfo += ' y ';
+                        searchInfo += `tipo "${currentFilter}"`;
+                    }
+                    message = `${count} ${plural} encontradas para ${searchInfo}`;
                 }
+                searchResultsCount.textContent = message;
             }
             
-            // Event listeners
+            // Event listeners para búsqueda
             searchInput.addEventListener('input', function() {
-                performSearch(this.value);
+                currentSearchTerm = this.value;
+                performSearch();
             });
             
-            // Búsqueda en tiempo real con debounce
-            let searchTimeout;
-            searchInput.addEventListener('input', function() {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    performSearch(this.value);
-                }, 300);
+            // Event listener para filtro de tipo
+            typeFilter.addEventListener('change', function() {
+                currentFilter = this.value;
+                performSearch();
             });
             
-            // Limpiar búsqueda
-            clearBtn.addEventListener('click', function() {
-                searchInput.value = '';
-                performSearch('');
-                searchInput.focus();
-            });
-            
-            // Buscar con Enter
+            // Limpiar búsqueda con Enter - Ejecutar búsqueda y luego limpiar campo
             searchInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
-                    performSearch(this.value);
+                    e.preventDefault();
+                    // Ejecutar búsqueda con el término actual
+                    if (this.value.trim() !== '') {
+                        currentSearchTerm = this.value;
+                        performSearch();
+                        // Limpiar el campo pero mantener los resultados
+                        this.value = '';
+                        this.placeholder = 'Búsqueda ejecutada - Resultados mostrados arriba';
+                        
+                        // Restaurar placeholder después de 3 segundos
+                        setTimeout(() => {
+                            this.placeholder = 'Buscar infraestructuras...';
+                        }, 3000);
+                    }
                 }
+            });
+            
+            // Limpiar búsqueda y filtros
+            clearBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                typeFilter.value = '';
+                currentSearchTerm = '';
+                currentFilter = '';
+                performSearch();
+                searchInput.focus();
             });
             
             // Atajo de teclado Ctrl+K para enfocar la búsqueda
@@ -413,6 +947,256 @@
             
             // Inicializar contador
             updateSearchResults('', totalCards);
+        });
+    </script>
+    
+    <script>
+        // Funcionalidad del calendario
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarLink = document.getElementById('calendarLink');
+            
+            if (calendarLink) {
+                calendarLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Verificar si el usuario es administrador (simulación)
+                    const userRole = localStorage.getItem('user_role') || 'guest';
+                    
+                    if (userRole === 'administrator' || userRole === 'admin') {
+                        openCalendarModal();
+                    } else {
+                        showAccessDeniedMessage();
+                    }
+                });
+            }
+            
+            function openCalendarModal() {
+                // Crear modal del calendario
+                const modal = document.createElement('div');
+                modal.className = 'calendar-modal';
+                modal.innerHTML = `
+                    <div class="calendar-modal-content">
+                        <div class="calendar-header">
+                            <h2>📅 Calendario de Mantenimiento</h2>
+                            <button class="close-modal">&times;</button>
+                        </div>
+                        <div class="calendar-body">
+                            <div class="calendar-controls">
+                                <button id="prevMonth" class="btn btn-secondary">‹ Anterior</button>
+                                <h3 id="currentMonth">Enero 2025</h3>
+                                <button id="nextMonth" class="btn btn-secondary">Siguiente ›</button>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="calendar-weekdays">
+                                    <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
+                                </div>
+                                <div class="calendar-days" id="calendarDays">
+                                    <!-- Días generados dinámicamente -->
+                                </div>
+                            </div>
+                            <div class="calendar-actions">
+                                <button id="addEventBtn" class="btn btn-primary">➕ Agregar Evento</button>
+                                <button id="viewEventsBtn" class="btn btn-outline">📋 Ver Eventos</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Agregar estilos del modal
+                const style = document.createElement('style');
+                style.textContent = `
+                    .calendar-modal {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0,0,0,0.7);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        z-index: 10000;
+                    }
+                    .calendar-modal-content {
+                        background: white;
+                        border-radius: 12px;
+                        padding: 24px;
+                        max-width: 600px;
+                        width: 90%;
+                        max-height: 80vh;
+                        overflow-y: auto;
+                    }
+                    .calendar-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 20px;
+                        border-bottom: 2px solid #f0f0f0;
+                        padding-bottom: 15px;
+                    }
+                    .close-modal {
+                        background: none;
+                        border: none;
+                        font-size: 24px;
+                        cursor: pointer;
+                        color: #666;
+                        padding: 5px;
+                        border-radius: 50%;
+                        width: 35px;
+                        height: 35px;
+                    }
+                    .close-modal:hover {
+                        background: #f0f0f0;
+                        color: #333;
+                    }
+                    .calendar-controls {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 20px;
+                    }
+                    .calendar-grid {
+                        border: 1px solid #ddd;
+                        border-radius: 8px;
+                        overflow: hidden;
+                    }
+                    .calendar-weekdays {
+                        display: grid;
+                        grid-template-columns: repeat(7, 1fr);
+                        background: #f8f9fa;
+                    }
+                    .calendar-weekdays > div {
+                        padding: 10px;
+                        text-align: center;
+                        font-weight: 600;
+                        border-right: 1px solid #ddd;
+                    }
+                    .calendar-days {
+                        display: grid;
+                        grid-template-columns: repeat(7, 1fr);
+                    }
+                    .calendar-day {
+                        padding: 12px 8px;
+                        border-right: 1px solid #eee;
+                        border-bottom: 1px solid #eee;
+                        min-height: 40px;
+                        cursor: pointer;
+                        transition: background 0.2s;
+                        font-size: 14px;
+                    }
+                    .calendar-day:hover {
+                        background: #f8f9fa;
+                    }
+                    .calendar-day.other-month {
+                        color: #ccc;
+                        background: #fafafa;
+                    }
+                    .calendar-day.today {
+                        background: #e67e22;
+                        color: white;
+                        font-weight: bold;
+                    }
+                    .calendar-day.has-event {
+                        background: #d4edda;
+                        border-left: 4px solid #28a745;
+                    }
+                    .calendar-actions {
+                        margin-top: 20px;
+                        display: flex;
+                        gap: 12px;
+                        justify-content: center;
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                document.body.appendChild(modal);
+                
+                // Inicializar calendario
+                initializeCalendar();
+                
+                // Event listeners
+                modal.querySelector('.close-modal').addEventListener('click', () => {
+                    document.body.removeChild(modal);
+                    document.head.removeChild(style);
+                });
+                
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        document.body.removeChild(modal);
+                        document.head.removeChild(style);
+                    }
+                });
+                
+                document.getElementById('addEventBtn').addEventListener('click', () => {
+                    alert('Funcionalidad de agregar evento - En desarrollo');
+                });
+                
+                document.getElementById('viewEventsBtn').addEventListener('click', () => {
+                    alert('Lista de eventos programados - En desarrollo');
+                });
+            }
+            
+            function initializeCalendar() {
+                const now = new Date();
+                let currentDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                
+                function updateCalendar() {
+                    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                                      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                    
+                    document.getElementById('currentMonth').textContent = 
+                        `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+                    
+                    const calendarDays = document.getElementById('calendarDays');
+                    calendarDays.innerHTML = '';
+                    
+                    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+                    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+                    const startDate = new Date(firstDay);
+                    startDate.setDate(startDate.getDate() - firstDay.getDay());
+                    
+                    for (let i = 0; i < 42; i++) {
+                        const day = new Date(startDate);
+                        day.setDate(startDate.getDate() + i);
+                        
+                        const dayElement = document.createElement('div');
+                        dayElement.className = 'calendar-day';
+                        dayElement.textContent = day.getDate();
+                        
+                        if (day.getMonth() !== currentDate.getMonth()) {
+                            dayElement.classList.add('other-month');
+                        }
+                        
+                        if (day.toDateString() === now.toDateString()) {
+                            dayElement.classList.add('today');
+                        }
+                        
+                        // Simular algunos eventos
+                        if (day.getDate() % 7 === 0 && day.getMonth() === currentDate.getMonth()) {
+                            dayElement.classList.add('has-event');
+                            dayElement.title = 'Mantenimiento programado';
+                        }
+                        
+                        calendarDays.appendChild(dayElement);
+                    }
+                }
+                
+                document.getElementById('prevMonth').addEventListener('click', () => {
+                    currentDate.setMonth(currentDate.getMonth() - 1);
+                    updateCalendar();
+                });
+                
+                document.getElementById('nextMonth').addEventListener('click', () => {
+                    currentDate.setMonth(currentDate.getMonth() + 1);
+                    updateCalendar();
+                });
+                
+                updateCalendar();
+            }
+            
+            function showAccessDeniedMessage() {
+                alert('❌ Acceso Denegado\n\nSolo los administradores pueden acceder al calendario.\n\nContacte al administrador del sistema para obtener permisos.');
+            }
         });
     </script>
     

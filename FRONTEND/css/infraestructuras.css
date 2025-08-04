@@ -20,6 +20,36 @@
     margin: 0 auto;
 }
 
+.search-filters {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-filters label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.filter-select {
+    padding: 8px 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #e67e22;
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+}
+
 .search-box {
     display: flex;
     align-items: center;
@@ -304,6 +334,11 @@
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
+.institution-logo.tertiary {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+
 .institution-logo .logo-text {
     font-size: 18px;
     font-weight: 700;
@@ -491,6 +526,19 @@
     background-color: #f6f6f7;
     border-color: #8c9196;
     color: #202223;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: #ffffff;
+    border-color: #e74c3c;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
 }
 
 /* Responsive Design */

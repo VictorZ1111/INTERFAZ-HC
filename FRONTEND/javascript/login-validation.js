@@ -246,7 +246,8 @@ class LoginValidator {
             await this.delay(1500);
             
             // Validar credenciales
-            if (email === 'admin@colegio.edu' && password === 'admin123') {
+            if ((email === 'admin@colegio.edu' && password === 'admin123') ||
+                (email === 'vic@colegio.edu' && password === 'Vic1234567!')) {
                 await this.handleSuccessfulLogin();
             } else {
                 this.handleFailedLogin();

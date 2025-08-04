@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Institución - GESTOR DE MANTENIMIENTO PREVENTIVO</title>
+    <title>Agregar Institución - GESTOR DE MANTENIMIENTO PREVENTIVO</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/infraestructuras.css">
@@ -18,7 +18,7 @@
             overflow: hidden;
         }
         .form-header {
-            background: linear-gradient(135deg, #3498db, #2980b9);
+            background: linear-gradient(135deg, #e67e22, #f39c12);
             color: white;
             padding: 2rem;
             text-align: center;
@@ -45,7 +45,7 @@
         }
         .form-input:focus {
             outline: none;
-            border-color: #3498db;
+            border-color: #e67e22;
         }
         .form-select {
             width: 100%;
@@ -69,7 +69,7 @@
             border-top: 2px solid #f0f0f0;
         }
         .btn-save {
-            background: #3498db;
+            background: #27ae60;
             color: white;
             padding: 0.75rem 2rem;
             border: none;
@@ -79,7 +79,7 @@
             transition: background 0.3s;
         }
         .btn-save:hover {
-            background: #2980b9;
+            background: #219a52;
         }
         .btn-cancel {
             background: #95a5a6;
@@ -93,12 +93,6 @@
         }
         .btn-cancel:hover {
             background: #7f8c8d;
-        }
-        .institution-not-found {
-            text-align: center;
-            padding: 2rem;
-            color: #e74c3c;
-            font-size: 1.1rem;
         }
     </style>
 </head>
@@ -139,21 +133,12 @@
         <div class="container">
             <div class="form-container">
                 <div class="form-header">
-                    <h1>✏️ Editar Institución</h1>
-                    <p>Modifique la información de la institución educativa</p>
+                    <h1>🏫 Agregar Nueva Institución</h1>
+                    <p>Complete la información de la institución educativa</p>
                 </div>
                 
-                <div class="form-body" id="formContainer">
-                    <div class="institution-not-found" id="notFoundMessage" style="display: none;">
-                        <h3>⚠️ Institución no encontrada</h3>
-                        <p>No se pudo cargar la información de la institución.</p>
-                        <button type="button" class="btn-cancel" onclick="window.location.href='infraestructuras.html'">Volver a Infraestructuras</button>
-                    </div>
-
-                    <form id="editInstitutionForm" style="display: none;">
-                        <input type="hidden" id="institutionId" />
-                        <input type="hidden" id="originalName" />
-                        
+                <div class="form-body">
+                    <form id="addInstitutionForm">
                         <div class="form-group">
                             <label class="form-label" for="institutionName">Nombre de la Institución *</label>
                             <input type="text" id="institutionName" class="form-input" required 
@@ -212,7 +197,7 @@
                         </div>
 
                         <div class="form-actions">
-                            <button type="submit" class="btn-save">💾 Actualizar Institución</button>
+                            <button type="submit" class="btn-save">💾 Guardar Institución</button>
                             <button type="button" class="btn-cancel" onclick="window.location.href='infraestructuras.html'">❌ Cancelar</button>
                         </div>
                     </form>
@@ -223,22 +208,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('editInstitutionForm');
-            const notFoundMessage = document.getElementById('notFoundMessage');
+            const form = document.getElementById('addInstitutionForm');
             const acronymInput = document.getElementById('institutionAcronym');
             const nameInput = document.getElementById('institutionName');
-
-            // Obtener parámetros de la URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const institutionName = urlParams.get('name');
-
-            if (!institutionName) {
-                showNotFound();
-                return;
-            }
-
-            // Cargar datos de la institución
-            loadInstitutionData(institutionName);
 
             // Auto-generar siglas basadas en el nombre
             nameInput.addEventListener('input', function() {
@@ -251,146 +223,9 @@
 
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
-                updateInstitution();
-            });
-
-            function loadInstitutionData(name) {
-                // Buscar en localStorage
-                const savedInstitutions = JSON.parse(localStorage.getItem('institutions') || '[]');
-                const institution = savedInstitutions.find(inst => inst.name === name);
-
-                if (!institution) {
-                    // Buscar en instituciones estáticas (predefinidas)
-                    const staticInstitutions = getStaticInstitutions();
-                    const staticInstitution = staticInstitutions.find(inst => inst.name === name);
-                    
-                    if (staticInstitution) {
-                        populateForm(staticInstitution, true);
-                    } else {
-                        showNotFound();
-                    }
-                } else {
-                    populateForm(institution, false);
-                }
-            }
-
-            function getStaticInstitutions() {
-                // Instituciones estáticas basadas en el HTML original
-                return [
-                    {
-                        name: "Universidad Técnica de Manabí",
-                        type: "universidad",
-                        acronym: "UTM",
-                        location: "Portoviejo, Manabí",
-                        buildings: "12",
-                        classrooms: "45",
-                        laboratories: "8",
-                        lastMaintenance: "15 Mar 2024",
-                        nextMaintenance: "15 Jun 2024"
-                    },
-                    {
-                        name: "Unidad Educativa San José",
-                        type: "colegio",
-                        acronym: "UESJ",
-                        location: "Manta, Manabí",
-                        buildings: "3",
-                        classrooms: "18",
-                        laboratories: "2",
-                        lastMaintenance: "02 Feb 2024",
-                        nextMaintenance: "02 May 2024"
-                    },
-                    {
-                        name: "Escuela Fiscal Mixta Eloy Alfaro",
-                        type: "escuela",
-                        acronym: "EFMEA",
-                        location: "Chone, Manabí",
-                        buildings: "2",
-                        classrooms: "12",
-                        laboratories: "1",
-                        lastMaintenance: "20 Ene 2024",
-                        nextMaintenance: "20 Abr 2024"
-                    },
-                    {
-                        name: "Instituto Tecnológico Superior Portoviejo",
-                        type: "instituto",
-                        acronym: "ITSP",
-                        location: "Portoviejo, Manabí",
-                        buildings: "4",
-                        classrooms: "22",
-                        laboratories: "6",
-                        lastMaintenance: "10 Mar 2024",
-                        nextMaintenance: "10 Jun 2024"
-                    }
-                ];
-            }
-
-            function populateForm(institution, isStatic = false) {
-                document.getElementById('institutionId').value = institution.id || Date.now();
-                document.getElementById('originalName').value = institution.name;
-                document.getElementById('institutionName').value = institution.name;
-                document.getElementById('institutionType').value = institution.type;
-                document.getElementById('institutionAcronym').value = institution.acronym || '';
-                document.getElementById('institutionLocation').value = institution.location;
-                document.getElementById('buildingsCount').value = institution.buildings;
-                document.getElementById('classroomsCount').value = institution.classrooms;
-                document.getElementById('laboratoriesCount').value = institution.laboratories;
                 
-                // Convertir fechas si es necesario
-                if (institution.lastMaintenance && institution.lastMaintenance !== 'Sin registro') {
-                    const lastDate = convertToDateInput(institution.lastMaintenance);
-                    if (lastDate) document.getElementById('lastMaintenance').value = lastDate;
-                }
-                
-                if (institution.nextMaintenance && institution.nextMaintenance !== 'Por programar') {
-                    const nextDate = convertToDateInput(institution.nextMaintenance);
-                    if (nextDate) document.getElementById('nextMaintenance').value = nextDate;
-                }
-
-                form.style.display = 'block';
-                notFoundMessage.style.display = 'none';
-            }
-
-            function convertToDateInput(dateString) {
-                try {
-                    // Intentar convertir diferentes formatos de fecha
-                    const date = new Date(dateString);
-                    if (!isNaN(date.getTime())) {
-                        return date.toISOString().split('T')[0];
-                    }
-                    
-                    // Manejar formato "DD MMM YYYY"
-                    const monthNames = {
-                        'Ene': '01', 'Feb': '02', 'Mar': '03', 'Abr': '04',
-                        'May': '05', 'Jun': '06', 'Jul': '07', 'Ago': '08',
-                        'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dic': '12'
-                    };
-                    
-                    const parts = dateString.split(' ');
-                    if (parts.length === 3) {
-                        const day = parts[0].padStart(2, '0');
-                        const month = monthNames[parts[1]];
-                        const year = parts[2];
-                        
-                        if (month) {
-                            return `${year}-${month}-${day}`;
-                        }
-                    }
-                } catch (e) {
-                    console.warn('No se pudo convertir la fecha:', dateString);
-                }
-                return '';
-            }
-
-            function showNotFound() {
-                form.style.display = 'none';
-                notFoundMessage.style.display = 'block';
-            }
-
-            function updateInstitution() {
                 // Obtener datos del formulario
-                const originalName = document.getElementById('originalName').value;
                 const formData = {
-                    id: document.getElementById('institutionId').value,
                     name: document.getElementById('institutionName').value,
                     type: document.getElementById('institutionType').value,
                     acronym: document.getElementById('institutionAcronym').value || 'NI',
@@ -399,8 +234,7 @@
                     classrooms: document.getElementById('classroomsCount').value || 1,
                     laboratories: document.getElementById('laboratoriesCount').value || 0,
                     lastMaintenance: document.getElementById('lastMaintenance').value,
-                    nextMaintenance: document.getElementById('nextMaintenance').value,
-                    dateModified: new Date().toISOString()
+                    nextMaintenance: document.getElementById('nextMaintenance').value
                 };
 
                 // Validar campos requeridos
@@ -409,37 +243,43 @@
                     return;
                 }
 
-                // Simular actualización
+                // Simular guardado
                 const loadingMsg = document.createElement('div');
                 loadingMsg.style.cssText = `
                     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
                     background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
                     z-index: 10000; text-align: center; font-size: 1.1rem;
                 `;
-                loadingMsg.innerHTML = '⏳ Actualizando institución...';
+                loadingMsg.innerHTML = '⏳ Guardando institución...';
                 document.body.appendChild(loadingMsg);
 
                 setTimeout(() => {
                     document.body.removeChild(loadingMsg);
                     
-                    // Actualizar en localStorage
-                    const savedInstitutions = JSON.parse(localStorage.getItem('institutions') || '[]');
-                    const institutionIndex = savedInstitutions.findIndex(inst => inst.name === originalName);
-                    
-                    if (institutionIndex !== -1) {
-                        // Actualizar institución existente en localStorage
-                        savedInstitutions[institutionIndex] = formData;
-                        localStorage.setItem('institutions', JSON.stringify(savedInstitutions));
-                    } else {
-                        // Si no está en localStorage, agregarla (era una institución estática)
-                        savedInstitutions.push(formData);
-                        localStorage.setItem('institutions', JSON.stringify(savedInstitutions));
-                    }
+                    // Preparar datos para agregar a la página principal
+                    const newInstitutionCard = {
+                        id: Date.now(),
+                        name: formData.name,
+                        type: formData.type,
+                        acronym: formData.acronym,
+                        location: formData.location,
+                        buildings: formData.buildings,
+                        classrooms: formData.classrooms,
+                        laboratories: formData.laboratories,
+                        lastMaintenance: formData.lastMaintenance || 'Sin registro',
+                        nextMaintenance: formData.nextMaintenance || 'Por programar',
+                        dateAdded: new Date().toISOString()
+                    };
 
-                    alert('✅ ¡Institución actualizada exitosamente!\n\nLos cambios se reflejarán en la lista de infraestructuras.');
+                    // Guardar en localStorage
+                    const existingInstitutions = JSON.parse(localStorage.getItem('institutions') || '[]');
+                    existingInstitutions.push(newInstitutionCard);
+                    localStorage.setItem('institutions', JSON.stringify(existingInstitutions));
+
+                    alert('✅ ¡Institución agregada exitosamente!\n\nLa nueva institución aparecerá en la lista de infraestructuras.');
                     window.location.href = 'infraestructuras.html';
                 }, 1500);
-            }
+            });
         });
     </script>
 </body>
