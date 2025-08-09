@@ -9,6 +9,46 @@
   ],
   "routes": [
     {
+      "src": "/",
+      "dest": "/FRONTEND/html/index.html"
+    },
+    {
+      "src": "/index.html",
+      "dest": "/FRONTEND/html/index.html"
+    },
+    {
+      "src": "/dashboard.html",
+      "dest": "/FRONTEND/html/dashboard.html"
+    },
+    {
+      "src": "/infraestructuras.html",
+      "dest": "/FRONTEND/html/infraestructuras.html"
+    },
+    {
+      "src": "/calendario.html",
+      "dest": "/FRONTEND/html/calendario.html"
+    },
+    {
+      "src": "/add-institution.html",
+      "dest": "/FRONTEND/html/add-institution.html"
+    },
+    {
+      "src": "/edit-institution.html",
+      "dest": "/FRONTEND/html/edit-institution.html"
+    },
+    {
+      "src": "/register.html",
+      "dest": "/FRONTEND/html/register.html"
+    },
+    {
+      "src": "/register-inspector.html",
+      "dest": "/FRONTEND/html/register-inspector.html"
+    },
+    {
+      "src": "/contact.html",
+      "dest": "/FRONTEND/html/contact.html"
+    },
+    {
       "src": "/css/(.*)",
       "dest": "/FRONTEND/css/$1"
     },
@@ -25,20 +65,8 @@
       "dest": "/FRONTEND/images/$1"
     },
     {
-      "src": "/html/(.*)",
-      "dest": "/FRONTEND/html/$1"
-    },
-    {
-      "src": "/(.*\\.(html|css|js|png|jpg|jpeg|gif|svg|ico))",
+      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))",
       "dest": "/FRONTEND/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/FRONTEND/html/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/FRONTEND/html/$1.html"
     }
   ]
 }

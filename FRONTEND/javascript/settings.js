@@ -637,11 +637,11 @@ class SettingsManager {
                 switch(e.key) {
                     case '1':
                         e.preventDefault();
-                        window.location.href = 'dashboard.html';
+                        window.location.href = '/dashboard.html';
                         break;
                     case '2':
                         e.preventDefault();
-                        window.location.href = 'infraestructuras.html';
+                        window.location.href = '/infraestructuras.html';
                         break;
                     case '3':
                         e.preventDefault();
@@ -659,12 +659,12 @@ class SettingsManager {
                     case 'c':
                     case 'C':
                         e.preventDefault();
-                        window.location.href = 'contact.html';
+                        window.location.href = '/contact.html';
                         break;
                     case 's':
                     case 'S':
                         e.preventDefault();
-                        window.location.href = 'index.html';
+                        window.location.href = '/index.html';
                         break;
                     case 't':
                     case 'T':

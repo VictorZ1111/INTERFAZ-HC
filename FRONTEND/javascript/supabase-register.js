@@ -201,7 +201,7 @@ class SupabaseRegisterValidator {
         
         // Redirigir al login después de un momento
         setTimeout(() => {
-            window.location.href = 'index.html?message=registration_success';
+            window.location.href = '/index.html?message=registration_success';
         }, 3000);
         
         this.setLoadingState(false);

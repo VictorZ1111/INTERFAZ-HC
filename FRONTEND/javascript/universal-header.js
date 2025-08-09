@@ -46,14 +46,14 @@ class UniversalHeader {
                     <nav class="navbar" role="navigation">
                         <div class="nav-container">
                             <div class="nav-logo">
-                                <a href="dashboard.html" class="logo-link">
+                                <a href="/dashboard.html" class="logo-link">
                                     <span class="logo-text">GMPI</span>
                                     <span class="logo-subtitle">Mantenimiento Escolar</span>
                                 </a>
                             </div>
                             <ul class="nav-menu">
                                 <li class="nav-item">
-                                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                                    <a href="/dashboard.html" class="nav-link">Dashboard</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="contact.html" class="nav-link">Contacto</a>

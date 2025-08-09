@@ -69,7 +69,7 @@ class SupabaseLoginValidator {
             const user = await window.supabaseAuth.checkAuthStatus();
             // Solo redirigir si hay usuario Y estamos en login Y NO hay flag de logout
             if (user && window.location.pathname.includes('index.html')) {
-                window.location.href = 'dashboard.html';
+                window.location.href = '/dashboard.html';
                 return;
             }
         }
@@ -181,7 +181,7 @@ class SupabaseLoginValidator {
         
         // Pequeña demora para mostrar el mensaje
         setTimeout(() => {
-            window.location.href = 'dashboard.html';
+            window.location.href = '/dashboard.html';
         }, 1000);
         
         this.setLoadingState(false);
