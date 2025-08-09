@@ -420,7 +420,7 @@ class RegisterValidator {
         
         // Redireccionar después de un momento
         setTimeout(() => {
-            window.location.href = '/index.html';
+            window.navigateTo('index.html');
         }, 3000);
     }
 
@@ -438,7 +438,7 @@ class RegisterValidator {
      */
     handleCancel() {
         if (confirm('¿Estás seguro de que quieres cancelar el registro? Se perderán todos los datos ingresados.')) {
-            window.location.href = '/index.html';
+            window.navigateTo('index.html');
         }
     }
 

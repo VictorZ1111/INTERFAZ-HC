@@ -289,11 +289,12 @@
     font-weight: 600;
 }
 
-/* Institutions Grid */
+/* Institutions Grid - MEJORADO PARA MÚLTIPLES TARJETAS */
 .institutions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 32px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+    align-items: start;
 }
 
 .institution-card {
@@ -335,8 +336,8 @@
 }
 
 .institution-logo.tertiary {
-    background: linear-gradient(135deg, #27ae60, #2ecc71);
-    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+    background: linear-gradient(135deg, #e67e22, #f39c12);
+    box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3);
 }
 
 .institution-logo .logo-text {
@@ -359,8 +360,8 @@
 }
 
 .status-active {
-    background: rgba(46, 204, 113, 0.1);
-    color: #27ae60;
+    background: rgba(230, 126, 34, 0.1);
+    color: #e67e22;
 }
 
 .status-dot {
@@ -464,17 +465,22 @@
     color: #e74c3c;
 }
 
-/* Institution Actions */
+/* Institution Actions - MEJORADO */
 .institution-actions {
     display: flex;
-    gap: 12px;
+    gap: 8px;
 }
 
 .btn-small {
-    padding: 8px 16px;
+    padding: 10px 16px;
     font-size: 13px;
     font-weight: 600;
     flex: 1;
+    min-height: 44px; /* Altura mínima consistente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px; /* Espacio entre emoji y texto */
 }
 
 /* Button Styles */
@@ -517,15 +523,18 @@
 }
 
 .btn-outline {
-    background-color: transparent;
+    background-color: #f8f9fa;
     color: #6d7175;
     border-color: #c9cccf;
+    font-weight: 600;
 }
 
 .btn-outline:hover {
-    background-color: #f6f6f7;
-    border-color: #8c9196;
-    color: #202223;
+    background-color: #e9ecef;
+    border-color: #6d7175;
+    color: #495057;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(109, 113, 117, 0.2);
 }
 
 .btn-danger {
@@ -541,15 +550,22 @@
     box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
 }
 
-/* Responsive Design */
+/* Responsive Design - MEJORADO */
+@media (max-width: 1200px) {
+    .institutions-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 20px;
+    }
+}
+
 @media (max-width: 1024px) {
     .page-title {
         font-size: 36px;
     }
     
     .institutions-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
     
     .section-header {
@@ -577,6 +593,11 @@
         gap: 16px;
     }
     
+    .institutions-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
     .institution-card {
         padding: 24px;
     }
@@ -589,10 +610,12 @@
     
     .institution-actions {
         flex-direction: column;
+        gap: 8px;
     }
     
     .btn-small {
         flex: none;
+        min-height: 40px;
     }
 }
 

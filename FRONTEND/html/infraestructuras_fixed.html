@@ -8,160 +8,8 @@
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/infraestructuras.css">
     <link rel="stylesheet" href="../css/dark-theme.css">
-    <link rel="stylesheet" href="../css/responsive.css">
-    
-    <!-- Quick Settings Toggle Styles -->
-    <style>
-        .quick-settings {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10000;
-            display: flex;
-            gap: 8px;
-        }
-        
-        .quick-toggle {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            background: #e67e22;
-            color: white;
-        }
-        
-        .quick-toggle:hover {
-            background: #d35400;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        .setting-icon {
-            font-size: 16px;
-        }
-        
-        /* FORZAR COLORES NARANJAS EN LUGAR DE VERDES */
-        .main-header {
-            background-color: #e67e22 !important;
-            background: #e67e22 !important;
-        }
-        .navbar {
-            background-color: #e67e22 !important;
-            background: #e67e22 !important;
-        }
-        .nav-container {
-            background-color: #e67e22 !important;
-            background: #e67e22 !important;
-        }
-        .nav-link {
-            color: white !important;
-        }
-        .nav-link .icon {
-            color: white !important;
-        }
-        .nav-link span {
-            color: white !important;
-        }
-        .user-welcome {
-            color: white !important;
-        }
-        .btn-secondary {
-            background-color: #d35400 !important;
-            color: white !important;
-        }
-        .add-institution-btn {
-            background-color: #e67e22 !important;
-            color: white !important;
-        }
-
-        /* MEJORAR BOTONES DE TARJETAS */
-        .institution-actions {
-            display: flex !important;
-            gap: 8px !important;
-            margin-top: 16px !important;
-        }
-        
-        .btn-small {
-            flex: 1 !important;
-            min-height: 44px !important;
-            padding: 12px 16px !important;
-            font-size: 13px !important;
-            font-weight: 600 !important;
-            border-radius: 8px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 6px !important;
-            transition: all 0.2s ease !important;
-        }
-
-        /* Botón Ver Detalles */
-        .btn-secondary.btn-small {
-            background-color: #6c757d !important;
-            border-color: #6c757d !important;
-            color: white !important;
-        }
-        .btn-secondary.btn-small:hover {
-            background-color: #545b62 !important;
-            border-color: #545b62 !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3) !important;
-        }
-
-        /* Botón Gestionar-Editar */
-        .btn-primary.btn-small {
-            background-color: #e67e22 !important;
-            border-color: #e67e22 !important;
-            color: white !important;
-        }
-        .btn-primary.btn-small:hover {
-            background-color: #d35400 !important;
-            border-color: #d35400 !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3) !important;
-        }
-
-        /* Botón Eliminar */
-        .btn-outline.btn-small {
-            background-color: #f8f9fa !important;
-            border-color: #dee2e6 !important;
-            color: #6c757d !important;
-        }
-        .btn-outline.btn-small:hover {
-            background-color: #e9ecef !important;
-            border-color: #6c757d !important;
-            color: #495057 !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.2) !important;
-        }
-
-        /* Responsive para móvil */
-        @media (max-width: 768px) {
-            .institution-actions {
-                flex-direction: column !important;
-                gap: 8px !important;
-            }
-        }
-    </style>
 </head>
 <body>
-    <!-- Quick Settings Toggle -->
-    <div class="quick-settings">
-        <button id="quickThemeToggle" class="quick-toggle" title="Cambiar tema">
-            <span class="setting-icon">🌙</span>
-        </button>
-        <button id="quickLanguageToggle" class="quick-toggle" title="Cambiar idioma">
-            <span class="setting-icon">🌐</span>
-        </button>
-    </div>
-
     <!-- Header Navigation -->
     <header class="main-header" role="banner">
         <nav class="navbar" role="navigation" aria-label="Navegación principal">
@@ -329,19 +177,19 @@
 
             const addButton = document.querySelector('.add-institution-btn');
             addButton.addEventListener('click', function() {
-                window.navigateTo('add-institution.html');
+                window.location.href = 'add-institution.html';
             });
         });
         
         // Funciones globales para manejar instituciones - CORREGIDAS
         window.viewInstitutionDetails = function(id) {
             console.log('👁️ Ver detalles de institución:', id);
-            window.navigateTo(`institution-details.html?id=${id}`);
+            window.location.href = `institution-details.html?id=${id}`;
         };
 
         window.editInstitution = function(id) {
             console.log('✏️ Editar institución:', id);
-            window.navigateTo(`edit-institution.html?id=${id}`);
+            window.location.href = `edit-institution.html?id=${id}`;
         };
 
         window.deleteInstitutionConfirm = async function(id) {
@@ -394,7 +242,7 @@
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: #e67e22;
+                background: #27ae60;
                 color: white;
                 padding: 1rem 2rem;
                 border-radius: 8px;
@@ -486,15 +334,14 @@
                 'instituto': '🏢'
             };
 
-            // Formatear fechas CORRECTAMENTE - ARREGLADO PARA EVITAR PROBLEMA DE TIMEZONE
+            // Formatear fechas CORRECTAMENTE
             const formatDate = (dateString) => {
                 if (!dateString || dateString === null || dateString === 'null') {
                     return 'Sin registrar';
                 }
                 
                 try {
-                    // SOLUCIÓN: Agregar la hora local para evitar cambio de fecha por timezone
-                    const date = new Date(dateString + 'T12:00:00');
+                    const date = new Date(dateString);
                     if (isNaN(date.getTime())) {
                         return 'Fecha inválida';
                     }
@@ -757,7 +604,7 @@
             if (calendarLink) {
                 calendarLink.addEventListener('click', function(e) {
                     e.preventDefault();
-                    window.navigateTo('calendario.html');
+                    window.location.href = 'calendario.html';
                 });
             }
         });
@@ -793,62 +640,6 @@
                         settingsManager.showShortcuts();
                     });
                 }
-            }
-        });
-    </script>
-
-    <script>
-        // Tema oscuro y cambio de idioma para infraestructuras
-        document.addEventListener('DOMContentLoaded', function() {
-            // Theme toggle
-            const themeToggle = document.getElementById('quickThemeToggle');
-            if (themeToggle) {
-                themeToggle.addEventListener('click', function() {
-                    const currentTheme = document.documentElement.getAttribute('data-theme');
-                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                    document.documentElement.setAttribute('data-theme', newTheme);
-                    localStorage.setItem('theme', newTheme);
-                    
-                    // Update icon
-                    const icon = this.querySelector('.setting-icon');
-                    icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-                });
-            }
-
-            // Language toggle
-            const langToggle = document.getElementById('quickLanguageToggle');
-            if (langToggle) {
-                langToggle.addEventListener('click', function() {
-                    const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
-                    const newLang = currentLang === 'es' ? 'en' : 'es';
-                    document.documentElement.setAttribute('data-lang', newLang);
-                    localStorage.setItem('language', newLang);
-                    
-                    // Update page text
-                    if (newLang === 'en') {
-                        document.title = 'Infrastructures - PREVENTIVE MAINTENANCE MANAGER';
-                        document.querySelector('.content h1')?.textContent = '🏫 Educational Infrastructures';
-                        document.querySelector('.add-institution-btn')?.textContent = '➕ Add Institution';
-                    } else {
-                        document.title = 'Infraestructuras - GESTOR DE MANTENIMIENTO PREVENTIVO';
-                        document.querySelector('.content h1')?.textContent = '🏫 Infraestructuras Educativas';
-                        document.querySelector('.add-institution-btn')?.textContent = '➕ Agregar Institución';
-                    }
-                });
-            }
-
-            // Load saved preferences
-            const savedTheme = localStorage.getItem('theme');
-            const savedLang = localStorage.getItem('language');
-            
-            if (savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
-                const themeIcon = document.querySelector('#quickThemeToggle .setting-icon');
-                if (themeIcon) themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-            }
-            
-            if (savedLang) {
-                document.documentElement.setAttribute('data-lang', savedLang);
             }
         });
     </script>

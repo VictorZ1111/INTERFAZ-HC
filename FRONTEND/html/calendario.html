@@ -7,6 +7,170 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    
+    <!-- Quick Settings Toggle Styles -->
+    <style>
+        .quick-settings {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .quick-toggle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: #e67e22;
+            color: white;
+        }
+        
+        .quick-toggle:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .setting-icon {
+            font-size: 16px;
+        }
+        
+        /* FORZAR COLORES NARANJAS EN CALENDARIO */
+        .main-header {
+            background-color: #e67e22 !important;
+            background: #e67e22 !important;
+        }
+        .navbar {
+            background-color: #e67e22 !important;
+            background: #e67e22 !important;
+        }
+        .nav-container {
+            background-color: #e67e22 !important;
+            background: #e67e22 !important;
+        }
+        .nav-link {
+            color: white !important;
+        }
+        .nav-link .icon {
+            color: white !important;
+        }
+        .nav-link span {
+            color: white !important;
+        }
+        .user-welcome {
+            color: white !important;
+        }
+        .btn-secondary {
+            background-color: #d35400 !important;
+            color: white !important;
+        }
+
+        /* BOTÓN AGREGAR CITA - CAMBIAR DE VERDE A NARANJA */
+        .add-event-btn, .btn-success, #addEventBtn {
+            background-color: #e67e22 !important;
+            border-color: #e67e22 !important;
+            color: white !important;
+        }
+        .add-event-btn:hover, .btn-success:hover, #addEventBtn:hover {
+            background-color: #d35400 !important;
+            border-color: #d35400 !important;
+        }
+
+        /* CALENDAR RESPONSIVE DESIGN */
+        .calendar-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .calendar-day {
+            background: white;
+            min-height: 100px;
+            padding: 8px;
+            border: 1px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calendar-day-header {
+            background: #f8f9fa;
+            color: #6c757d;
+            font-weight: 600;
+            text-align: center;
+            padding: 12px 8px;
+        }
+
+        /* Mobile responsivo */
+        @media (max-width: 768px) {
+            .calendar-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .calendar-day {
+                min-height: 80px;
+                padding: 4px;
+            }
+            
+            .calendar-grid {
+                font-size: 14px;
+            }
+        }
+
+        /* Dark theme support */
+        [data-theme="dark"] .calendar-container {
+            background: #2c3e50;
+            color: white;
+        }
+        
+        [data-theme="dark"] .calendar-day {
+            background: #34495e;
+            color: white;
+            border-color: #4a6741;
+        }
+        
+        [data-theme="dark"] .calendar-day-header {
+            background: #2c3e50;
+            color: #ecf0f1;
+        }
+    </style>
+    
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    
+    <!-- Scripts necesarios -->
+    <script src="../javascript/supabase-config.js"></script>
+    <script src="../javascript/institutions-supabase.js"></script>
+    <script src="../javascript/route-manager.js"></script>
     <style>
         .calendar-container {
             max-width: 1200px;
@@ -16,12 +180,26 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             overflow: hidden;
         }
-        .calendar-header {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        
+        .page-header {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
             color: white;
             padding: 2rem;
             text-align: center;
+            margin-bottom: 2rem;
         }
+        
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
         .calendar-controls {
             display: flex;
             justify-content: space-between;
@@ -30,32 +208,15 @@
             background: #f8f9fa;
             border-bottom: 2px solid #dee2e6;
         }
+        
         .month-navigation {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
+        
         .nav-btn {
             background: #6c757d;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .nav-btn:hover {
-            background: #5a6268;
-        }
-        .current-month {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #495057;
-            min-width: 200px;
-            text-align: center;
-        }
-        .add-event-btn {
-            background: #28a745;
             color: white;
             border: none;
             padding: 0.75rem 1.5rem;
@@ -63,78 +224,242 @@
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
+            transition: all 0.3s ease;
         }
+        
+        .nav-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .current-month {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #495057;
+            min-width: 250px;
+            text-align: center;
+            margin: 0;
+        }
+        
+        .add-event-btn {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
         .add-event-btn:hover {
-            background: #218838;
+            background: #d35400;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3);
         }
-        .calendar-grid {
-            border: 1px solid #dee2e6;
+        
+        .calendar-wrapper {
+            background: white;
         }
+        
         .calendar-weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             background: #e9ecef;
+            border-bottom: 2px solid #dee2e6;
         }
+        
         .weekday {
             padding: 1rem;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
             color: #495057;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             border-right: 1px solid #dee2e6;
         }
+        
+        .weekday:last-child {
+            border-right: none;
+        }
+        
         .calendar-days {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
         }
+        
         .calendar-day {
             min-height: 120px;
-            padding: 0.5rem;
+            padding: 0.75rem;
             border-right: 1px solid #dee2e6;
             border-bottom: 1px solid #dee2e6;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
             position: relative;
+            background: white;
+            display: flex;
+            flex-direction: column;
         }
+        
         .calendar-day:hover {
             background: #f8f9fa;
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 2;
         }
+        
+        .calendar-day:last-child {
+            border-right: none;
+        }
+        
         .calendar-day.other-month {
             background: #f8f9fa;
             color: #adb5bd;
         }
+        
+        .calendar-day.other-month:hover {
+            background: #e9ecef;
+        }
+        
         .calendar-day.today {
             background: #e7f3ff;
-            border: 2px solid #007bff;
+            border: 2px solid #e67e22;
+            font-weight: 700;
         }
+        
+        .calendar-day.today:hover {
+            background: #d1ecf1;
+        }
+        
         .day-number {
             font-weight: 600;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: #495057;
         }
+        
+        .calendar-day.today .day-number {
+            color: #e67e22;
+            font-size: 1.2rem;
+        }
+        
         .day-events {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 3px;
+            flex-grow: 1;
         }
+        
         .event-item {
-            background: #007bff;
+            background: #e67e22;
             color: white;
-            padding: 2px 6px;
+            padding: 3px 6px;
             border-radius: 4px;
             font-size: 0.75rem;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
+        
+        .event-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
         .event-maintenance {
             background: #dc3545;
         }
+        
         .event-inspection {
             background: #ffc107;
             color: #212529;
         }
+        
         .event-meeting {
             background: #17a2b8;
+        }
+        
+        .calendar-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #495057;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .calendar-controls {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .month-navigation {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .current-month {
+                font-size: 1.5rem;
+                min-width: auto;
+            }
+            
+            .calendar-day {
+                min-height: 80px;
+                padding: 0.5rem;
+            }
+            
+            .weekday {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .calendar-legend {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .calendar-day {
+                min-height: 60px;
+                padding: 0.25rem;
+            }
+            
+            .day-number {
+                font-size: 1rem;
+            }
+            
+            .event-item {
+                font-size: 0.7rem;
+                padding: 2px 4px;
+            }
         }
         .modal {
             position: fixed;
@@ -254,6 +579,16 @@
     </style>
 </head>
 <body>
+    <!-- Quick Settings Toggle -->
+    <div class="quick-settings">
+        <button id="quickThemeToggle" class="quick-toggle" title="Cambiar tema">
+            <span class="setting-icon">🌙</span>
+        </button>
+        <button id="quickLanguageToggle" class="quick-toggle" title="Cambiar idioma">
+            <span class="setting-icon">🌐</span>
+        </button>
+    </div>
+
     <!-- Header Navigation -->
     <header class="main-header" role="banner">
         <nav class="navbar" role="navigation" aria-label="Navegación principal">
@@ -294,41 +629,27 @@
     <!-- Main Content -->
     <main class="main-content" role="main">
         <div class="container">
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <h1>📅 Calendario de Mantenimiento</h1>
-                    <p>Gestiona y programa el mantenimiento de las instituciones educativas</p>
+            <!-- Page Header -->
+            <section class="page-header">
+                <div class="container">
+                    <div class="header-content">
+                        <h1 class="page-title">📅 Calendario de Mantenimiento</h1>
+                        <p class="page-subtitle">Gestiona y programa el mantenimiento de las instituciones educativas</p>
+                    </div>
                 </div>
-                
+            </section>
+
+            <div class="calendar-container">
                 <div class="calendar-controls">
                     <div class="month-navigation">
                         <button class="nav-btn" id="prevMonth">‹ Anterior</button>
-                        <h2 class="current-month" id="currentMonth">Enero 2025</h2>
+                        <h2 class="current-month" id="currentMonth">Agosto 2025</h2>
                         <button class="nav-btn" id="nextMonth">Siguiente ›</button>
                     </div>
                     <button class="add-event-btn" id="addEventBtn">➕ Agregar Cita</button>
                 </div>
-
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #dc3545;"></div>
-                        <span>Mantenimiento</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #ffc107;"></div>
-                        <span>Inspección</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #17a2b8;"></div>
-                        <span>Reunión</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #007bff;"></div>
-                        <span>Otros</span>
-                    </div>
-                </div>
                 
-                <div class="calendar-grid">
+                <div class="calendar-wrapper">
                     <div class="calendar-weekdays">
                         <div class="weekday">Domingo</div>
                         <div class="weekday">Lunes</div>
@@ -364,11 +685,8 @@
                     <div class="form-group">
                         <label class="form-label" for="eventInstitution">Institución *</label>
                         <select id="eventInstitution" class="form-select" required>
-                            <option value="">Seleccionar institución...</option>
-                            <option value="ulaem">Universidad Laica Eloy Alfaro de Manabí</option>
-                            <option value="colegio_amazonas">Colegio Amazonas de Quito</option>
-                            <option value="escuela_benito">Escuela Primaria Benito Juárez</option>
-                            <!-- Las instituciones dinámicas se cargarán aquí -->
+                            <option value="">Cargando instituciones...</option>
+                            <!-- Las instituciones se cargarán dinámicamente desde Supabase -->
                         </select>
                     </div>
 
@@ -384,20 +702,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="eventType">Tipo de Evento *</label>
-                        <select id="eventType" class="form-select" required>
-                            <option value="">Seleccionar tipo...</option>
-                            <option value="maintenance">Mantenimiento</option>
-                            <option value="inspection">Inspección</option>
-                            <option value="meeting">Reunión</option>
-                            <option value="other">Otro</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
                         <label class="form-label" for="eventDescription">Descripción</label>
                         <textarea id="eventDescription" class="form-textarea" 
-                                  placeholder="Describe los detalles de la cita..."></textarea>
+                                  placeholder="Describe los detalles de la inspección..."></textarea>
                     </div>
 
                     <div class="modal-actions">
@@ -413,7 +720,7 @@
         class CalendarManager {
             constructor() {
                 this.currentDate = new Date();
-                this.events = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
+                this.events = [];  // Los eventos se cargarán desde Supabase
                 this.selectedDate = null;
                 this.monthNames = [
                     'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -422,11 +729,29 @@
                 this.init();
             }
 
-            init() {
+            async init() {
                 this.renderCalendar();
                 this.setupEventListeners();
-                this.loadSampleEvents();
-                this.loadDynamicInstitutions();
+                
+                // Esperar a que el sistema de instituciones esté listo
+                this.waitForInstitutionsManager();
+            }
+
+            async waitForInstitutionsManager() {
+                let attempts = 0;
+                while (!window.institutionsManager && attempts < 50) {
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                    attempts++;
+                }
+                
+                if (window.institutionsManager) {
+                    console.log('✅ Sistema de instituciones listo');
+                    setTimeout(() => {
+                        this.loadInstitutions();
+                    }, 500);
+                } else {
+                    console.error('❌ Sistema de instituciones no se pudo cargar');
+                }
             }
 
             setupEventListeners() {
@@ -445,30 +770,74 @@
                 });
             }
 
-            loadSampleEvents() {
-                if (this.events.length === 0) {
-                    const sampleEvents = [
-                        {
-                            id: 1,
-                            title: 'Mantenimiento ULAEM',
-                            institution: 'ulaem',
-                            date: '2025-08-15',
-                            time: '09:00',
-                            type: 'maintenance',
-                            description: 'Mantenimiento preventivo de techos y ventanas'
-                        },
-                        {
-                            id: 2,
-                            title: 'Inspección CAQ',
-                            institution: 'colegio_amazonas',
-                            date: '2025-08-20',
-                            time: '14:00',
-                            type: 'inspection',
-                            description: 'Inspección general de instalaciones'
-                        }
-                    ];
-                    this.events = sampleEvents;
-                    localStorage.setItem('calendarEvents', JSON.stringify(this.events));
+            async loadInstitutions() {
+                try {
+                    const institutionsSelect = document.getElementById('eventInstitution');
+                    institutionsSelect.innerHTML = '<option value="">Cargando...</option>';
+                    
+                    // Configuración directa de Supabase
+                    const SUPABASE_URL = 'https://mnfowfbamxjkbbzilkbc.supabase.co';
+                    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZm93ZmJhbXhqa2Jiemlsa2JjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3MDQ1MzUsImV4cCI6MjA3MDI4MDUzNX0.Ts4lr6EzVcFOA1ZJJAA3nmikcbqGLlQsUPW0V10evpI';
+
+                    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+                    const { data: institutions, error } = await supabase
+                        .from('institutions')
+                        .select('id, name, type')
+                        .order('name');
+
+                    if (error) {
+                        institutionsSelect.innerHTML = '<option value="">Error al consultar BD</option>';
+                        return;
+                    }
+
+                    if (!institutions || institutions.length === 0) {
+                        institutionsSelect.innerHTML = '<option value="">No hay instituciones</option>';
+                        return;
+                    }
+
+                    institutionsSelect.innerHTML = '<option value="">Seleccionar institución...</option>';
+                    institutions.forEach(institution => {
+                        const option = document.createElement('option');
+                        option.value = institution.id;
+                        option.textContent = `${institution.name} (${institution.type || 'institución'})`;
+                        institutionsSelect.appendChild(option);
+                    });
+
+                } catch (error) {
+                    document.getElementById('eventInstitution').innerHTML = '<option value="">Error de conexión</option>';
+                }
+            }
+
+            async loadEvents() {
+                try {
+                    const SUPABASE_URL = 'https://mnfowfbamxjkbbzilkbc.supabase.co';
+                    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZm93ZmJhbXhqa2Jiemlsa2JjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3MDQ1MzUsImV4cCI6MjA3MDI4MDUzNX0.Ts4lr6EzVcFOA1ZJJAA3nmikcbqGLlQsUPW0V10evpI';
+
+                    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+                    const { data: events, error } = await supabase
+                        .from('appointments')
+                        .select(`
+                            *,
+                            institutions (
+                                id,
+                                name,
+                                type
+                            )
+                        `)
+                        .order('date', { ascending: true });
+
+                    if (!error && events) {
+                        this.events = events;
+                    } else {
+                        this.events = [];
+                    }
+                    
+                    this.renderCalendar();
+                } catch (error) {
+                    this.events = [];
+                    this.renderCalendar();
                 }
             }
 
@@ -524,7 +893,11 @@
                     const eventElement = document.createElement('div');
                     eventElement.className = `event-item event-${event.type}`;
                     eventElement.textContent = event.title;
-                    eventElement.title = `${event.title} - ${event.time}`;
+                    
+                    // Crear tooltip con información del evento
+                    const institutionName = event.institutions ? event.institutions.name : 'Institución no especificada';
+                    eventElement.title = `${event.title}\n${institutionName}\n${event.time || '09:00'}`;
+                    
                     dayEvents.appendChild(eventElement);
                 });
 
@@ -571,54 +944,107 @@
                 this.selectedDate = null;
             }
 
-            saveEvent(e) {
+            async saveEvent(e) {
                 e.preventDefault();
                 
                 const formData = {
-                    id: Date.now(),
                     title: document.getElementById('eventTitle').value,
-                    institution: document.getElementById('eventInstitution').value,
+                    institution_id: document.getElementById('eventInstitution').value,
                     date: document.getElementById('eventDate').value,
                     time: document.getElementById('eventTime').value,
-                    type: document.getElementById('eventType').value,
-                    description: document.getElementById('eventDescription').value
+                    type: 'inspection',
+                    description: document.getElementById('eventDescription').value || null
                 };
 
-                // Validar campos requeridos
-                if (!formData.title || !formData.institution || !formData.date || !formData.type) {
-                    alert('❌ Por favor, complete todos los campos obligatorios marcados con *');
+                if (!formData.title || !formData.institution_id || !formData.date) {
+                    alert('❌ Complete todos los campos obligatorios');
                     return;
                 }
 
-                // Agregar evento a la lista
-                this.events.push(formData);
-                localStorage.setItem('calendarEvents', JSON.stringify(this.events));
+                try {
+                    const SUPABASE_URL = 'https://mnfowfbamxjkbbzilkbc.supabase.co';
+                    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZm93ZmJhbXhqa2Jiemlsa2JjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3MDQ1MzUsImV4cCI6MjA3MDI4MDUzNX0.Ts4lr6EzVcFOA1ZJJAA3nmikcbqGLlQsUPW0V10evpI';
 
-                // Mostrar mensaje de éxito
-                alert('✅ ¡Cita agregada exitosamente!');
+                    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-                // Cerrar modal y re-renderizar calendario
-                this.closeEventModal();
-                this.renderCalendar();
-            }
-            
-            // Cargar instituciones dinámicas desde localStorage
-            loadDynamicInstitutions() {
-                const institutionSelect = document.getElementById('eventInstitution');
-                const savedInstitutions = JSON.parse(localStorage.getItem('institutions') || '[]');
-                
-                savedInstitutions.forEach(institution => {
-                    const option = document.createElement('option');
-                    option.value = institution.id;
-                    option.textContent = institution.name;
-                    institutionSelect.appendChild(option);
-                });
+                    const { data, error } = await supabase
+                        .from('appointments')
+                        .insert([formData])
+                        .select();
+
+                    if (error) {
+                        alert(`❌ Error: ${error.message}`);
+                        return;
+                    }
+
+                    alert('✅ ¡Cita agregada exitosamente!');
+                    this.closeEventModal();
+                    await this.loadEvents();
+                } catch (error) {
+                    alert(`❌ Error al guardar: ${error.message}`);
+                }
             }
         }
 
         // Inicializar calendario cuando se carga la página
         document.addEventListener('DOMContentLoaded', function() {
             new CalendarManager();
+        });
+    </script>
+
+    <script>
+        // Tema oscuro y cambio de idioma para calendario
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle
+            const themeToggle = document.getElementById('quickThemeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    
+                    // Update icon
+                    const icon = this.querySelector('.setting-icon');
+                    icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                });
+            }
+
+            // Language toggle
+            const langToggle = document.getElementById('quickLanguageToggle');
+            if (langToggle) {
+                langToggle.addEventListener('click', function() {
+                    const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
+                    const newLang = currentLang === 'es' ? 'en' : 'es';
+                    document.documentElement.setAttribute('data-lang', newLang);
+                    localStorage.setItem('language', newLang);
+                    
+                    // Update calendar text
+                    if (newLang === 'en') {
+                        document.title = 'Maintenance Calendar - GMPI';
+                        document.querySelector('.calendar-title')?.textContent = '📅 Maintenance Calendar';
+                        document.querySelector('.add-event-btn')?.textContent = 'Add Appointment';
+                    } else {
+                        document.title = 'Calendario de Mantenimiento - GMPI';
+                        document.querySelector('.calendar-title')?.textContent = '📅 Calendario de Mantenimiento';
+                        document.querySelector('.add-event-btn')?.textContent = 'Agregar Cita';
+                    }
+                });
+            }
+
+            // Load saved preferences
+            const savedTheme = localStorage.getItem('theme');
+            const savedLang = localStorage.getItem('language');
+            
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                const themeIcon = document.querySelector('#quickThemeToggle .setting-icon');
+                if (themeIcon) themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            }
+            
+            if (savedLang) {
+                document.documentElement.setAttribute('data-lang', savedLang);
+            }
         });
     </script>
 </body>

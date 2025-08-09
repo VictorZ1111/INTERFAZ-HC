@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de Institución - GESTOR DE MANTENIMIENTO PREVENTIVO</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/infraestructuras.css">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <style>
+        .details-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .details-header {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .institution-logo-big {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .details-body {
+            padding: 2rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid #27ae60;
+        }
+        .info-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .info-value {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 500;
+        }
+        .info-icon {
+            margin-right: 0.5rem;
+        }
+        .maintenance-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        .maintenance-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .maintenance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .maintenance-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ffeaa7;
+        }
+        .actions-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 2rem;
+        }
+        .actions-section > div {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: 2px solid transparent;
+            font-weight: 700;
+        }
+        .btn-success:hover {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border-color: #1e8449;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        .loading-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-maintenance {
+            background: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <main class="main-content">
+        <div class="details-container">
+            <div class="details-header">
+                <div class="institution-logo-big" id="institutionLogoBig">
+                    <span id="institutionAcronymBig">INST</span>
+                </div>
+                <h1 id="institutionNameBig">Cargando...</h1>
+                <p id="institutionLocationBig">📍 ...</p>
+            </div>
+            
+            <div class="details-body">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-label">
+                            <span class="info-icon">🏛️</span>
+                            Tipo de Institución
+                        </div>
+                        <div class="info-value" id="institutionTypeDetail">-</div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-label">
+                            <span class="info-icon">🆔</span>
+                            Siglas/Acrónimo
+                        </div>
+                        <div class="info-value" id="institutionAcronymDetail">-</div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-label">
+                            <span class="info-icon">🏢</span>
+                            Número de Edificios
+                        </div>
+                        <div class="info-value" id="buildingsCountDetail">-</div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-label">
+                            <span class="info-icon">🏫</span>
+                            Número de Aulas
+                        </div>
+                        <div class="info-value" id="classroomsCountDetail">-</div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-label">
+                            <span class="info-icon">🔬</span>
+                            Laboratorios
+                        </div>
+                        <div class="info-value" id="laboratoriesCountDetail">-</div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-label">
+                            <span class="info-icon">📅</span>
+                            Fecha de Registro
+                        </div>
+                        <div class="info-value" id="createdAtDetail">-</div>
+                    </div>
+                </div>
+
+                <div class="maintenance-section">
+                    <div class="maintenance-title">
+                        🔧 Información de Mantenimiento
+                    </div>
+                    <div class="maintenance-grid">
+                        <div class="maintenance-item">
+                            <div class="info-label">Último Mantenimiento</div>
+                            <div class="info-value" id="lastMaintenanceDetail">No programado</div>
+                        </div>
+                        <div class="maintenance-item">
+                            <div class="info-label">Próximo Mantenimiento</div>
+                            <div class="info-value" id="nextMaintenanceDetail">No programado</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions-section">
+                    <button class="btn btn-secondary" onclick="window.navigateTo('infraestructuras.html')">
+                        ⬅️ Volver a Lista
+                    </button>
+                    <div>
+                        <button class="btn btn-primary" id="editInstitutionBtn">
+                            ✏️ Gestionar-Editar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <h3>🔄 Cargando detalles...</h3>
+            <p>Por favor espera...</p>
+        </div>
+    </div>
+
+    <script src="../javascript/route-manager.js"></script>
+    <script type="module" src="../javascript/supabase-config.js"></script>
+    <script src="../javascript/institutions-supabase.js"></script>
+    <script>
+        let currentInstitutionId = null;
+        let institutionData = null;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Obtener el ID de la institución de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            currentInstitutionId = urlParams.get('id');
+            
+            if (!currentInstitutionId) {
+                alert('❌ No se encontró el ID de la institución');
+                window.navigateTo('infraestructuras.html');
+                return;
+            }
+
+            await loadInstitutionDetails();
+            setupEventHandlers();
+        });
+
+        async function loadInstitutionDetails() {
+            try {
+                document.getElementById('loadingOverlay').style.display = 'flex';
+                
+                // Esperar a que el manager esté listo
+                let attempts = 0;
+                while (!window.institutionsManager && attempts < 50) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    attempts++;
+                }
+
+                const institution = await window.institutionsManager.getInstitutionById(currentInstitutionId);
+                
+                if (!institution) {
+                    throw new Error('No se encontró la institución');
+                }
+
+                institutionData = institution;
+                displayInstitutionDetails(institution);
+                
+                document.getElementById('loadingOverlay').style.display = 'none';
+            } catch (error) {
+                console.error('Error al cargar detalles:', error);
+                alert('❌ Error al cargar los detalles de la institución');
+                document.getElementById('loadingOverlay').style.display = 'none';
+                window.navigateTo('infraestructuras.html');
+            }
+        }
+
+        function displayInstitutionDetails(institution) {
+            // Header
+            document.getElementById('institutionAcronymBig').textContent = institution.acronym || 'INST';
+            document.getElementById('institutionNameBig').textContent = institution.name;
+            document.getElementById('institutionLocationBig').textContent = `📍 ${institution.location}`;
+            
+            // Details cards
+            const typeEmoji = {
+                'universidad': '🎓 Universidad',
+                'colegio': '🏫 Colegio',
+                'escuela': '🏠 Escuela',
+                'instituto': '🏢 Instituto'
+            };
+            
+            document.getElementById('institutionTypeDetail').textContent = typeEmoji[institution.type] || institution.type;
+            document.getElementById('institutionAcronymDetail').textContent = institution.acronym || 'No definido';
+            document.getElementById('buildingsCountDetail').textContent = institution.buildings || '1';
+            document.getElementById('classroomsCountDetail').textContent = institution.classrooms || '1';
+            document.getElementById('laboratoriesCountDetail').textContent = institution.laboratories || '0';
+            
+            // Fecha de creación
+            if (institution.created_at) {
+                const createdDate = new Date(institution.created_at).toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                document.getElementById('createdAtDetail').textContent = createdDate;
+            }
+            
+            // Mantenimiento - ARREGLADO PARA EVITAR PROBLEMA DE TIMEZONE
+            const formatDate = (dateString) => {
+                if (!dateString || dateString === null || dateString === 'null') {
+                    return 'Sin registrar';
+                }
+                
+                try {
+                    // SOLUCIÓN: Agregar la hora local para evitar cambio de fecha por timezone
+                    const date = new Date(dateString + 'T12:00:00');
+                    if (isNaN(date.getTime())) {
+                        return 'Fecha inválida';
+                    }
+                    
+                    return date.toLocaleDateString('es-ES', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                } catch (error) {
+                    console.error('Error al formatear fecha:', error);
+                    return 'Error en fecha';
+                }
+            };
+            
+            document.getElementById('lastMaintenanceDetail').textContent = formatDate(institution.last_maintenance);
+            document.getElementById('nextMaintenanceDetail').textContent = formatDate(institution.next_maintenance);
+        }
+
+        function setupEventHandlers() {
+            document.getElementById('editInstitutionBtn').addEventListener('click', function() {
+                window.navigateTo(`edit-institution.html?id=${currentInstitutionId}`);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/dark-theme.css">
     <link rel="stylesheet" href="../css/improved-dark-theme.css">
+    <link rel="stylesheet" href="../css/responsive.css">
 </head>
 <body>
     <!-- Quick Settings -->
@@ -146,7 +147,7 @@
                     <div class="field-help" id="login-help" data-translate="login_help">Tiempo promedio de inicio: menos de 5 segundos</div>
 
                     <!-- Register Button -->
-                    <button type="button" class="login-btn" style="background-color: #27ae60; margin-top: 16px;" onclick="window.location.href='register-inspector.html'">
+                    <button type="button" class="login-btn" style="background-color: #e67e22; margin-top: 16px;" onclick="window.location.href='register-inspector.html'">
                         <span class="btn-icon" aria-hidden="true">👤</span>
                         <span class="btn-text" data-translate="create_account">Crear Nueva Cuenta</span>
                     </button>
@@ -214,6 +215,7 @@
 
     <!-- Scripts mejorados para validación con Supabase -->
     <!-- Script de limpieza de sesión - DEBE IR PRIMERO -->
+    <script src="../javascript/route-manager.js"></script>
     <script src="../javascript/session-cleaner.js"></script>
     <script src="https://cdn.skypack.dev/@supabase/supabase-js" defer></script>
     <script src="../javascript/supabase-config.js"></script>

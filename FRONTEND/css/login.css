@@ -30,7 +30,7 @@ body {
 
 .quick-setting-btn {
     background: rgba(255, 255, 255, 0.9);
-    border: 2px solid #e67e22;
+    border: 2px solid #3498db;
     border-radius: 50px;
     padding: 8px 12px;
     display: flex;
@@ -46,7 +46,7 @@ body {
 }
 
 .quick-setting-btn:hover {
-    background: #e67e22;
+    background: #3498db;
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3);
@@ -71,6 +71,7 @@ body {
 
 /* Login Form Section */
 .login-form-section {
+    background: #ffffff !important;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -110,7 +111,7 @@ body {
 
 .visual-content {
     text-align: center;
-    color: white;
+    color: #2c3e50;
     z-index: 1;
     position: relative;
     max-width: 100%;
@@ -251,6 +252,10 @@ body {
 
 /* Form Header */
 .form-header {
+    background: #ffffff !important;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
     text-align: center;
     margin-bottom: 16px;
 }

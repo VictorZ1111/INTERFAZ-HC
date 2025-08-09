@@ -8,7 +8,47 @@
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/infraestructuras.css">
     <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    
     <style>
+        /* Quick Settings Styles */
+        .quick-settings {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 1001;
+        }
+
+        .quick-setting-btn {
+            background: rgba(230, 126, 34, 0.9);
+            border: none;
+            border-radius: 50px;
+            padding: 8px 12px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            display: none;
+            align-items: center;
+            gap: 4px;
+            backdrop-filter: blur(10px);
+        }
+
+        .quick-setting-btn:hover {
+            background: rgba(211, 84, 0, 0.9);
+            transform: scale(1.05);
+        }
+
+        .setting-icon {
+            font-size: 14px;
+        }
+
+        .setting-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
         .form-container {
             max-width: 800px;
             margin: 2rem auto;
@@ -94,9 +134,31 @@
         .btn-cancel:hover {
             background: #7f8c8d;
         }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .form-actions {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Quick Settings -->
+    <div class="quick-settings">
+        <button class="quick-setting-btn" id="quickThemeToggle" aria-label="Cambiar tema">
+            <span class="setting-icon">🌙</span>
+            <span class="setting-label">Tema</span>
+        </button>
+        <button class="quick-setting-btn" id="quickLanguageToggle" aria-label="Cambiar idioma">
+            <span class="setting-icon">🌐</span>
+            <span class="setting-label">Idioma</span>
+        </button>
+    </div>
+
     <!-- Header Navigation -->
     <header class="main-header" role="banner">
         <nav class="navbar" role="navigation" aria-label="Navegación principal">
@@ -153,7 +215,6 @@
                                     <option value="universidad">Universidad</option>
                                     <option value="colegio">Colegio</option>
                                     <option value="escuela">Escuela</option>
-                                    <option value="instituto">Instituto</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -198,13 +259,73 @@
 
                         <div class="form-actions">
                             <button type="submit" class="btn-save">💾 Guardar Institución</button>
-                            <button type="button" class="btn-cancel" onclick="window.location.href='infraestructuras.html'">❌ Cancelar</button>
+                            <button type="button" class="btn-cancel" onclick="window.navigateTo('infraestructuras.html')">❌ Cancelar</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </main>
+
+    <script src="../javascript/route-manager.js"></script>
+    <script type="module" src="../javascript/supabase-config.js"></script>
+    <script src="../javascript/institutions-supabase.js"></script>
+    <script src="../javascript/settings.js"></script>
+    <script>
+        // Tema oscuro y cambio de idioma
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle
+            const themeToggle = document.getElementById('quickThemeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    
+                    // Update icon
+                    const icon = this.querySelector('.setting-icon');
+                    icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                });
+            }
+
+            // Language toggle
+            const langToggle = document.getElementById('quickLanguageToggle');
+            if (langToggle) {
+                langToggle.addEventListener('click', function() {
+                    const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
+                    const newLang = currentLang === 'es' ? 'en' : 'es';
+                    document.documentElement.setAttribute('data-lang', newLang);
+                    localStorage.setItem('language', newLang);
+                    
+                    // Update basic text
+                    if (newLang === 'en') {
+                        document.title = 'Add Institution - PREVENTIVE MAINTENANCE MANAGER';
+                        document.querySelector('.form-header h1').textContent = '🏫 Add New Institution';
+                        document.querySelector('.form-header p').textContent = 'Complete the educational institution information';
+                    } else {
+                        document.title = 'Agregar Institución - GESTOR DE MANTENIMIENTO PREVENTIVO';
+                        document.querySelector('.form-header h1').textContent = '🏫 Agregar Nueva Institución';
+                        document.querySelector('.form-header p').textContent = 'Complete la información de la institución educativa';
+                    }
+                });
+            }
+
+            // Load saved preferences
+            const savedTheme = localStorage.getItem('theme');
+            const savedLang = localStorage.getItem('language');
+            
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                const themeIcon = document.querySelector('#quickThemeToggle .setting-icon');
+                if (themeIcon) themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            }
+            
+            if (savedLang) {
+                document.documentElement.setAttribute('data-lang', savedLang);
+            }
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -253,31 +374,34 @@
                 loadingMsg.innerHTML = '⏳ Guardando institución...';
                 document.body.appendChild(loadingMsg);
 
-                setTimeout(() => {
+                setTimeout(async () => {
                     document.body.removeChild(loadingMsg);
                     
-                    // Preparar datos para agregar a la página principal
+                    // Preparar datos para agregar a Supabase
                     const newInstitutionCard = {
-                        id: Date.now(),
                         name: formData.name,
                         type: formData.type,
                         acronym: formData.acronym,
                         location: formData.location,
-                        buildings: formData.buildings,
-                        classrooms: formData.classrooms,
-                        laboratories: formData.laboratories,
-                        lastMaintenance: formData.lastMaintenance || 'Sin registro',
-                        nextMaintenance: formData.nextMaintenance || 'Por programar',
-                        dateAdded: new Date().toISOString()
+                        buildings: parseInt(formData.buildings) || 1,
+                        classrooms: parseInt(formData.classrooms) || 1,
+                        laboratories: parseInt(formData.laboratories) || 0,
+                        last_maintenance: formData.lastMaintenance || null,
+                        next_maintenance: formData.nextMaintenance || null
                     };
 
-                    // Guardar en localStorage
-                    const existingInstitutions = JSON.parse(localStorage.getItem('institutions') || '[]');
-                    existingInstitutions.push(newInstitutionCard);
-                    localStorage.setItem('institutions', JSON.stringify(existingInstitutions));
+                    console.log('🏫 Datos que se enviarán a Supabase:', newInstitutionCard);
 
-                    alert('✅ ¡Institución agregada exitosamente!\n\nLa nueva institución aparecerá en la lista de infraestructuras.');
-                    window.location.href = 'infraestructuras.html';
+                    try {
+                        // Guardar en Supabase
+                        const savedInstitution = await window.institutionsManager.saveInstitution(newInstitutionCard);
+                        
+                        alert('✅ ¡Institución agregada exitosamente!\n\nLa nueva institución aparecerá en la lista de infraestructuras.');
+                        window.navigateTo('infraestructuras.html');
+                    } catch (error) {
+                        console.error('Error al guardar institución:', error);
+                        alert('❌ Error al guardar la institución.\n\nPor favor, verifica tu conexión e inténtalo de nuevo.');
+                    }
                 }, 1500);
             });
         });

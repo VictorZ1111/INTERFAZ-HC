@@ -279,7 +279,7 @@ class LoginValidator {
         
         // Redireccionar después de un momento
         await this.delay(1500);
-        window.location.href = '/dashboard.html';
+        window.navigateTo('dashboard.html');
     }
 
     /**

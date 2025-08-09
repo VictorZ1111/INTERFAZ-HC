@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/infraestructuras.css">
     <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <style>
         .form-container {
             max-width: 800px;
@@ -201,14 +202,26 @@
                                 <input type="number" id="laboratoriesCount" class="form-input" min="0" value="0">
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="lastMaintenance">Último Mantenimiento</label>
-                                <input type="date" id="lastMaintenance" class="form-input">
+                                <!-- Espacio para mantener el diseño -->
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label" for="nextMaintenance">Próximo Mantenimiento</label>
-                            <input type="date" id="nextMaintenance" class="form-input">
+                        <!-- Información de Mantenimiento (EDITABLES) -->
+                        <div style="background: #fff5ec; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #e67e22;">
+                            <h4 style="margin: 0 0 1rem 0; color: #e67e22; font-size: 1rem;">🔧 Fechas de Mantenimiento</h4>
+                            <p style="margin: 0.5rem 0; color: #666; font-size: 0.9rem;">
+                                <em>Puedes actualizar las fechas de mantenimiento de la institución.</em>
+                            </p>
+                            <div class="form-row" style="margin-top: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label" for="lastMaintenance">Último Mantenimiento</label>
+                                    <input type="date" id="lastMaintenance" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="nextMaintenance">Próximo Mantenimiento</label>
+                                    <input type="date" id="nextMaintenance" class="form-input">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-actions">
@@ -221,226 +234,171 @@
         </div>
     </main>
 
+    <script src="../javascript/route-manager.js"></script>
+    <script type="module" src="../javascript/supabase-config.js"></script>
+    <script src="../javascript/institutions-supabase.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('editInstitutionForm');
-            const notFoundMessage = document.getElementById('notFoundMessage');
-            const acronymInput = document.getElementById('institutionAcronym');
-            const nameInput = document.getElementById('institutionName');
+        let currentInstitutionId = null;
 
-            // Obtener parámetros de la URL
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Obtener el ID de la institución de la URL
             const urlParams = new URLSearchParams(window.location.search);
-            const institutionName = urlParams.get('name');
-
-            if (!institutionName) {
-                showNotFound();
+            currentInstitutionId = urlParams.get('id');
+            
+            console.log('ID extraído de URL:', currentInstitutionId);
+            
+            if (!currentInstitutionId) {
+                alert('❌ No se encontró el ID de la institución');
+                window.navigateTo('infraestructuras.html');
                 return;
             }
 
-            // Cargar datos de la institución
-            loadInstitutionData(institutionName);
+            await loadInstitutionData();
+            setupFormHandlers();
+        });
 
-            // Auto-generar siglas basadas en el nombre
-            nameInput.addEventListener('input', function() {
-                if (!acronymInput.value) {
-                    const words = this.value.split(' ');
-                    const acronym = words.map(word => word.charAt(0)).join('').toUpperCase().slice(0, 5);
-                    acronymInput.value = acronym;
+        async function loadInstitutionData() {
+            try {
+                console.log('=== CARGANDO DATOS PARA EDITAR ===');
+                
+                // Esperar a que el manager esté listo
+                let attempts = 0;
+                while (!window.institutionsManager && attempts < 50) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    attempts++;
                 }
-            });
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                updateInstitution();
-            });
+                if (!window.institutionsManager) {
+                    throw new Error('El gestor de instituciones no está disponible');
+                }
 
-            function loadInstitutionData(name) {
-                // Buscar en localStorage
-                const savedInstitutions = JSON.parse(localStorage.getItem('institutions') || '[]');
-                const institution = savedInstitutions.find(inst => inst.name === name);
-
+                const institution = await window.institutionsManager.getInstitutionById(currentInstitutionId);
+                console.log('Institución cargada para editar:', institution);
+                
                 if (!institution) {
-                    // Buscar en instituciones estáticas (predefinidas)
-                    const staticInstitutions = getStaticInstitutions();
-                    const staticInstitution = staticInstitutions.find(inst => inst.name === name);
-                    
-                    if (staticInstitution) {
-                        populateForm(staticInstitution, true);
-                    } else {
-                        showNotFound();
-                    }
-                } else {
-                    populateForm(institution, false);
+                    throw new Error('No se encontró la institución');
                 }
-            }
 
-            function getStaticInstitutions() {
-                // Instituciones estáticas basadas en el HTML original
-                return [
-                    {
-                        name: "Universidad Técnica de Manabí",
-                        type: "universidad",
-                        acronym: "UTM",
-                        location: "Portoviejo, Manabí",
-                        buildings: "12",
-                        classrooms: "45",
-                        laboratories: "8",
-                        lastMaintenance: "15 Mar 2024",
-                        nextMaintenance: "15 Jun 2024"
-                    },
-                    {
-                        name: "Unidad Educativa San José",
-                        type: "colegio",
-                        acronym: "UESJ",
-                        location: "Manta, Manabí",
-                        buildings: "3",
-                        classrooms: "18",
-                        laboratories: "2",
-                        lastMaintenance: "02 Feb 2024",
-                        nextMaintenance: "02 May 2024"
-                    },
-                    {
-                        name: "Escuela Fiscal Mixta Eloy Alfaro",
-                        type: "escuela",
-                        acronym: "EFMEA",
-                        location: "Chone, Manabí",
-                        buildings: "2",
-                        classrooms: "12",
-                        laboratories: "1",
-                        lastMaintenance: "20 Ene 2024",
-                        nextMaintenance: "20 Abr 2024"
-                    },
-                    {
-                        name: "Instituto Tecnológico Superior Portoviejo",
-                        type: "instituto",
-                        acronym: "ITSP",
-                        location: "Portoviejo, Manabí",
-                        buildings: "4",
-                        classrooms: "22",
-                        laboratories: "6",
-                        lastMaintenance: "10 Mar 2024",
-                        nextMaintenance: "10 Jun 2024"
-                    }
-                ];
-            }
-
-            function populateForm(institution, isStatic = false) {
-                document.getElementById('institutionId').value = institution.id || Date.now();
-                document.getElementById('originalName').value = institution.name;
-                document.getElementById('institutionName').value = institution.name;
-                document.getElementById('institutionType').value = institution.type;
+                // Llenar el formulario con los datos EDITABLES (INCLUYENDO FECHAS)
+                document.getElementById('institutionName').value = institution.name || '';
+                document.getElementById('institutionType').value = institution.type || '';
                 document.getElementById('institutionAcronym').value = institution.acronym || '';
-                document.getElementById('institutionLocation').value = institution.location;
-                document.getElementById('buildingsCount').value = institution.buildings;
-                document.getElementById('classroomsCount').value = institution.classrooms;
-                document.getElementById('laboratoriesCount').value = institution.laboratories;
+                document.getElementById('institutionLocation').value = institution.location || '';
+                document.getElementById('buildingsCount').value = institution.buildings || 1;
+                document.getElementById('classroomsCount').value = institution.classrooms || 1;
+                document.getElementById('laboratoriesCount').value = institution.laboratories || 0;
                 
-                // Convertir fechas si es necesario
-                if (institution.lastMaintenance && institution.lastMaintenance !== 'Sin registro') {
-                    const lastDate = convertToDateInput(institution.lastMaintenance);
-                    if (lastDate) document.getElementById('lastMaintenance').value = lastDate;
+                // Cargar fechas de mantenimiento para EDITAR
+                // Cargar fechas de mantenimiento - ARREGLADO PARA EVITAR PROBLEMA DE TIMEZONE
+                if (institution.last_maintenance) {
+                    // SOLUCIÓN: Usar la fecha tal como viene de la BD sin conversión de timezone
+                    const lastDate = institution.last_maintenance.split('T')[0];
+                    document.getElementById('lastMaintenance').value = lastDate;
+                }
+                if (institution.next_maintenance) {
+                    // SOLUCIÓN: Usar la fecha tal como viene de la BD sin conversión de timezone  
+                    const nextDate = institution.next_maintenance.split('T')[0];
+                    document.getElementById('nextMaintenance').value = nextDate;
                 }
                 
-                if (institution.nextMaintenance && institution.nextMaintenance !== 'Por programar') {
-                    const nextDate = convertToDateInput(institution.nextMaintenance);
-                    if (nextDate) document.getElementById('nextMaintenance').value = nextDate;
-                }
+                console.log('📅 Fechas de mantenimiento cargadas:', {
+                    lastMaintenance: institution.last_maintenance,
+                    nextMaintenance: institution.next_maintenance
+                });
 
-                form.style.display = 'block';
-                notFoundMessage.style.display = 'none';
+                // Mostrar el formulario
+                document.getElementById('editInstitutionForm').style.display = 'block';
+                console.log('Formulario llenado exitosamente');
+            } catch (error) {
+                console.error('Error al cargar institución:', error);
+                // Mostrar mensaje de error
+                document.getElementById('notFoundMessage').style.display = 'block';
+                document.getElementById('editInstitutionForm').style.display = 'none';
             }
+        }
 
-            function convertToDateInput(dateString) {
-                try {
-                    // Intentar convertir diferentes formatos de fecha
-                    const date = new Date(dateString);
-                    if (!isNaN(date.getTime())) {
-                        return date.toISOString().split('T')[0];
-                    }
-                    
-                    // Manejar formato "DD MMM YYYY"
-                    const monthNames = {
-                        'Ene': '01', 'Feb': '02', 'Mar': '03', 'Abr': '04',
-                        'May': '05', 'Jun': '06', 'Jul': '07', 'Ago': '08',
-                        'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dic': '12'
-                    };
-                    
-                    const parts = dateString.split(' ');
-                    if (parts.length === 3) {
-                        const day = parts[0].padStart(2, '0');
-                        const month = monthNames[parts[1]];
-                        const year = parts[2];
-                        
-                        if (month) {
-                            return `${year}-${month}-${day}`;
-                        }
-                    }
-                } catch (e) {
-                    console.warn('No se pudo convertir la fecha:', dateString);
-                }
-                return '';
-            }
+        function setupFormHandlers() {
+            const form = document.getElementById('editInstitutionForm');
 
-            function showNotFound() {
-                form.style.display = 'none';
-                notFoundMessage.style.display = 'block';
-            }
-
-            function updateInstitution() {
-                // Obtener datos del formulario
-                const originalName = document.getElementById('originalName').value;
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // INCLUIR TODOS los campos EDITABLES (INCLUYENDO las fechas de mantenimiento)
                 const formData = {
-                    id: document.getElementById('institutionId').value,
-                    name: document.getElementById('institutionName').value,
+                    name: document.getElementById('institutionName').value.trim(),
                     type: document.getElementById('institutionType').value,
-                    acronym: document.getElementById('institutionAcronym').value || 'NI',
-                    location: document.getElementById('institutionLocation').value,
-                    buildings: document.getElementById('buildingsCount').value || 1,
-                    classrooms: document.getElementById('classroomsCount').value || 1,
-                    laboratories: document.getElementById('laboratoriesCount').value || 0,
-                    lastMaintenance: document.getElementById('lastMaintenance').value,
-                    nextMaintenance: document.getElementById('nextMaintenance').value,
-                    dateModified: new Date().toISOString()
+                    acronym: document.getElementById('institutionAcronym').value.trim(),
+                    location: document.getElementById('institutionLocation').value.trim(),
+                    buildings: parseInt(document.getElementById('buildingsCount').value) || 1,
+                    classrooms: parseInt(document.getElementById('classroomsCount').value) || 1,
+                    laboratories: parseInt(document.getElementById('laboratoriesCount').value) || 0,
+                    last_maintenance: document.getElementById('lastMaintenance').value || null,
+                    next_maintenance: document.getElementById('nextMaintenance').value || null
                 };
 
-                // Validar campos requeridos
+                console.log('🔄 Datos a actualizar (CON fechas de mantenimiento):', formData);
+
+                // Validaciones
                 if (!formData.name || !formData.type || !formData.location) {
-                    alert('❌ Por favor, complete todos los campos obligatorios marcados con *');
+                    alert('⚠️ Por favor completa todos los campos requeridos (Nombre, Tipo y Ubicación).');
                     return;
                 }
 
-                // Simular actualización
-                const loadingMsg = document.createElement('div');
-                loadingMsg.style.cssText = `
-                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                    background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-                    z-index: 10000; text-align: center; font-size: 1.1rem;
-                `;
-                loadingMsg.innerHTML = '⏳ Actualizando institución...';
-                document.body.appendChild(loadingMsg);
+                // Generar acrónimo automáticamente si no se proporciona
+                if (!formData.acronym) {
+                    formData.acronym = formData.name
+                        .split(' ')
+                        .map(word => word.charAt(0).toUpperCase())
+                        .join('')
+                        .substring(0, 4);
+                }
 
-                setTimeout(() => {
-                    document.body.removeChild(loadingMsg);
-                    
-                    // Actualizar en localStorage
-                    const savedInstitutions = JSON.parse(localStorage.getItem('institutions') || '[]');
-                    const institutionIndex = savedInstitutions.findIndex(inst => inst.name === originalName);
-                    
-                    if (institutionIndex !== -1) {
-                        // Actualizar institución existente en localStorage
-                        savedInstitutions[institutionIndex] = formData;
-                        localStorage.setItem('institutions', JSON.stringify(savedInstitutions));
-                    } else {
-                        // Si no está en localStorage, agregarla (era una institución estática)
-                        savedInstitutions.push(formData);
-                        localStorage.setItem('institutions', JSON.stringify(savedInstitutions));
-                    }
+                try {
+                    // Mostrar loading
+                    const loadingMsg = document.createElement('div');
+                    loadingMsg.style.cssText = `
+                        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                        background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                        z-index: 10000; text-align: center; font-size: 1.1rem;
+                    `;
+                    loadingMsg.innerHTML = '⏳ Actualizando institución...';
+                    document.body.appendChild(loadingMsg);
 
-                    alert('✅ ¡Institución actualizada exitosamente!\n\nLos cambios se reflejarán en la lista de infraestructuras.');
-                    window.location.href = 'infraestructuras.html';
-                }, 1500);
-            }
-        });
+                    setTimeout(async () => {
+                        try {
+                            console.log('=== ACTUALIZANDO EN SUPABASE ===');
+                            const updatedInstitution = await window.institutionsManager.updateInstitution(currentInstitutionId, formData);
+                            
+                            document.body.removeChild(loadingMsg);
+                            
+                            // Mostrar mensaje de éxito
+                            const successMsg = document.createElement('div');
+                            successMsg.style.cssText = `
+                                position: fixed; top: 20px; right: 20px;
+                                background: #28a745; color: white; padding: 1rem 2rem;
+                                border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                                z-index: 1000; font-weight: 500;
+                            `;
+                            successMsg.innerHTML = '✅ ¡Institución actualizada exitosamente!';
+                            document.body.appendChild(successMsg);
+                            
+                            setTimeout(() => {
+                                successMsg.remove();
+                                window.navigateTo('infraestructuras.html');
+                            }, 2000);
+                            
+                        } catch (error) {
+                            document.body.removeChild(loadingMsg);
+                            console.error('Error al actualizar institución:', error);
+                            alert('❌ Error al actualizar: ' + error.message);
+                        }
+                    }, 1500);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('❌ Error inesperado');
+                }
+            });
+        }
     </script>
 </body>
 </html>
