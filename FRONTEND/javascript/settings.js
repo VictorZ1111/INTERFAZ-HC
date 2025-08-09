@@ -631,40 +631,50 @@ class SettingsManager {
     }
 
     setupKeyboardShortcuts() {
-        document.addEventListener('keydown', (e) => {
+        // Remover event listeners previos si existen
+        if (this.keyboardHandler) {
+            document.removeEventListener('keydown', this.keyboardHandler);
+        }
+        
+        this.keyboardHandler = (e) => {
             // Solo procesar si Alt está presionado
             if (e.altKey) {
                 switch(e.key) {
                     case '1':
                         e.preventDefault();
-                        window.navigateTo('dashboard.html');
+                        this.navigateToPage('dashboard.html');
+                        this.showNotification('📊 Navegando a Dashboard');
                         break;
                     case '2':
                         e.preventDefault();
-                        window.navigateTo('infraestructuras.html');
+                        this.navigateToPage('infraestructuras.html');
+                        this.showNotification('🏢 Navegando a Infraestructuras');
                         break;
                     case '3':
                         e.preventDefault();
-                        this.openDropdown('gestión');
+                        this.showNotification('⚙️ Gestión (función en desarrollo)');
                         break;
                     case '4':
                         e.preventDefault();
-                        this.openDropdown('planificación');
+                        this.navigateToPage('calendario.html');
+                        this.showNotification('📅 Navegando a Calendario');
                         break;
                     case 'h':
                     case 'H':
                         e.preventDefault();
-                        this.openDropdown('ayuda');
+                        this.showShortcuts();
                         break;
                     case 'c':
                     case 'C':
                         e.preventDefault();
-                        window.navigateTo('contact.html');
+                        this.navigateToPage('contact.html');
+                        this.showNotification('📞 Navegando a Contacto');
                         break;
                     case 's':
                     case 'S':
                         e.preventDefault();
-                        window.navigateTo('index.html');
+                        this.navigateToPage('index.html');
+                        this.showNotification('🚪 Cerrando sesión');
                         break;
                     case 't':
                     case 'T':
@@ -688,8 +698,30 @@ class SettingsManager {
             // Escape para cerrar menús
             if (e.key === 'Escape') {
                 this.closeAllDropdowns();
+                this.closeSearch();
+                this.closeShortcuts();
             }
-        });
+        };
+        
+        document.addEventListener('keydown', this.keyboardHandler);
+        console.log('🎹 Atajos de teclado activados');
+    }
+    
+    navigateToPage(page) {
+        try {
+            // Usar RouteManager si está disponible
+            if (typeof RouteManager !== 'undefined' && window.routeManager) {
+                window.routeManager.navigateTo(page);
+            } else if (window.navigateTo) {
+                window.navigateTo(page);
+            } else {
+                // Navegación directa como fallback
+                window.location.href = page;
+            }
+        } catch (error) {
+            console.error('Error navigating:', error);
+            window.location.href = page;
+        }
     }
 
     toggleLanguage() {
@@ -995,6 +1027,10 @@ class SettingsManager {
 // Inicializar el sistema cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     window.settingsManager = new SettingsManager();
+    // Asegurar que los atajos de teclado se activen inmediatamente
+    if (window.settingsManager) {
+        window.settingsManager.setupKeyboardShortcuts();
+    }
 });
 
 // Añadir estilos CSS dinámicamente

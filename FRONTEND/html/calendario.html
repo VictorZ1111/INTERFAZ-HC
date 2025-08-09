@@ -716,6 +716,9 @@
         </div>
     </div>
 
+    <script src="../javascript/route-manager.js"></script>
+    <script src="../javascript/settings.js"></script>
+    <script src="../javascript/navigation.js"></script>
     <script>
         class CalendarManager {
             constructor() {
@@ -989,6 +992,15 @@
         // Inicializar calendario cuando se carga la página
         document.addEventListener('DOMContentLoaded', function() {
             new CalendarManager();
+            
+            // Initialize settings and keyboard shortcuts
+            if (typeof SettingsManager !== 'undefined') {
+                if (!window.settingsManager) {
+                    window.settingsManager = new SettingsManager();
+                }
+                // Activar atajos de teclado
+                window.settingsManager.setupKeyboardShortcuts();
+            }
         });
     </script>
 

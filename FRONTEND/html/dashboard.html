@@ -208,8 +208,14 @@
         // Initialize settings on page load
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof SettingsManager !== 'undefined') {
-                const settingsManager = new SettingsManager();
-                settingsManager.init();
+                // Usar instancia global
+                if (!window.settingsManager) {
+                    window.settingsManager = new SettingsManager();
+                }
+                window.settingsManager.init();
+                
+                // Activar atajos de teclado inmediatamente
+                window.settingsManager.setupKeyboardShortcuts();
                 
                 // Connect navigation menu items to settings
                 const languageToggle = document.getElementById('languageToggle');
@@ -219,21 +225,21 @@
                 if (languageToggle) {
                     languageToggle.addEventListener('click', function(e) {
                         e.preventDefault();
-                        settingsManager.toggleLanguage();
+                        window.settingsManager.toggleLanguage();
                     });
                 }
                 
                 if (themeToggle) {
                     themeToggle.addEventListener('click', function(e) {
                         e.preventDefault();
-                        settingsManager.toggleTheme();
+                        window.settingsManager.toggleTheme();
                     });
                 }
                 
                 if (keyboardShortcuts) {
                     keyboardShortcuts.addEventListener('click', function(e) {
                         e.preventDefault();
-                        settingsManager.showShortcuts();
+                        window.settingsManager.showShortcuts();
                     });
                 }
             }
