@@ -37,6 +37,10 @@
       "dest": "/FRONTEND/html/edit-institution.html"
     },
     {
+      "src": "/institution-details.html",
+      "dest": "/FRONTEND/html/institution-details.html"
+    },
+    {
       "src": "/register.html",
       "dest": "/FRONTEND/html/register.html"
     },
