@@ -6,6 +6,7 @@
     <title>Iniciar Sesión - GESTOR DE MANTENIMIENTO PREVENTIVO</title>
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/improved-dark-theme.css">
 </head>
 <body>
     <!-- Quick Settings -->
@@ -23,21 +24,20 @@
     <div class="login-container">
         <!-- Login Form Section -->
         <div class="login-form-section">
-            <div class="login-form-wrapper">
-                <!-- Logo -->
-                <div class="login-logo">
-                    <div class="logo-icon">
-                        <span class="logo-text">GMPI</span>
-                    </div>
-                    <h1 class="system-title" data-translate="system_title">Gestor de Mantenimiento Preventivo</h1>
-                    <p class="system-subtitle" data-translate="system_subtitle">Infraestructuras Escolares</p>
+            <!-- Logo -->
+            <div class="login-logo">
+                <div class="logo-icon">
+                    <span class="logo-text">GMPI</span>
                 </div>
+                <h1 class="system-title" data-translate="system_title">Gestor de Mantenimiento Preventivo</h1>
+                <p class="system-subtitle" data-translate="system_subtitle">Infraestructuras Escolares</p>
+            </div>
 
-                <!-- Login Form -->
-                <form class="login-form" id="loginForm" novalidate aria-label="Formulario de inicio de sesión">
+            <!-- Login Form -->
+            <form class="login-form" id="loginForm" novalidate aria-label="Formulario de inicio de sesión">
                     <div class="form-header">
                         <h2 id="login-title" data-translate="login_title">Iniciar Sesión</h2>
-                        <p data-translate="login_subtitle">Accede a tu panel de administración</p>
+                        <p data-translate="login_subtitle">Accede a tu panel de inspector</p>
                     </div>
 
                     <!-- Error/Success Messages -->
@@ -105,9 +105,8 @@
                             </button>
                             <span class="input-status" id="password-status" aria-hidden="true"></span>
                         </div>
-                        <div class="field-help" id="password-help" data-translate="password_help">Mínimo 6 caracteres</div>
+                        <div class="field-help" id="password-help" data-translate="password_help">Contraseña de tu cuenta de inspector</div>
                         <div class="field-error" id="password-error" role="alert"></div>
-                        <div class="sr-only" id="password-toggle">Presiona para alternar la visibilidad de la contraseña</div>
                     </div>
 
                     <!-- Security Features -->
@@ -147,9 +146,9 @@
                     <div class="field-help" id="login-help" data-translate="login_help">Tiempo promedio de inicio: menos de 5 segundos</div>
 
                     <!-- Register Button -->
-                    <button type="button" class="login-btn" style="background-color: #27ae60; margin-top: 16px;" onclick="window.location.href='register.html'">
+                    <button type="button" class="login-btn" style="background-color: #27ae60; margin-top: 16px;" onclick="window.location.href='register-inspector.html'">
                         <span class="btn-icon" aria-hidden="true">👤</span>
-                        <span class="btn-text">Crear Nueva Cuenta</span>
+                        <span class="btn-text" data-translate="create_account">Crear Nueva Cuenta</span>
                     </button>
 
             
@@ -160,24 +159,22 @@
                         <p data-translate="accessibility_navigation">Use Tab para navegar, Enter para enviar, y Space para activar controles.</p>
                     </div>
                 </form>
-            </div>
         </div>
 
         <!-- Visual Section -->
         <div class="login-visual-section">
             <div class="visual-content">
-                <div class="visual-header">
-                    <h2 data-translate="visual_title">Mantén tus instalaciones educativas en perfecto estado</h2>
-                    <p data-translate="visual_subtitle">Sistema para gestionar preventivamente el mantenimiento escolar</p>
+                <div class="visual-icon">
+                    <span class="visual-emoji">🏫</span>
                 </div>
-
-                <!-- Features Preview -->
-                <div class="features-preview">
+                <h3 class="visual-title" data-translate="visual_title">Sistema de Gestión</h3>
+                <p class="visual-subtitle" data-translate="visual_subtitle">Mantenimiento Preventivo para Infraestructuras Educativas</p>
+                <div class="visual-features">
                     <div class="feature-item">
                         <div class="feature-icon">📊</div>
                         <div class="feature-text">
-                            <h4 data-translate="feature_reports">Soporte</h4>
-                            <p data-translate="feature_reports_desc">Accede a el soporte-tecnico</p>
+                            <h4 data-translate="feature_support">Soporte</h4>
+                            <p data-translate="feature_support_desc">Accede a el soporte técnico</p>
                         </div>
                     </div>
                     <div class="feature-item">
@@ -190,19 +187,11 @@
                     <div class="feature-item">
                         <div class="feature-icon">🏫</div>
                         <div class="feature-text">
-                            <h4 data-translate="feature_campus">Infraestructuras</h4>
-                            <p data-translate="feature_campus_desc">Gestiona múltiples sedes desde un solo lugar</p>
+                            <h4 data-translate="feature_infrastructure">Infraestructuras</h4>
+                            <p data-translate="feature_infrastructure_desc">Gestiona múltiples sedes desde un solo lugar</p>
                         </div>
                     </div>
                 </div>
-
-
-
-            <!-- Background Animation -->
-            <div class="background-animation">
-                <div class="floating-element" style="--delay: 0s; --duration: 20s;"></div>
-                <div class="floating-element" style="--delay: 5s; --duration: 25s;"></div>
-                <div class="floating-element" style="--delay: 10s; --duration: 30s;"></div>
             </div>
         </div>
     </div>
@@ -210,151 +199,53 @@
     <!-- JavaScript -->
     <script>
         // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            this.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
-        });
-
-        // Handle form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const btnLoader = document.getElementById('btnLoader');
-            const btnText = document.querySelector('.btn-text');
-            
-            // Show loading state
-            btnLoader.style.display = 'inline';
-            btnText.textContent = 'Verificando...';
-            
-            // Simulate login process
-            setTimeout(() => {
-                // Check admin credentials
-                if (email === 'admin@colegio.edu' && password === 'admin123') {
-                    // Success - redirect to dashboard
-                    btnText.textContent = 'Redirigiendo...';
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1000);
-                } else {
-                    // Error
-                    btnLoader.style.display = 'none';
-                    btnText.textContent = 'Iniciar Sesión';
-                    alert('Credenciales incorrectas. Email: admin@colegio.edu - Contraseña: admin123');
-                }
-            }, 1500);
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            if (togglePassword) {
+                togglePassword.addEventListener('click', function() {
+                    const passwordInput = document.getElementById('password');
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.querySelector('.toggle-icon').textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
+                });
+            }
         });
     </script>
 
-    <!-- Scripts mejorados para validación y accesibilidad -->
-    <script src="../javascript/login-validation.js"></script>
+    <!-- Scripts mejorados para validación con Supabase -->
+    <!-- Script de limpieza de sesión - DEBE IR PRIMERO -->
+    <script src="../javascript/session-cleaner.js"></script>
+    <script src="https://cdn.skypack.dev/@supabase/supabase-js" defer></script>
+    <script src="../javascript/supabase-config.js"></script>
+    <script src="../javascript/supabase-login.js"></script>
+    <script src="../javascript/settings.js"></script>
     <script>
-        // Funciones simples para cambiar idioma y tema
-        let currentLanguage = localStorage.getItem('gmpi-language') || 'es';
-        let currentTheme = localStorage.getItem('gmpi-theme') || 'light';
-        
-        // Aplicar tema al cargar la página
+        // Inicializar sistema de configuración
         document.addEventListener('DOMContentLoaded', function() {
-            applyTheme();
-            applyLanguage();
-            updateUI();
+            if (window.SettingsManager) {
+                window.settingsManager = new SettingsManager();
+            }
             
-            // Conectar botones
-            document.getElementById('quickLanguageToggle').addEventListener('click', toggleLanguage);
-            document.getElementById('quickThemeToggle').addEventListener('click', toggleTheme);
+            // Conectar botones de configuración rápida
+            const languageBtn = document.getElementById('quickLanguageToggle');
+            const themeBtn = document.getElementById('quickThemeToggle');
             
-            // Atajos de teclado
-            document.addEventListener('keydown', function(e) {
-                if (e.altKey) {
-                    if (e.key === 'l' || e.key === 'L') {
-                        e.preventDefault();
-                        toggleLanguage();
+            if (languageBtn) {
+                languageBtn.addEventListener('click', function() {
+                    if (window.settingsManager) {
+                        window.settingsManager.toggleLanguage();
                     }
-                    if (e.key === 't' || e.key === 'T') {
-                        e.preventDefault();
-                        toggleTheme();
+                });
+            }
+            
+            if (themeBtn) {
+                themeBtn.addEventListener('click', function() {
+                    if (window.settingsManager) {
+                        window.settingsManager.toggleTheme();
                     }
-                }
-            });
+                });
+            }
         });
-        
-        function toggleLanguage() {
-            currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
-            localStorage.setItem('gmpi-language', currentLanguage);
-            applyLanguage();
-            updateUI();
-            console.log('Idioma cambiado a:', currentLanguage);
-        }
-        
-        function toggleTheme() {
-            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-            localStorage.setItem('gmpi-theme', currentTheme);
-            applyTheme();
-            updateUI();
-            console.log('Tema cambiado a:', currentTheme);
-        }
-        
-        function applyTheme() {
-            if (currentTheme === 'dark') {
-                document.body.classList.add('dark-theme');
-                document.body.setAttribute('data-theme', 'dark');
-            } else {
-                document.body.classList.remove('dark-theme');
-                document.body.setAttribute('data-theme', 'light');
-            }
-        }
-        
-        function applyLanguage() {
-            const translations = {
-                es: {
-                    system_title: 'Gestor de Mantenimiento Preventivo',
-                    system_subtitle: 'Infraestructuras Escolares',
-                    login_title: 'Iniciar Sesión',
-                    login_subtitle: 'Accede a tu panel de administración',
-                    email_label: 'Correo Electrónico',
-                    password_label: 'Contraseña',
-                    remember_me: 'Recordar usuario',
-                    forgot_password: '¿Olvidaste tu contraseña?',
-                    login_button: 'Iniciar Sesión'
-                },
-                en: {
-                    system_title: 'Preventive Maintenance Manager',
-                    system_subtitle: 'School Infrastructure',
-                    login_title: 'Sign In',
-                    login_subtitle: 'Access your administration panel',
-                    email_label: 'Email',
-                    password_label: 'Password',
-                    remember_me: 'Remember user',
-                    forgot_password: 'Forgot your password?',
-                    login_button: 'Sign In'
-                }
-            };
-            
-            const trans = translations[currentLanguage];
-            document.querySelectorAll('[data-translate]').forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (trans[key]) {
-                    element.textContent = trans[key];
-                }
-            });
-        }
-        
-        function updateUI() {
-            // Actualizar botón de idioma
-            const langText = document.getElementById('quickLanguageText');
-            if (langText) {
-                langText.textContent = currentLanguage.toUpperCase();
-            }
-            
-            // Actualizar botón de tema
-            const themeText = document.getElementById('quickThemeText');
-            if (themeText) {
-                themeText.textContent = currentTheme === 'light' ? '☀️' : '🌙';
-            }
-        }
     </script>
 </body>
 </html>

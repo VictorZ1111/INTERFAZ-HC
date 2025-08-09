@@ -89,7 +89,7 @@
 
                 <!-- Action Buttons -->
                 <div class="nav-actions">
-                    <span class="user-welcome" data-translate="welcome">Bienvenido, Administrador</span>
+                    <span class="user-welcome" data-translate="welcome">Bienvenido, Inspector</span>
                     <a href="index.html" class="btn btn-secondary" data-translate="logout">Cerrar Sesión</a>
                 </div>
 
@@ -145,6 +145,14 @@
             </div>
         </div>
     </section>
+    <!-- Verificar si venimos de logout y redirigir al login -->
+    <script src="../javascript/session-cleaner.js"></script>
+    <script>
+        // Si venimos de logout, redirigir inmediatamente al login
+        if (sessionStorage.getItem('logout_flag') || localStorage.getItem('logout_flag')) {
+            window.location.href = 'index.html';
+        }
+    </script>
     <script src="../javascript/navigation.js"></script>
     <script src="../javascript/settings.js"></script>
     <script>

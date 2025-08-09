@@ -1,0 +1,269 @@
+/* Tema Oscuro Mejorado - GMPI */
+
+/* Variables de colores para ambos temas */
+:root {
+    /* Tema claro (por defecto) */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fffe;
+    --text-primary: #2c3e50;
+    --text-secondary: #7f8c8d;
+    --border-color: #ddd;
+    --accent-color: #e67e22;
+    --success-color: #27ae60;
+    --error-color: #e74c3c;
+    --warning-color: #f39c12;
+    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+    
+    /* Colores de input */
+    --input-bg: #ffffff;
+    --input-border: #ddd;
+    --input-text: #2c3e50;
+    --input-placeholder: #95a5a6;
+    
+    /* Botones */
+    --btn-primary-bg: linear-gradient(135deg, #e67e22, #f39c12);
+    --btn-secondary-bg: #95a5a6;
+    --btn-text: #ffffff;
+}
+
+/* Tema oscuro */
+[data-theme="dark"] {
+    --bg-primary: #2c3e50;
+    --bg-secondary: #34495e;
+    --text-primary: #ecf0f1;
+    --text-secondary: #bdc3c7;
+    --border-color: #4a5568;
+    --accent-color: #f39c12;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+    --warning-color: #f1c40f;
+    --shadow: 0 4px 6px rgba(0,0,0,0.3);
+    
+    /* Colores de input */
+    --input-bg: #34495e;
+    --input-border: #4a5568;
+    --input-text: #ecf0f1;
+    --input-placeholder: #7f8c8d;
+    
+    /* Botones */
+    --btn-primary-bg: linear-gradient(135deg, #f39c12, #e67e22);
+    --btn-secondary-bg: #7f8c8d;
+    --btn-text: #ffffff;
+}
+
+/* Aplicar variables a elementos principales */
+body {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s ease;
+}
+
+/* Contenedores principales */
+.login-container,
+.register-container,
+.form-container,
+.register-form-section,
+.login-form-section {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Formularios */
+.login-form,
+.register-form,
+.form-body {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Inputs */
+.form-input,
+.input-wrapper input,
+.form-select {
+    background: var(--input-bg) !important;
+    border: 2px solid var(--input-border) !important;
+    color: var(--input-text) !important;
+}
+
+.form-input::placeholder {
+    color: var(--input-placeholder) !important;
+}
+
+.form-input:focus {
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.1) !important;
+}
+
+/* Labels y texto */
+.input-label,
+.form-label,
+.section-title,
+.form-header h2,
+.system-title,
+.logo-text {
+    color: var(--text-primary) !important;
+}
+
+.field-help,
+.system-subtitle {
+    color: var(--text-secondary) !important;
+}
+
+/* Botones */
+.login-btn,
+.register-btn,
+.btn-save {
+    background: var(--btn-primary-bg) !important;
+    color: var(--btn-text) !important;
+    border: none !important;
+}
+
+.btn-cancel,
+.btn-secondary {
+    background: var(--btn-secondary-bg) !important;
+    color: var(--btn-text) !important;
+}
+
+/* Mensajes */
+.message.success {
+    background: var(--success-color) !important;
+    color: white !important;
+}
+
+.message.error {
+    background: var(--error-color) !important;
+    color: white !important;
+}
+
+.message.warning {
+    background: var(--warning-color) !important;
+    color: white !important;
+}
+
+/* Campo de error */
+.field-error {
+    color: var(--error-color) !important;
+}
+
+/* Estados de validación */
+.form-input.valid {
+    border-color: var(--success-color) !important;
+}
+
+.form-input.error {
+    border-color: var(--error-color) !important;
+}
+
+.form-input.warning {
+    border-color: var(--warning-color) !important;
+}
+
+/* Checkboxes */
+.checkbox-label,
+.remember-checkbox label {
+    color: var(--text-primary) !important;
+}
+
+/* Enlaces */
+a, .terms-link, .privacy-link, .login-link {
+    color: var(--accent-color) !important;
+}
+
+a:hover {
+    color: var(--warning-color) !important;
+}
+
+/* Fieldsets */
+fieldset {
+    border-color: var(--border-color) !important;
+}
+
+.form-section {
+    background: var(--bg-primary) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Sombras */
+.form-container,
+.login-form-wrapper,
+.register-form-wrapper {
+    box-shadow: var(--shadow) !important;
+}
+
+/* Quick settings buttons */
+.quick-setting-btn {
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: var(--text-primary) !important;
+    border: 2px solid var(--accent-color) !important;
+}
+
+[data-theme="dark"] .quick-setting-btn {
+    background: rgba(52, 73, 94, 0.9) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Toggle password button */
+.toggle-password {
+    color: var(--text-secondary) !important;
+    background: transparent !important;
+}
+
+.toggle-password:hover {
+    color: var(--accent-color) !important;
+}
+
+/* Iconos de estado */
+.input-status {
+    color: var(--text-secondary) !important;
+}
+
+/* Header/Navigation */
+.main-header,
+.navbar {
+    background: var(--bg-primary) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.nav-link,
+.logo-link {
+    color: var(--text-primary) !important;
+}
+
+.nav-link:hover {
+    color: var(--accent-color) !important;
+}
+
+/* Breadcrumb y navegación */
+.back-link {
+    color: var(--accent-color) !important;
+}
+
+.back-link:hover {
+    color: var(--warning-color) !important;
+}
+
+/* Asegurar contraste en todos los elementos de texto */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Forzar colores específicos para mejor contraste */
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .form-select {
+    background: #34495e !important;
+    color: #ecf0f1 !important;
+    border-color: #4a5568 !important;
+}
+
+[data-theme="dark"] .form-input::placeholder {
+    color: #7f8c8d !important;
+}
+
+[data-theme="dark"] .input-label,
+[data-theme="dark"] .form-label {
+    color: #ecf0f1 !important;
+}
+
+[data-theme="dark"] .field-help {
+    color: #bdc3c7 !important;
+}

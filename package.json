@@ -1,0 +1,23 @@
+{
+  "name": "interfaz-hc",
+  "version": "1.0.0",
+  "description": "Gestor de Mantenimiento Preventivo de Infraestructuras",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Static build ready'",
+    "start": "echo 'Starting application'",
+    "dev": "echo 'Development mode'"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "maintenance",
+    "infrastructure",
+    "education",
+    "management"
+  ],
+  "author": "Victor Z",
+  "license": "MIT"
+}

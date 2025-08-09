@@ -1,0 +1,48 @@
+{
+  "version": 2,
+  "name": "gmpi-interfaz-hc",
+  "builds": [
+    {
+      "src": "FRONTEND/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/css/(.*)",
+      "dest": "/FRONTEND/css/$1"
+    },
+    {
+      "src": "/js/(.*)",
+      "dest": "/FRONTEND/js/$1"
+    },
+    {
+      "src": "/javascript/(.*)",
+      "dest": "/FRONTEND/javascript/$1"
+    },
+    {
+      "src": "/images/(.*)",
+      "dest": "/FRONTEND/images/$1"
+    },
+    {
+      "src": "/html/(.*)",
+      "dest": "/FRONTEND/html/$1"
+    },
+    {
+      "src": "/(.*\\.(html|css|js|png|jpg|jpeg|gif|svg|ico))",
+      "dest": "/FRONTEND/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/FRONTEND/html/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/FRONTEND/html/$1.html"
+    }
+  ],
+  "env": {
+    "SUPABASE_URL": "@supabase-url",
+    "SUPABASE_ANON_KEY": "@supabase-anon-key"
+  }
+}

@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-translate="infrastructures_title">Infraestructuras - GESTOR DE MANTENIMIENTO PREVENTIVO</title>
+    <title data-translate="infrastructures_title">Infra        // Función para aplicar cambios a una institución específica
+        function applyInstitutionChanges(institutionId, changes) {
+            // Solo aplicar cambios a instituciones dinámicas creadas por el usuario
+            const dynamicInstitutions = JSON.parse(localStorage.getItem('institutions') || '[]');
+            const targetName = changes.name || institutionId;as - GESTOR DE MANTENIMIENTO PREVENTIVO</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/infraestructuras.css">
@@ -90,7 +94,7 @@
 
                 <!-- Action Buttons -->
                 <div class="nav-actions">
-                    <span class="user-welcome" data-translate="welcome">Bienvenido, Administrador</span>
+                    <span class="user-welcome" data-translate="welcome">Bienvenido, Inspector</span>
                     <a href="index.html" class="btn btn-secondary" data-translate="logout">Cerrar Sesión</a>
                 </div>
 
@@ -159,147 +163,7 @@
                 </div>
 
                 <div class="institutions-grid">
-                    <!-- ULAEM Institution -->
-                    <div class="institution-card">
-                        <div class="institution-header">
-                            <div class="institution-logo">
-                                <span class="logo-text">ULAEM</span>
-                            </div>
-                        </div>
-                        
-                        <div class="institution-info">
-                            <h3 class="institution-name">Universidad Laica Eloy Alfaro de Manabí</h3>
-                            <p class="institution-location" data-translate="manta_manabi">📍 Manta, Manabí, Ecuador</p>
-                            <p class="institution-type" data-translate="public_university">🎓 Universidad</p>
-                        </div>
-
-                        <div class="institution-stats">
-                            <div class="stat-item">
-                                <span class="stat-value">8</span>
-                                <span class="stat-name" data-translate="buildings">Edificios</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value">45</span>
-                                <span class="stat-name" data-translate="classrooms">Aulas</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value">12</span>
-                                <span class="stat-name" data-translate="laboratories">Laboratorios</span>
-                            </div>
-                        </div>
-
-                        <div class="institution-maintenance">
-                            <div class="maintenance-item">
-                                <span class="maintenance-label" data-translate="last_maintenance">Último Mantenimiento:</span>
-                                <span class="maintenance-date">15 Dic 2024</span>
-                            </div>
-                            <div class="maintenance-item">
-                                <span class="maintenance-label" data-translate="next_maintenance">Próximo Mantenimiento:</span>
-                                <span class="maintenance-date upcoming">20 Feb 2025</span>
-                            </div>
-                        </div>
-
-                        <div class="institution-actions">
-                            <button class="btn btn-outline btn-small view-details-btn" data-translate="view_details">Ver Detalles</button>
-                            <button class="btn btn-secondary btn-small edit-btn" data-translate="edit">✏️ Modificar</button>
-                            <button class="btn btn-danger btn-small delete-btn" data-translate="delete">🗑️ Eliminar</button>
-                        </div>
-                    </div>
-
-                    <!-- Colegio Amazonas Institution -->
-                    <div class="institution-card">
-                        <div class="institution-header">
-                            <div class="institution-logo secondary">
-                                <span class="logo-text">CAQ</span>
-                            </div>
-
-                        </div>
-                        
-                        <div class="institution-info">
-                            <h3 class="institution-name">Colegio Amazonas de Quito</h3>
-                            <p class="institution-location" data-translate="quito_pichincha">📍 Quito, Pichincha, Ecuador</p>
-                            <p class="institution-type" data-translate="public_school">🏫 Colegio</p>
-                        </div>
-
-                        <div class="institution-stats">
-                            <div class="stat-item">
-                                <span class="stat-value">3</span>
-                                <span class="stat-name" data-translate="buildings">Edificios</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value">24</span>
-                                <span class="stat-name" data-translate="classrooms">Aulas</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value">6</span>
-                                <span class="stat-name" data-translate="laboratories">Laboratorios</span>
-                            </div>
-                        </div>
-
-                        <div class="institution-maintenance">
-                            <div class="maintenance-item">
-                                <span class="maintenance-label" data-translate="last_maintenance">Último Mantenimiento:</span>
-                                <span class="maintenance-date">28 Nov 2024</span>
-                            </div>
-                            <div class="maintenance-item">
-                                <span class="maintenance-label" data-translate="next_maintenance">Próximo Mantenimiento:</span>
-                                <span class="maintenance-date pending">05 Ene 2025</span>
-                            </div>
-                        </div>
-
-                        <div class="institution-actions">
-                            <button class="btn btn-outline btn-small view-details-btn" data-translate="view_details">Ver Detalles</button>
-                            <button class="btn btn-secondary btn-small edit-btn" data-translate="edit">✏️ Modificar</button>
-                            <button class="btn btn-danger btn-small delete-btn" data-translate="delete">🗑️ Eliminar</button>
-                        </div>
-                    </div>
-
-                    <!-- Escuela Primaria Example -->
-                    <div class="institution-card">
-                        <div class="institution-header">
-                            <div class="institution-logo tertiary">
-                                <span class="logo-text">EPB</span>
-                            </div>
-                        </div>
-                        
-                        <div class="institution-info">
-                            <h3 class="institution-name">Escuela Primaria Benito Juárez</h3>
-                            <p class="institution-location" data-translate="guayaquil_guayas">📍 Guayaquil, Guayas, Ecuador</p>
-                            <p class="institution-type" data-translate="public_school">🏠 Escuela</p>
-                        </div>
-
-                        <div class="institution-stats">
-                            <div class="stat-item">
-                                <span class="stat-value">2</span>
-                                <span class="stat-name" data-translate="buildings">Edificios</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value">12</span>
-                                <span class="stat-name" data-translate="classrooms">Aulas</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value">1</span>
-                                <span class="stat-name" data-translate="laboratories">Laboratorio</span>
-                            </div>
-                        </div>
-
-                        <div class="institution-maintenance">
-                            <div class="maintenance-item">
-                                <span class="maintenance-label" data-translate="last_maintenance">Último Mantenimiento:</span>
-                                <span class="maintenance-date">10 Dic 2024</span>
-                            </div>
-                            <div class="maintenance-item">
-                                <span class="maintenance-label" data-translate="next_maintenance">Próximo Mantenimiento:</span>
-                                <span class="maintenance-date upcoming">15 Mar 2025</span>
-                            </div>
-                        </div>
-
-                        <div class="institution-actions">
-                            <button class="btn btn-outline btn-small view-details-btn" data-translate="view_details">Ver Detalles</button>
-                            <button class="btn btn-secondary btn-small edit-btn" data-translate="edit">✏️ Modificar </button>
-                            <button class="btn btn-danger btn-small delete-btn" data-translate="delete">🗑️ Eliminar</button>
-                        </div>
-                    </div>
+                    <!-- Las instituciones aparecerán aquí dinámicamente -->
                 </div>
             </div>
         </div>
@@ -314,15 +178,6 @@
             
             // Verificar y aplicar cambios de edición
             checkForEditChanges();
-            
-            // Add hover effects to institution cards
-            const cards = document.querySelectorAll('.institution-card');
-            cards.forEach(card => {
-                addCardEventListeners(card);
-            });
-
-            // Configurar eventos para botones de instituciones existentes
-            setupButtonEvents();
 
             const addButton = document.querySelector('.add-institution-btn');
             addButton.addEventListener('click', function() {
@@ -472,7 +327,7 @@
 
                 <div class="institution-actions">
                     <button class="btn btn-outline btn-small view-details-btn">Ver Detalles</button>
-                    <button class="btn btn-secondary btn-small edit-btn">✏️ Modificar</button>
+                    <button class="btn btn-primary btn-small edit-btn">✏️ Gestionar-Editar</button>
                     <button class="btn btn-danger btn-small delete-btn">🗑️ Eliminar</button>
                 </div>
             `;
@@ -539,11 +394,6 @@
                         card.style.opacity = '0.3';
                         
                         setTimeout(() => {
-                            // Remover de localStorage si es una institución dinámica
-                            const savedInstitutions = JSON.parse(localStorage.getItem('institutions') || '[]');
-                            const updatedInstitutions = savedInstitutions.filter(inst => inst.name !== institutionName);
-                            localStorage.setItem('institutions', JSON.stringify(updatedInstitutions));
-                            
                             card.remove();
                             alert('✅ Institución eliminada exitosamente');
                         }, 500);
@@ -552,77 +402,18 @@
             }
         }
         
-        // Configurar eventos para instituciones existentes
-        function setupButtonEvents() {
-            // Add click functionality to buttons
-            const detailButtons = document.querySelectorAll('.view-details-btn');
-            detailButtons.forEach(btn => {
-                if (!btn.hasAttribute('data-event-added')) {
-                    btn.setAttribute('data-event-added', 'true');
-                    btn.addEventListener('click', function() {
-                        const card = this.closest('.institution-card');
-                        const institutionName = card.querySelector('.institution-name').textContent;
-                        const institutionLocation = card.querySelector('.institution-location').textContent;
-                        const institutionType = card.querySelector('.institution-type').textContent;
-                        const buildings = card.querySelectorAll('.stat-value')[0].textContent;
-                        const classrooms = card.querySelectorAll('.stat-value')[1].textContent;
-                        const laboratories = card.querySelectorAll('.stat-value')[2].textContent;
-                        const lastMaintenance = card.querySelectorAll('.maintenance-date')[0].textContent;
-                        const nextMaintenance = card.querySelectorAll('.maintenance-date')[1].textContent;
-                        
-                        showInstitutionDetails({
-                            name: institutionName,
-                            location: institutionLocation,
-                            type: institutionType,
-                            buildings: buildings,
-                            classrooms: classrooms,
-                            laboratories: laboratories,
-                            lastMaintenance: lastMaintenance,
-                            nextMaintenance: nextMaintenance
-                        });
-                    });
-                }
-            });
-
-            // Delete buttons
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-            deleteButtons.forEach(btn => {
-                if (!btn.hasAttribute('data-event-added')) {
-                    btn.setAttribute('data-event-added', 'true');
-                    btn.addEventListener('click', function() {
-                        const card = this.closest('.institution-card');
-                        const institutionName = card.querySelector('.institution-name').textContent;
-                        
-                        if (confirm(`❌ ¿Está seguro de que desea eliminar "${institutionName}"?\n\nEsta acción no se puede deshacer.`)) {
-                            // Efecto de eliminación
-                            card.style.transform = 'scale(0.8)';
-                            card.style.opacity = '0.3';
-                            
-                            setTimeout(() => {
-                                card.remove();
-                                alert('✅ Institución eliminada exitosamente');
-                            }, 500);
-                        }
-                    });
-                }
-            });
-
-            // Edit buttons - redirect to edit form
-            const editButtons = document.querySelectorAll('.edit-btn');
-            editButtons.forEach(btn => {
-                if (!btn.hasAttribute('data-event-added')) {
-                    btn.setAttribute('data-event-added', 'true');
-                    btn.addEventListener('click', function() {
-                        const card = this.closest('.institution-card');
-                        const institutionName = card.querySelector('.institution-name').textContent;
-                        window.location.href = `edit-institution.html?name=${encodeURIComponent(institutionName)}`;
-                    });
-                }
-            });
-        }
-        
         // Función para mostrar detalles de institución
         function showInstitutionDetails(institution) {
+            // Cerrar cualquier modal existente
+            const existingModal = document.querySelector('.details-modal');
+            const existingStyle = document.querySelector('style[data-modal-style]');
+            if (existingModal) {
+                document.body.removeChild(existingModal);
+            }
+            if (existingStyle) {
+                document.head.removeChild(existingStyle);
+            }
+
             const modal = document.createElement('div');
             modal.className = 'details-modal';
             modal.innerHTML = `
@@ -691,6 +482,7 @@
             
             // Agregar estilos del modal
             const style = document.createElement('style');
+            style.setAttribute('data-modal-style', 'true');
             style.textContent = `
                 .details-modal {
                     position: fixed;
@@ -959,243 +751,9 @@
                 calendarLink.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    // Verificar si el usuario es administrador (simulación)
-                    const userRole = localStorage.getItem('user_role') || 'guest';
-                    
-                    if (userRole === 'administrator' || userRole === 'admin') {
-                        openCalendarModal();
-                    } else {
-                        showAccessDeniedMessage();
-                    }
+                    // Redirigir al calendario existente - los inspectores tienen acceso
+                    window.location.href = 'calendario.html';
                 });
-            }
-            
-            function openCalendarModal() {
-                // Crear modal del calendario
-                const modal = document.createElement('div');
-                modal.className = 'calendar-modal';
-                modal.innerHTML = `
-                    <div class="calendar-modal-content">
-                        <div class="calendar-header">
-                            <h2>📅 Calendario de Mantenimiento</h2>
-                            <button class="close-modal">&times;</button>
-                        </div>
-                        <div class="calendar-body">
-                            <div class="calendar-controls">
-                                <button id="prevMonth" class="btn btn-secondary">‹ Anterior</button>
-                                <h3 id="currentMonth">Enero 2025</h3>
-                                <button id="nextMonth" class="btn btn-secondary">Siguiente ›</button>
-                            </div>
-                            <div class="calendar-grid">
-                                <div class="calendar-weekdays">
-                                    <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
-                                </div>
-                                <div class="calendar-days" id="calendarDays">
-                                    <!-- Días generados dinámicamente -->
-                                </div>
-                            </div>
-                            <div class="calendar-actions">
-                                <button id="addEventBtn" class="btn btn-primary">➕ Agregar Evento</button>
-                                <button id="viewEventsBtn" class="btn btn-outline">📋 Ver Eventos</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                // Agregar estilos del modal
-                const style = document.createElement('style');
-                style.textContent = `
-                    .calendar-modal {
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background: rgba(0,0,0,0.7);
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        z-index: 10000;
-                    }
-                    .calendar-modal-content {
-                        background: white;
-                        border-radius: 12px;
-                        padding: 24px;
-                        max-width: 600px;
-                        width: 90%;
-                        max-height: 80vh;
-                        overflow-y: auto;
-                    }
-                    .calendar-header {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-bottom: 20px;
-                        border-bottom: 2px solid #f0f0f0;
-                        padding-bottom: 15px;
-                    }
-                    .close-modal {
-                        background: none;
-                        border: none;
-                        font-size: 24px;
-                        cursor: pointer;
-                        color: #666;
-                        padding: 5px;
-                        border-radius: 50%;
-                        width: 35px;
-                        height: 35px;
-                    }
-                    .close-modal:hover {
-                        background: #f0f0f0;
-                        color: #333;
-                    }
-                    .calendar-controls {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-bottom: 20px;
-                    }
-                    .calendar-grid {
-                        border: 1px solid #ddd;
-                        border-radius: 8px;
-                        overflow: hidden;
-                    }
-                    .calendar-weekdays {
-                        display: grid;
-                        grid-template-columns: repeat(7, 1fr);
-                        background: #f8f9fa;
-                    }
-                    .calendar-weekdays > div {
-                        padding: 10px;
-                        text-align: center;
-                        font-weight: 600;
-                        border-right: 1px solid #ddd;
-                    }
-                    .calendar-days {
-                        display: grid;
-                        grid-template-columns: repeat(7, 1fr);
-                    }
-                    .calendar-day {
-                        padding: 12px 8px;
-                        border-right: 1px solid #eee;
-                        border-bottom: 1px solid #eee;
-                        min-height: 40px;
-                        cursor: pointer;
-                        transition: background 0.2s;
-                        font-size: 14px;
-                    }
-                    .calendar-day:hover {
-                        background: #f8f9fa;
-                    }
-                    .calendar-day.other-month {
-                        color: #ccc;
-                        background: #fafafa;
-                    }
-                    .calendar-day.today {
-                        background: #e67e22;
-                        color: white;
-                        font-weight: bold;
-                    }
-                    .calendar-day.has-event {
-                        background: #d4edda;
-                        border-left: 4px solid #28a745;
-                    }
-                    .calendar-actions {
-                        margin-top: 20px;
-                        display: flex;
-                        gap: 12px;
-                        justify-content: center;
-                    }
-                `;
-                document.head.appendChild(style);
-                
-                document.body.appendChild(modal);
-                
-                // Inicializar calendario
-                initializeCalendar();
-                
-                // Event listeners
-                modal.querySelector('.close-modal').addEventListener('click', () => {
-                    document.body.removeChild(modal);
-                    document.head.removeChild(style);
-                });
-                
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        document.body.removeChild(modal);
-                        document.head.removeChild(style);
-                    }
-                });
-                
-                document.getElementById('addEventBtn').addEventListener('click', () => {
-                    alert('Funcionalidad de agregar evento - En desarrollo');
-                });
-                
-                document.getElementById('viewEventsBtn').addEventListener('click', () => {
-                    alert('Lista de eventos programados - En desarrollo');
-                });
-            }
-            
-            function initializeCalendar() {
-                const now = new Date();
-                let currentDate = new Date(now.getFullYear(), now.getMonth(), 1);
-                
-                function updateCalendar() {
-                    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                                      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-                    
-                    document.getElementById('currentMonth').textContent = 
-                        `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
-                    
-                    const calendarDays = document.getElementById('calendarDays');
-                    calendarDays.innerHTML = '';
-                    
-                    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-                    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-                    const startDate = new Date(firstDay);
-                    startDate.setDate(startDate.getDate() - firstDay.getDay());
-                    
-                    for (let i = 0; i < 42; i++) {
-                        const day = new Date(startDate);
-                        day.setDate(startDate.getDate() + i);
-                        
-                        const dayElement = document.createElement('div');
-                        dayElement.className = 'calendar-day';
-                        dayElement.textContent = day.getDate();
-                        
-                        if (day.getMonth() !== currentDate.getMonth()) {
-                            dayElement.classList.add('other-month');
-                        }
-                        
-                        if (day.toDateString() === now.toDateString()) {
-                            dayElement.classList.add('today');
-                        }
-                        
-                        // Simular algunos eventos
-                        if (day.getDate() % 7 === 0 && day.getMonth() === currentDate.getMonth()) {
-                            dayElement.classList.add('has-event');
-                            dayElement.title = 'Mantenimiento programado';
-                        }
-                        
-                        calendarDays.appendChild(dayElement);
-                    }
-                }
-                
-                document.getElementById('prevMonth').addEventListener('click', () => {
-                    currentDate.setMonth(currentDate.getMonth() - 1);
-                    updateCalendar();
-                });
-                
-                document.getElementById('nextMonth').addEventListener('click', () => {
-                    currentDate.setMonth(currentDate.getMonth() + 1);
-                    updateCalendar();
-                });
-                
-                updateCalendar();
-            }
-            
-            function showAccessDeniedMessage() {
-                alert('❌ Acceso Denegado\n\nSolo los administradores pueden acceder al calendario.\n\nContacte al administrador del sistema para obtener permisos.');
             }
         });
     </script>
